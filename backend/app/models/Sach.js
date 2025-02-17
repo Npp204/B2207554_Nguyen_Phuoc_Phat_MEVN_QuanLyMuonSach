@@ -6,7 +6,7 @@ const SachSchema = new mongoose.Schema({
   DONGIA: { type: Number, required: true },
   SOQUYEN: { type: Number, default: 0 },
   NAMXUATBAN: { type: Number },
-  MANXB: { type: mongoose.Schema.Types.ObjectId, ref: "NhaXuatBan" },
+  MANXB: { type: mongoose.Schema.Types.ObjectId, ref: "NhaXuatBan", required: false },
   NGUONGOC_TACGIA: { type: String },
 });
 
