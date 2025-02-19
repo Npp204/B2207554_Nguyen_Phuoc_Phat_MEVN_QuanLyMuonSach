@@ -4,7 +4,7 @@ const nhanVienController = require("../controllers/nhanvien.controller");
 
 // Lấy danh sách nhân viên
 router.get("/", nhanVienController.getAllNhanVien);
-
+// router.get("/", nhanVienController.getAllOrSearchNhanVien);
 // Lấy nhân viên theo ID
 router.get("/:id", nhanVienController.getNhanVienById);
 

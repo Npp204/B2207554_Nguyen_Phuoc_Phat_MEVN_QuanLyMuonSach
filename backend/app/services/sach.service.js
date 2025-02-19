@@ -1,49 +1,73 @@
-const Sach = require('../models/Sach');
-const ApiError = require('../api-error');
+const Sach = require("../models/Sach");
+const ApiError = require("../api-error");
 
 // Lấy tất cả sách
-exports.getAllBooks = async () => {
-  const books = await Sach.find();
-  if (!books || books.length === 0) {
-    throw new ApiError(404, 'Không tìm thấy sách nào');
+const getAllSach = async () => {
+  const sachs = await Sach.find().populate("MANXB");
+  if (!sachs || sachs.length === 0) {
+    throw new ApiError(404, "Không tìm thấy sách nào");
   }
-  return books;
+  return sachs;
 };
 
 // Lấy sách theo ID
-exports.getBookById = async (id) => {
-  const book = await Sach.findById(id);
-  if (!book) {
-    throw new ApiError(404, 'Không tìm thấy sách');
+const getSachById = async (id) => {
+  const sach = await Sach.findById(id).populate("MANXB");
+  if (!sach) {
+    throw new ApiError(404, "Không tìm thấy sách");
   }
-  return book;
+  return sach;
 };
 
 // Tạo sách mới
-exports.createBook = async (bookData) => {
-  const newBook = new Sach(bookData);
+const createSach = async (data) => {
+  if (!data || !data.TENSACH) {
+    throw new ApiError(400, "Dữ liệu không hợp lệ");
+  }
+
+  if (!data.MASACH) {
+    const count = await Sach.countDocuments();
+    data.MASACH = `MS${String(count + 1).padStart(3, "0")}`; // Tạo mã NV001, NV002...
+  }
+
   try {
-    return await newBook.save();
+    const newSach = new Sach(data);
+    return await newSach.save();
   } catch (error) {
     console.error("Lỗi khi tạo sách:", error);
-    throw new ApiError(400, 'Dữ liệu sách không hợp lệ');
+    throw new ApiError(400, "Dữ liệu sách không hợp lệ");
   }
 };
 
 // Cập nhật sách
-exports.updateBook = async (id, bookData) => {
-  const updatedBook = await Sach.findByIdAndUpdate(id, bookData, { new: true, runValidators: true });
-  if (!updatedBook) {
-    throw new ApiError(404, 'Không tìm thấy sách để cập nhật');
+const updateSach = async (id, data) => {
+  const updatedSach = await Sach.findByIdAndUpdate(id, data, {
+    new: true,
+    runValidators: true,
+  });
+
+  if (!updatedSach) {
+    throw new ApiError(404, "Không tìm thấy sách để cập nhật");
   }
-  return updatedBook;
+
+  return { message: "Cập nhật sách thành công", updatedSach };
 };
 
 // Xóa sách
-exports.deleteBook = async (id) => {
-  const deletedBook = await Sach.findByIdAndDelete(id);
-  if (!deletedBook) {
-    throw new ApiError(404, 'Không tìm thấy sách để xóa');
+const deleteSach = async (id) => {
+  const deletedSach = await Sach.findByIdAndDelete(id);
+  
+  if (!deletedSach) {
+    throw new ApiError(404, "Không tìm thấy sách để xóa");
   }
-  return deletedBook;
+
+  return { message: "Xóa sách thành công", deletedSach };
+};
+
+module.exports = {
+  getAllSach,
+  getSachById,
+  createSach,
+  updateSach,
+  deleteSach,
 };

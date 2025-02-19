@@ -7,7 +7,7 @@ const DocGiaSchema = new mongoose.Schema({
   NGAYSINH: { type: Date },
   PHAI: { type: String, enum: ["Nam", "Nữ"] },
   DIACHI: { String },
-  SODIENTHOAI: { type: String },
+  SODIENTHOAI: { type: String, unique: true },
 });
 
 const DocGia = mongoose.model("DocGia", DocGiaSchema);

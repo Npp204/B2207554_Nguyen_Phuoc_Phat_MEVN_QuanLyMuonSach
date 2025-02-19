@@ -30,7 +30,7 @@ exports.createRecord = async (req, res, next) => {
 
 exports.updateStatus = async (req, res, next) => {
   try {
-    const updatedRecord = await theoDoiService.updateStatus(req.params.id, req.body.trangThai);
+    const updatedRecord = await theoDoiService.updateStatus(req.params.id, req.body);
     res.status(200).json(updatedRecord);
   } catch (error) {
     next(error);
@@ -39,8 +39,8 @@ exports.updateStatus = async (req, res, next) => {
 
 exports.deleteRecord = async (req, res, next) => {
   try {
-    await theoDoiService.deleteRecord(req.params.id);
-    res.status(204).send();
+    const deletedRecord = await theoDoiService.deleteRecord(req.params.id);
+    res.status(200).json({ message: "Đã xóa lịch sử mượn thành công", deletedRecord });
   } catch (error) {
     next(error);
   }

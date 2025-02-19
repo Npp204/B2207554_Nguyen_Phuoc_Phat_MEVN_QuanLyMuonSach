@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 
 const NhaXuatBanSchema = new mongoose.Schema({
-  MANG: { type: String, required: true, unique: true },
-  TENNG: { type: String, required: true },
+  MANXB: { type: String, required: true, unique: true },
+  TENNXB: { type: String, required: true },
   DIACHI: { type: String },
 });
 

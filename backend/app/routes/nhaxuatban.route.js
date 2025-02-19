@@ -1,12 +1,11 @@
 const express = require("express");
+const router = express.Router();
 const NhaXuatBanController = require("../controllers/nhaxuatban.controller");
 
-const router = express.Router();
-
-router.get("/", NhaXuatBanController.getAll);
-router.get("/:id", NhaXuatBanController.getById);
-router.post("/", NhaXuatBanController.create);
-router.put("/:id", NhaXuatBanController.update);
-router.delete("/:id", NhaXuatBanController.delete);
+router.get("/", NhaXuatBanController.getAllNhaXuatBan);
+router.get("/:id", NhaXuatBanController.getNhaXuatBanById);
+router.post("/", NhaXuatBanController.createNhaXuatBan);
+router.put("/:id", NhaXuatBanController.updateNhaXuatBan);
+router.delete("/:id", NhaXuatBanController.deleteNhaXuatBan);
 
 module.exports = router;
