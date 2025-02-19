@@ -3,6 +3,12 @@ const cors = require("cors");
 
 const contactsRouter = require("./app/routes/contact.route");
 const sachRouter = require("./app/routes/sach.route");
+const docgiaRouter = require('./app/routes/docgia.route');
+const nhanVienRouter = require('./app/routes/nhanvien.route');
+const nhaxuatbanRoutes = require("./app/routes/nhaxuatban.route");
+const theodoimuonsachRouter = require("./app/routes/theodoimuonsach.route");
+const authRoutes = require("./app/routes/auth.route");
+
 const ApiError = require("./app/api-error");
 
 const app = express();
@@ -16,6 +22,12 @@ app.get("/", (req, res) => {
 
 app.use("/api/contacts", contactsRouter);
 app.use("/api/sach", sachRouter);
+app.use('/api/docgia', docgiaRouter);
+app.use('/api/nhanvien', nhanVienRouter);
+app.use("/api/nhaxuatban", nhaxuatbanRoutes);
+app.use("/api/theodoimuonsach", theodoimuonsachRouter);
+app.use("/api/auth", authRoutes);
+
 
 //handle 404 response
 app.use((req, res, next) => {
