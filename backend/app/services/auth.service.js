@@ -2,15 +2,25 @@ const NhanVien = require("../models/NhanVien");
 const DocGia = require("../models/DocGia");
 const ApiError = require("../api-error");
 
+// Hàm kiểm tra số điện thoại hợp lệ
+const isValidPhoneNumber = (sdt) => {
+    const regex = /^(09|03|05|07|08)[0-9]{8}$/;
+    return regex.test(sdt);
+};
+
 // Đăng nhập nhân viên
-exports.loginNhanVien = async (sdt, password) => {
+const loginNhanVien = async (sdt, password) => {
     if (!sdt || !password) {
         throw new ApiError(400, "Số điện thoại và mật khẩu là bắt buộc");
     }
 
+    if (!isValidPhoneNumber(sdt)) {
+        throw new ApiError(400, "Số điện thoại không hợp lệ");
+    }
+
     const nhanVien = await NhanVien.findOne({ SODIENTHOAI: sdt });
 
-    if (!nhanVien || nhanVien.PASSWORD !== password) {
+    if (!nhanVien || String(nhanVien.PASSWORD) !== String(password)) {
         throw new ApiError(401, "Số điện thoại hoặc mật khẩu không chính xác");
     }
 
@@ -18,14 +28,18 @@ exports.loginNhanVien = async (sdt, password) => {
 };
 
 // Đăng nhập độc giả
-exports.loginDocGia = async (sdt, password) => {
+const loginDocGia = async (sdt, password) => {
     if (!sdt || !password) {
         throw new ApiError(400, "Số điện thoại và mật khẩu là bắt buộc");
     }
 
+    if (!isValidPhoneNumber(sdt)) {
+        throw new ApiError(400, "Số điện thoại không hợp lệ");
+    }
+
     const docGia = await DocGia.findOne({ SODIENTHOAI: sdt });
 
-    if (!docGia || docGia.PASSWORD !== password) {
+    if (!docGia || String(docGia.PASSWORD) !== String(password)) {
         throw new ApiError(401, "Số điện thoại hoặc mật khẩu không chính xác");
     }
 
@@ -33,9 +47,13 @@ exports.loginDocGia = async (sdt, password) => {
 };
 
 // Đăng ký độc giả
-exports.registerDocGia = async (sdt, password, confirmPassword) => {
+const registerDocGia = async (sdt, password, confirmPassword) => {
     if (!sdt || !password || !confirmPassword) {
         throw new ApiError(400, "Số điện thoại, mật khẩu và xác nhận mật khẩu là bắt buộc");
+    }
+
+    if (!isValidPhoneNumber(sdt)) {
+        throw new ApiError(400, "Số điện thoại không hợp lệ");
     }
 
     if (password !== confirmPassword) {
@@ -64,3 +82,5 @@ exports.registerDocGia = async (sdt, password, confirmPassword) => {
 
     return { message: "Đăng ký thành công", user: newDocGia };
 };
+
+module.exports = { loginNhanVien, loginDocGia, registerDocGia };
