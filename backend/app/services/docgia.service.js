@@ -75,23 +75,23 @@ const deleteDocGia = async (id) => {
   return { message: "Xóa độc giả thành công", deletedDocGia };
 };
 
-// Tìm độc giả theo số điện thoại (ẩn PASSWORD)
-const getDocGiaBySDT = async (sdt) => {
-  const docGia = await DocGia.findOne({ SODIENTHOAI: sdt }).select("-PASSWORD");
-  if (!docGia) {
-    throw new ApiError(404, "Không tìm thấy độc giả với số điện thoại này");
-  }
-  return docGia;
-};
+// // Tìm độc giả theo số điện thoại (ẩn PASSWORD)
+// const getDocGiaBySDT = async (sdt) => {
+//   const docGia = await DocGia.findOne({ SODIENTHOAI: sdt }).select("-PASSWORD");
+//   if (!docGia) {
+//     throw new ApiError(404, "Không tìm thấy độc giả với số điện thoại này");
+//   }
+//   return docGia;
+// };
 
-// Tìm độc giả theo tên (cho phép tìm gần đúng, ẩn PASSWORD)
-const getDocGiaByTen = async (ten) => {
-  const docGias = await DocGia.find({ TEN: { $regex: ten, $options: "i" } }).select("-PASSWORD");
-  if (!docGias.length) {
-    throw new ApiError(404, "Không tìm thấy độc giả với tên này");
-  }
-  return docGias;
-};
+// // Tìm độc giả theo tên (cho phép tìm gần đúng, ẩn PASSWORD)
+// const getDocGiaByTen = async (ten) => {
+//   const docGias = await DocGia.find({ TEN: { $regex: ten, $options: "i" } }).select("-PASSWORD");
+//   if (!docGias.length) {
+//     throw new ApiError(404, "Không tìm thấy độc giả với tên này");
+//   }
+//   return docGias;
+// };
 
 module.exports = {
   getAllDocGia,
@@ -99,6 +99,5 @@ module.exports = {
   createDocGia,
   updateDocGia,
   deleteDocGia,
-  getDocGiaBySDT,
-  getDocGiaByTen,
+
 };

@@ -1,6 +1,6 @@
 const authService = require("../services/auth.service");
 
-const loginNhanVien = async (req, res, next) => {
+exports.loginNhanVien = async (req, res, next) => {
     try {
         const { sdt, password } = req.body;
         const result = await authService.loginNhanVien(sdt, password);
@@ -10,7 +10,7 @@ const loginNhanVien = async (req, res, next) => {
     }
 };
 
-const loginDocGia = async (req, res, next) => {
+exports.loginDocGia = async (req, res, next) => {
     try {
         const { sdt, password } = req.body;
         const result = await authService.loginDocGia(sdt, password);
@@ -20,7 +20,7 @@ const loginDocGia = async (req, res, next) => {
     }
 };
 
-const registerDocGia = async (req, res, next) => {
+exports.registerDocGia = async (req, res, next) => {
     try {
         const { sdt, password, confirmPassword } = req.body;
         const result = await authService.registerDocGia(sdt, password, confirmPassword);
@@ -29,5 +29,3 @@ const registerDocGia = async (req, res, next) => {
         next(error);
     }
 };
-
-module.exports = { loginNhanVien, loginDocGia, registerDocGia };
