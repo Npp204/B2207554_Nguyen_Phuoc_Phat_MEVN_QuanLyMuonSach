@@ -1,25 +1,26 @@
 const DocGia = require("../models/DocGia");
 const ApiError = require("../api-error");
+const bcrypt = require("bcryptjs"); // Thêm bcrypt để mã hóa mật khẩu
 
-// Lấy tất cả độc giả
+// Lấy tất cả độc giả (ẩn PASSWORD)
 const getAllDocGia = async () => {
-  const docGias = await DocGia.find();
+  const docGias = await DocGia.find().select("-PASSWORD"); // Loại bỏ PASSWORD khỏi kết quả
   if (!docGias || docGias.length === 0) {
     throw new ApiError(404, "Không tìm thấy độc giả nào");
   }
   return docGias;
 };
 
-// Lấy độc giả theo ID
+// Lấy độc giả theo ID (ẩn PASSWORD)
 const getDocGiaById = async (id) => {
-  const docGia = await DocGia.findById(id);
+  const docGia = await DocGia.findById(id).select("-PASSWORD");
   if (!docGia) {
     throw new ApiError(404, "Không tìm thấy độc giả");
   }
   return docGia;
 };
 
-// Tạo độc giả mới
+// Tạo độc giả mới (mã hóa mật khẩu)
 const createDocGia = async (data) => {
   try {
     // Kiểm tra nếu số điện thoại đã tồn tại
@@ -30,72 +31,67 @@ const createDocGia = async (data) => {
 
     if (!data.MADOCGIA) {
       const count = await DocGia.countDocuments();
-      data.MADOCGIA = `DG${String(count + 1).padStart(3, "0")}`; // Tạo mã NV001, NV002...
+      data.MADOCGIA = `DG${String(count + 1).padStart(3, "0")}`;
     }
 
-    //console.log("Dữ liệu nhận được:", data); 
+    // Mã hóa mật khẩu trước khi lưu
+    if (data.PASSWORD) {
+      data.PASSWORD = await bcrypt.hash(data.PASSWORD, 10);
+    }
+
     const newDocGia = new DocGia(data);
-    return await newDocGia.save();
+    await newDocGia.save();
+
+    return { ...newDocGia.toObject(), PASSWORD: undefined }; // Ẩn PASSWORD khi trả về
   } catch (error) {
-    //console.error("Lỗi khi tạo độc giả:", error); // Log lỗi để debug
     throw new ApiError(500, "Lỗi server khi tạo độc giả");
   }
 };
 
-// Cập nhật thông tin độc giả
+// Cập nhật thông tin độc giả (mã hóa mật khẩu nếu có)
 const updateDocGia = async (id, data) => {
+  if (data.PASSWORD) {
+    data.PASSWORD = await bcrypt.hash(data.PASSWORD, 10);
+  }
+
   const updatedDocGia = await DocGia.findByIdAndUpdate(id, data, {
     new: true,
     runValidators: true,
-  });
+  }).select("-PASSWORD");
+
   if (!updatedDocGia) {
     throw new ApiError(404, "Không tìm thấy độc giả để cập nhật");
   }
+
   return { message: "Cập nhật độc giả thành công", updatedDocGia };
 };
 
 // Xóa độc giả
 const deleteDocGia = async (id) => {
-  const deletedDocGia = await DocGia.findByIdAndDelete(id);
+  const deletedDocGia = await DocGia.findByIdAndDelete(id).select("-PASSWORD");
   if (!deletedDocGia) {
     throw new ApiError(404, "Không tìm thấy độc giả để xóa");
   }
   return { message: "Xóa độc giả thành công", deletedDocGia };
 };
 
-// Tìm độc giả theo số điện thoại
+// Tìm độc giả theo số điện thoại (ẩn PASSWORD)
 const getDocGiaBySDT = async (sdt) => {
-  const docGia = await DocGia.findOne({ SODIENTHOAI: sdt });
+  const docGia = await DocGia.findOne({ SODIENTHOAI: sdt }).select("-PASSWORD");
   if (!docGia) {
     throw new ApiError(404, "Không tìm thấy độc giả với số điện thoại này");
   }
   return docGia;
 };
 
-// Tìm độc giả theo tên (cho phép tìm gần đúng)
+// Tìm độc giả theo tên (cho phép tìm gần đúng, ẩn PASSWORD)
 const getDocGiaByTen = async (ten) => {
-  const docGias = await DocGia.find({ TEN: { $regex: ten, $options: "i" } });
+  const docGias = await DocGia.find({ TEN: { $regex: ten, $options: "i" } }).select("-PASSWORD");
   if (!docGias.length) {
     throw new ApiError(404, "Không tìm thấy độc giả với tên này");
   }
   return docGias;
 };
-
-// Tìm độc giả theo mã độc giả
-// const getDocGiaByMa = async (ma) => {
-//   const docGia = await DocGia.findOne({ MADOCGIA: ma });
-//   if (!docGia) {
-//     throw new ApiError(404, "Không tìm thấy độc giả với mã độc giả này");
-//   }
-//   return docGia;
-// };
-
-// Tạo độc giả mới
-// const taoMoi = async (data) => {
-//   const docGia = new DocGia(data);
-//   await docGia.save();
-//   return docGia;
-// };
 
 module.exports = {
   getAllDocGia,
@@ -105,6 +101,4 @@ module.exports = {
   deleteDocGia,
   getDocGiaBySDT,
   getDocGiaByTen,
-  // getDocGiaByMa,
-  // taoMoi
 };

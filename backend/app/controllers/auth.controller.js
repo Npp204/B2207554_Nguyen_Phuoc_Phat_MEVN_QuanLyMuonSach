@@ -1,32 +1,33 @@
-const nhanVienService = require("../services/nhanvien.service");
-const docGiaService = require("../services/docgia.service");
+const authService = require("../services/auth.service");
 
-const login = async (req, res, next) => {
+const loginNhanVien = async (req, res, next) => {
     try {
-        const { sdt } = req.body;
-
-        if (!sdt) {
-            return res.status(400).json({ message: "Số điện thoại là bắt buộc" });
-        }
-
-        // Kiểm tra nhân viên
-        const nhanVien = await nhanVienService.timTheoSDT(sdt);
-        if (nhanVien) {
-            return res.json({ message: "Đăng nhập thành công", role: "nhanvien", user: nhanVien });
-        }
-
-        // Kiểm tra độc giả
-        let docGia = await docGiaService.timTheoSDT(sdt);
-        if (docGia) {
-            return res.json({ message: "Đăng nhập thành công", role: "docgia", user: docGia });
-        }
-
-        // Nếu không tìm thấy, tạo mới độc giả
-        docGia = await docGiaService.taoMoi({ SDT: sdt });
-        return res.json({ message: "Đăng ký và đăng nhập thành công", role: "docgia", user: docGia });
+        const { sdt, password } = req.body;
+        const result = await authService.loginNhanVien(sdt, password);
+        return res.json({ message: "Đăng nhập thành công", ...result });
     } catch (error) {
         next(error);
     }
 };
 
-module.exports = { login };
+const loginDocGia = async (req, res, next) => {
+    try {
+        const { sdt, password } = req.body;
+        const result = await authService.loginDocGia(sdt, password);
+        return res.json({ message: "Đăng nhập thành công", ...result });
+    } catch (error) {
+        next(error);
+    }
+};
+
+const registerDocGia = async (req, res, next) => {
+    try {
+        const { sdt, password, confirmPassword } = req.body;
+        const result = await authService.registerDocGia(sdt, password, confirmPassword);
+        return res.status(201).json(result);
+    } catch (error) {
+        next(error);
+    }
+};
+
+module.exports = { loginNhanVien, loginDocGia, registerDocGia };

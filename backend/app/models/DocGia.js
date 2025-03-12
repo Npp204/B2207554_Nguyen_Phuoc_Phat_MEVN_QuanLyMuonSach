@@ -6,8 +6,9 @@ const DocGiaSchema = new mongoose.Schema({
   TEN: { type: String, required: true },
   NGAYSINH: { type: Date },
   PHAI: { type: String, enum: ["Nam", "Nữ"] },
-  DIACHI: { String },
+  DIACHI: { type: String },
   SODIENTHOAI: { type: String, unique: true },
+  PASSWORD: { type: String },
 });
 
 const DocGia = mongoose.model("DocGia", DocGiaSchema);

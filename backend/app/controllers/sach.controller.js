@@ -21,7 +21,14 @@ exports.getSachById = async (req, res, next) => {
 
 exports.createSach = async (req, res, next) => {
   try {
-    const newSach = await sachService.createSach(req.body);
+    let sachData = req.body;
+
+    // Nếu có file tải lên, thêm đường dẫn vào HINHANH
+    if (req.file) {
+      sachData.HINHANH = `/uploads/${req.file.filename}`;
+    }
+
+    const newSach = await sachService.createSach(sachData);
     res.status(201).json(newSach);
   } catch (error) {
     next(error);
@@ -30,8 +37,15 @@ exports.createSach = async (req, res, next) => {
 
 exports.updateSach = async (req, res, next) => {
   try {
-    const updatedSach = await sachService.updateSach(req.params.id, req.body);
-    res.status(200).json(updatedBook);
+    let sachData = req.body;
+
+    // Nếu có file tải lên, cập nhật đường dẫn HINHANH
+    if (req.file) {
+      sachData.HINHANH = `/uploads/${req.file.filename}`;
+    }
+
+    const updatedSach = await sachService.updateSach(req.params.id, sachData);
+    res.status(200).json(updatedSach);  // Fix lỗi 'updatedBook' -> 'updatedSach'
   } catch (error) {
     next(error);
   }

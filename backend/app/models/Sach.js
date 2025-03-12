@@ -8,6 +8,7 @@ const SachSchema = new mongoose.Schema({
   NAMXUATBAN: { type: Number },
   MANXB: { type: mongoose.Schema.Types.ObjectId, ref: "NhaXuatBan", required: false },
   NGUONGOC_TACGIA: { type: String },
+  HINHANH: { type: String },
 });
 
 const Sach = mongoose.model("Sach", SachSchema);

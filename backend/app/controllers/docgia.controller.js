@@ -1,10 +1,15 @@
 const docGiaService = require("../services/docgia.service");
 const ApiError = require("../api-error");
+const bcrypt = require("bcryptjs"); // Thêm bcrypt để hash mật khẩu
 
 exports.getAllDocGia = async (req, res, next) => {
   try {
     const docGias = await docGiaService.getAllDocGia();
-    res.status(200).json(docGias);
+
+    // Không trả về trường PASSWORD
+    const docGiasWithoutPassword = docGias.map(({ PASSWORD, ...rest }) => rest);
+
+    res.status(200).json(docGiasWithoutPassword);
   } catch (error) {
     next(error);
   }
@@ -13,7 +18,10 @@ exports.getAllDocGia = async (req, res, next) => {
 exports.getDocGiaById = async (req, res, next) => {
   try {
     const docGia = await docGiaService.getDocGiaById(req.params.id);
-    res.status(200).json(docGia);
+
+    // Không trả về PASSWORD
+    const { PASSWORD, ...docGiaWithoutPassword } = docGia.toObject();
+    res.status(200).json(docGiaWithoutPassword);
   } catch (error) {
     next(error);
   }
@@ -21,8 +29,18 @@ exports.getDocGiaById = async (req, res, next) => {
 
 exports.createDocGia = async (req, res, next) => {
   try {
+    if (!req.body.PASSWORD) {
+      throw new ApiError(400, "Mật khẩu không được để trống");
+    }
+
+    // Hash mật khẩu trước khi lưu
+    req.body.PASSWORD = await bcrypt.hash(req.body.PASSWORD, 10);
+
     const newDocGia = await docGiaService.createDocGia(req.body);
-    res.status(201).json(newDocGia);
+
+    // Không trả về PASSWORD
+    const { PASSWORD, ...docGiaWithoutPassword } = newDocGia.toObject();
+    res.status(201).json(docGiaWithoutPassword);
   } catch (error) {
     next(error);
   }
@@ -30,8 +48,16 @@ exports.createDocGia = async (req, res, next) => {
 
 exports.updateDocGia = async (req, res, next) => {
   try {
+    if (req.body.PASSWORD) {
+      // Nếu có cập nhật mật khẩu, hash lại mật khẩu mới
+      req.body.PASSWORD = await bcrypt.hash(req.body.PASSWORD, 10);
+    }
+
     const updatedDocGia = await docGiaService.updateDocGia(req.params.id, req.body);
-    res.status(200).json(updatedDocGia);
+
+    // Không trả về PASSWORD
+    const { PASSWORD, ...docGiaWithoutPassword } = updatedDocGia.toObject();
+    res.status(200).json(docGiaWithoutPassword);
   } catch (error) {
     next(error);
   }
@@ -45,56 +71,3 @@ exports.deleteDocGia = async (req, res, next) => {
     next(error);
   }
 };
-
-// exports.getDocGiaBySDT = async (req, res, next) => {
-//   try {
-//     const docGia = await docGiaService.getDocGiaBySDT(req.params.sdt);
-//     res.status(200).json(docGia);
-//   } catch (error) {
-//     next(error);
-//   }
-// };
-
-// exports.getDocGiaByTen = async (req, res, next) => {
-//   try {
-//     const docGias = await docGiaService.getDocGiaByTen(req.params.ten);
-//     res.status(200).json(docGias);
-//   } catch (error) {
-//     next(error);
-//   }
-// };
-
-// exports.getDocGiaByMa = async (req, res, next) => {
-//   try {
-//     const docGias = await docGiaService.getDocGiaByTen(req.params.ma);
-//     res.status(200).json(docGias);
-//   } catch (error) {
-//     next(error);
-//   }
-// };
-
-// exports.timDocGia = async (req, res, next) => {
-//   try {
-//     const { timsdt, timten, timmdg } = req.query; // Lấy dữ liệu từ query params
-
-//     if (timsdt) {
-//       const docGia = await docGiaService.getDocGiaBySDT(timsdt);
-//       return res.json(docGia);
-//     }
-
-//     if (timten) {
-//       const docGias = await docGiaService.getDocGiaByTen(timten);
-//       return res.json(docGias);
-//     }
-
-//     if (timmdg) {
-//       const docGia = await docGiaService.getDocGiaByTen(timmdg);
-//       return res.json(docGia);
-//     }
-
-//     throw new ApiError(400, "Bạn phải nhập số điện thoại hoặc tên hoặc mã độc giả để tìm kiếm");
-//   } catch (error) {
-//     next(error);
-//   }
-// };
-

@@ -1,3 +1,5 @@
+const fs = require("fs");
+const path = require("path");
 const Sach = require("../models/Sach");
 const ApiError = require("../api-error");
 
@@ -27,7 +29,7 @@ const createSach = async (data) => {
 
   if (!data.MASACH) {
     const count = await Sach.countDocuments();
-    data.MASACH = `MS${String(count + 1).padStart(3, "0")}`; // Tạo mã NV001, NV002...
+    data.MASACH = `MS${String(count + 1).padStart(3, "0")}`; // Tạo mã sách tự động
   }
 
   try {
@@ -41,27 +43,44 @@ const createSach = async (data) => {
 
 // Cập nhật sách
 const updateSach = async (id, data) => {
+  const sach = await Sach.findById(id);
+  if (!sach) {
+    throw new ApiError(404, "Không tìm thấy sách để cập nhật");
+  }
+
+  // Nếu có ảnh mới tải lên, xóa ảnh cũ (nếu có)
+  if (data.HINHANH && sach.HINHANH) {
+    const oldImagePath = path.join(__dirname, "..", sach.HINHANH);
+    if (fs.existsSync(oldImagePath)) {
+      fs.unlinkSync(oldImagePath);
+    }
+  }
+
   const updatedSach = await Sach.findByIdAndUpdate(id, data, {
     new: true,
     runValidators: true,
   });
-
-  if (!updatedSach) {
-    throw new ApiError(404, "Không tìm thấy sách để cập nhật");
-  }
 
   return { message: "Cập nhật sách thành công", updatedSach };
 };
 
 // Xóa sách
 const deleteSach = async (id) => {
-  const deletedSach = await Sach.findByIdAndDelete(id);
-  
-  if (!deletedSach) {
+  const sach = await Sach.findById(id);
+  if (!sach) {
     throw new ApiError(404, "Không tìm thấy sách để xóa");
   }
 
-  return { message: "Xóa sách thành công", deletedSach };
+  // Xóa ảnh khỏi thư mục uploads nếu có
+  if (sach.HINHANH) {
+    const imagePath = path.join(__dirname, "..", sach.HINHANH);
+    if (fs.existsSync(imagePath)) {
+      fs.unlinkSync(imagePath);
+    }
+  }
+
+  await Sach.findByIdAndDelete(id);
+  return { message: "Xóa sách thành công", deletedSach: sach };
 };
 
 module.exports = {
