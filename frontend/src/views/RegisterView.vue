@@ -42,9 +42,12 @@ export default {
       }
 
       try {
-        await axios.post('http://localhost:3000/api/auth/register/docgia', { sdt: this.sdt, password: this.password, confirmPassword: this.confirmPassword });
+        await axios.post('http://localhost:3000/api/auth/register/docgia', { 
+          sdt: this.sdt, 
+          password: this.password, 
+          confirmPassword: this.confirmPassword });
         alert('Đăng ký thành công');
-        this.$router.push('/');
+        this.$router.push('/login-docgia');
       } catch (error) {
         alert(error.response?.data?.message || 'Đăng ký thất bại');
       }

@@ -41,7 +41,7 @@ exports.updateNhaXuatBan = async (req, res, next) => {
     if (!nhaxuatban) {
       return next(new ApiError(404, "Không tìm thấy nhà xuất bản"));
     }
-    res.status(200).json({ message: "Đã xóa cập nhật nhà xuất bản thành công", nhaxuatban });
+    res.status(200).json({ message: "Đã cập nhật nhà xuất bản thành công", nhaxuatban });
   } catch (error) {
     next(error);
   }

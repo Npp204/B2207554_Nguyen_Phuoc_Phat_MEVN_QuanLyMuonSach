@@ -1,4 +1,4 @@
-<script setup>
+<!-- <script setup>
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -15,6 +15,25 @@ const handleLogout = () => {
 onMounted(() => {
   userRole.value = localStorage.getItem('userRole'); // Cập nhật khi load lại trang
 });
+</script> -->
+
+<script setup>
+import { computed } from 'vue';
+import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
+
+// Khởi tạo Vuex store và Router
+const store = useStore();
+const router = useRouter();
+
+// Lấy userRole từ Vuex store
+const userRole = computed(() => store.state.userRole);
+
+// Đăng xuất và xóa thông tin role trong Vuex và localStorage
+const handleLogout = () => {
+  store.dispatch('logout'); // Gọi action logout để xóa userRole trong Vuex
+  router.push('/login-docgia'); // Chuyển hướng về trang đăng nhập độc giả
+};
 </script>
 
 <template>
