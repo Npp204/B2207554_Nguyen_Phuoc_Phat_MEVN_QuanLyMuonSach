@@ -26,7 +26,7 @@ const createNhaXuatBan = async (data) => {
 
     if (!data.MANXB) {
       const count = await NhaXuatBan.countDocuments();
-      data.MANXB = `NXB${String(count + 1).padStart(3, "0")}`; // Tạo mã NV001, NV002...
+      data.MANXB = `NXB${String(count + 1).padStart(3, "0")}`;  // Mã NXB mới
     }
 
     const newNhaXuatBan = new NhaXuatBan(data);
