@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const Sach = require("../models/Sach");
+const NhaXuatBan = require("../models/NhaXuatBan");
 const ApiError = require("../api-error");
 
 // Lấy tất cả sách
@@ -23,23 +24,39 @@ const getSachById = async (id) => {
 
 // Tạo sách mới
 const createSach = async (data) => {
+  console.log("Dữ liệu nhận từ client:", data);
+
   if (!data || !data.TENSACH) {
     throw new ApiError(400, "Dữ liệu không hợp lệ");
   }
 
   if (!data.MASACH) {
     const count = await Sach.countDocuments();
-    data.MASACH = `MS${String(count + 1).padStart(3, "0")}`; // Tạo mã sách tự động
+    data.MASACH = `MS${String(count + 1).padStart(3, "0")}`;
+  }
+
+  // Kiểm tra MANXB có tồn tại không
+  if (data.MANXB) {
+    const publisher = await NhaXuatBan.findById(data.MANXB);
+    if (!publisher) {
+      throw new ApiError(400, "Nhà xuất bản không tồn tại!");
+    }
   }
 
   try {
     const newSach = new Sach(data);
     return await newSach.save();
   } catch (error) {
-    console.error("Lỗi khi tạo sách:", error);
-    throw new ApiError(400, "Dữ liệu sách không hợp lệ");
+    console.error("🚨 Lỗi khi tạo sách:", error);
+
+    if (error.code === 11000) {
+      throw new ApiError(400, "Mã sách đã tồn tại!");
+    }
+
+    throw new ApiError(400, "Dữ liệu sách không hợp lệ!");
   }
 };
+
 
 // Cập nhật sách
 const updateSach = async (id, data) => {

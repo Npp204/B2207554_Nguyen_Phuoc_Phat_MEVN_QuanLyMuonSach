@@ -16,7 +16,7 @@
       </form>
       <div class="text-center mt-3">
         <p class="mb-0">Bạn đã có tài khoản? 
-          <router-link to="/login" class="text-decoration-none">Đăng nhập</router-link>
+          <router-link to="/login-docgia" class="text-decoration-none">Đăng nhập</router-link>
         </p>
       </div>
     </div>

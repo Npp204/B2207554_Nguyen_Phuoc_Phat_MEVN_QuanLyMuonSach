@@ -22,8 +22,7 @@ exports.getSachById = async (req, res, next) => {
 exports.createSach = async (req, res, next) => {
   try {
     let sachData = req.body;
-
-    // Nếu có file tải lên, thêm đường dẫn vào HINHANH
+    console.log("Dữ liệu nhận từ client:", sachData);
     if (req.file) {
       sachData.HINHANH = `/uploads/${req.file.filename}`;
     }

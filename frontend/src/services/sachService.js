@@ -5,6 +5,7 @@ const API_URL = "http://localhost:3000/api/sach";
 export const fetchBooks = async () => {
     try {
         const response = await axios.get(API_URL);
+        //console.log("API trả về danh sách sách:", JSON.stringify(response.data, null, 2));
         return response.data;
     } catch (error) {
         console.error("Lỗi khi tải sách:", error.response?.data || error.message);
