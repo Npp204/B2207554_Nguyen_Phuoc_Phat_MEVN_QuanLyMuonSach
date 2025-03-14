@@ -8,7 +8,7 @@ const store = useStore();
 const router = useRouter();
 
 // Lấy userRole từ Vuex store
-const userRole = computed(() => store.state.userRole);
+const userRole = computed(() => store.state.user.role);
 
 // Đăng xuất và xóa thông tin role trong Vuex và localStorage
 const handleLogout = () => {

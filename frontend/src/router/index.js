@@ -7,14 +7,16 @@ import LoginDocGia from '@/views/LoginDocGia.vue';
 import RegisterView from '@/views/RegisterView.vue';
 import NotFound from '@/views/NotFound.vue';
 import SachManager from '@/views/SachManager.vue';
+import AccountView from '../views/AccountView.vue';
 
 const routes = [
   { path: '/', component: HomeView },
   { path: '/login-nhanvien', component: LoginNhanVien },
   { path: '/login-docgia', component: LoginDocGia },
   { path: '/register', component: RegisterView },
-  { path: '/:pathMatch(.*)*', component: NotFound }, // Trang 404
-  { path: '/quan-ly-sach', component: SachManager }
+  { path: '/:pathMatch(.*)*', component: NotFound }, 
+  { path: '/quan-ly-sach', component: SachManager },
+  { path: '/tai-khoan', component: AccountView }
 ];
 
 const router = createRouter({

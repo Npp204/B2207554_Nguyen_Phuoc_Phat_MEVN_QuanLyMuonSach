@@ -89,8 +89,9 @@ export default {
           password: this.password 
         });
 
-        // Lưu vai trò vào Vuex store
-        this.$store.dispatch('login', 'docgia'); // Giả sử vai trò của người dùng là 'docgia'
+        const id = response.data?._id || response.data?.user?._id; // Lấy số điện thoại
+
+        this.$store.dispatch('login', { id, role: 'docgia' });
 
         alert('Đăng nhập độc giả thành công');
         this.$router.push('/'); // Chuyển hướng về trang chủ

@@ -10,28 +10,6 @@ exports.getAllNhanVien = async (req, res, next) => {
   }
 };
 
-// exports.getAllOrSearchNhanVien = async (req, res, next) => {
-//   try {
-//     const { timsdt, timten } = req.query;
-
-//     if (timsdt) {
-//       const nhanVien = await nhanVienService.getNhanVienBySDT(timsdt);
-//       return res.json(nhanVien);
-//     }
-
-//     if (timten) {
-//       const nhanViens = await nhanVienService.getNhanVienByTen(timten);
-//       return res.json(nhanViens);
-//     }
-
-//     // Nếu không có tham số tìm kiếm, trả về toàn bộ danh sách nhân viên
-//     const nhanViens = await nhanVienService.getAllNhanVien();
-//     return res.json(nhanViens);
-//   } catch (error) {
-//     next(error);
-//   }
-// };
-
 exports.getNhanVienById = async (req, res, next) => {
   try {
     const nhanVien = await nhanVienService.getNhanVienById(req.params.id);

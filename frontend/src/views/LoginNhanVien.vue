@@ -39,14 +39,20 @@ export default {
           password: this.password 
         });
 
-        console.log(response.data);
+        // Lấy thông tin từ API
         const chucVu = response.data?.CHUCVU || response.data?.user?.CHUCVU;
+        const id = response.data?._id || response.data?.user?._id; 
+
+        // Kiểm tra vai trò
+        let role = 'docgia';
         if (chucVu === 'QuanLyThuVien') {
-          // Lưu vai trò vào Vuex store
-          store.dispatch('login', 'quanly'); 
-        } else {  
-          store.dispatch('login', 'nhanvien');  
+          role = 'quanly';
+        } else if (chucVu) {
+          role = 'nhanvien';
         }
+
+        // Lưu thông tin vào Vuex store
+        store.dispatch('login', { id, role });
 
         alert('Đăng nhập nhân viên thành công');
         this.$router.push('/'); // Chuyển hướng về trang chủ
