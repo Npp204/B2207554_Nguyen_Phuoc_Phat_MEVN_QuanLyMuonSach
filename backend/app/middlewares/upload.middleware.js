@@ -1,10 +1,15 @@
+const fs = require("fs"); // Import fs để kiểm tra và tạo thư mục
 const multer = require("multer");
 const path = require("path");
 
 // Cấu hình nơi lưu ảnh
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/"); // Ảnh sẽ được lưu trong thư mục 'uploads/'
+    const uploadDir = "uploads/sach"; // Thư mục lưu ảnh
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true }); // Tạo thư mục nếu chưa có
+    }
+    cb(null, uploadDir);
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + path.extname(file.originalname)); // Đổi tên file theo timestamp
@@ -21,11 +26,22 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
+// Middleware xử lý lỗi upload
+const uploadErrorHandler = (err, req, res, next) => {
+  if (err instanceof multer.MulterError) {
+    return res.status(400).json({ message: `Lỗi upload: ${err.message}` });
+  } else if (err) {
+    return res.status(400).json({ message: err.message });
+  }
+  next();
+};
+
 // Giới hạn kích thước file (tối đa 5MB)
 const upload = multer({
   storage,
   fileFilter,
   limits: { fileSize: 5 * 1024 * 1024 },
+  
 });
 
-module.exports = upload;
+module.exports = { upload, uploadErrorHandler };

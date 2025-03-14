@@ -87,17 +87,19 @@ input:focus, select:focus {
         </div>
         <div class="form-group">
             <label for="soLuong">Số lượng quyển</label>
-            <input
-                type="number"
-                class="form-control"
-                v-model.number="bookLocal.SOQUYEN"
-                min="1"
-                required
-            />
+            <input type="number" class="form-control" v-model.number="bookLocal.SOQUYEN" min="1" required/>
         </div>
         <div class="form-group">
             <label for="DONGIA">Đơn giá</label>
             <input type="number" v-model.number="bookLocal.DONGIA" class="form-control" id="DONGIA" required />
+        </div>
+        <div class="form-group">
+            <label for="NAMXUATBAN">Năm xuất bản</label>
+            <input type="number" v-model.number="bookLocal.NAMXUATBAN" class="form-control" id="NAMXUATBAN" required />
+        </div>
+        <div class="form-group">
+            <label for="NGUONGOC_TACGIA">Tác giả</label>
+            <input type="text" v-model="bookLocal.NGUONGOC_TACGIA" class="form-control" id="NGUONGOC_TACGIA" required />
         </div>
         <button type="submit" class="btn btn-success">Lưu</button>
         <button type="button" class="btn btn-secondary ml-2" @click="$emit('cancel')">Hủy</button>
@@ -109,7 +111,7 @@ export default {
     props: {
         book: { 
             type: Object, 
-            default: () => ({ MASACH: "", TENSACH: "", MANXB: "", SOQUYEN: 1, DONGIA: 0 }) 
+            default: () => ({ MASACH: "", TENSACH: "", MANXB: "", SOQUYEN: 1, DONGIA: 0, NAMXUATBAN: 2021, NGUONGOC_TACGIA: "" }) 
         },
         nxbList: { type: Array, required: true },
     },

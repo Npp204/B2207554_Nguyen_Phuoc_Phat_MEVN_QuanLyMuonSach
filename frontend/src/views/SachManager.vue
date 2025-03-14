@@ -117,7 +117,7 @@ export default {
         async loadBooks() {
             try {
                 this.books = await fetchBooks();
-                //console.log("Danh sách nhà xuất bản:", JSON.parse(JSON.stringify(this.nxbs)));
+
             } catch (error) {
                 console.error("Lỗi khi tải sách:", error);
             }
@@ -179,8 +179,9 @@ export default {
         async deleteBook(id) {
             try {
                 await deleteBook(id);
+                this.books = this.books.filter(book => book.MASACH !== id);
                 alert("Xóa sách thành công!");
-                this.loadBooks();
+                this.loadBooks(); 
             } catch (error) {
                 console.error("Lỗi khi xóa sách:", error);
             }

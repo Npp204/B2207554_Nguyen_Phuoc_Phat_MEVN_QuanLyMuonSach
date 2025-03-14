@@ -47,7 +47,14 @@ const createSach = async (data) => {
     const newSach = new Sach(data);
     return await newSach.save();
   } catch (error) {
-    console.error("🚨 Lỗi khi tạo sách:", error);
+    console.error("Lỗi khi tạo sách:", error);
+
+    // Nếu có file ảnh mà lỗi xảy ra, xóa ảnh để tránh rác
+    if (data.HINHANH) {
+      fs.unlink(data.HINHANH, (err) => {
+        if (err) console.error("Lỗi khi xóa ảnh:", err);
+      });
+    }
 
     if (error.code === 11000) {
       throw new ApiError(400, "Mã sách đã tồn tại!");
@@ -56,7 +63,6 @@ const createSach = async (data) => {
     throw new ApiError(400, "Dữ liệu sách không hợp lệ!");
   }
 };
-
 
 // Cập nhật sách
 const updateSach = async (id, data) => {
