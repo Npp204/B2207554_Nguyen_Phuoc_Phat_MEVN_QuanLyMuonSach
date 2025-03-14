@@ -1,22 +1,3 @@
-<!-- <script setup>
-import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
-
-const router = useRouter();
-const userRole = ref(localStorage.getItem('userRole')); // Lấy vai trò từ localStorage
-
-const handleLogout = () => {
-  localStorage.removeItem('userRole'); // Xóa vai trò
-  userRole.value = null;
-  router.push('/login-docgia'); // Chuyển về trang đăng nhập độc giả
-  window.location.reload(); // Reload lại để cập nhật header
-};
-
-onMounted(() => {
-  userRole.value = localStorage.getItem('userRole'); // Cập nhật khi load lại trang
-});
-</script> -->
-
 <script setup>
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
@@ -62,8 +43,8 @@ const handleLogout = () => {
             </li>
           </template>
 
-          <!-- Nếu đăng nhập với vai trò Nhân viên -->
-          <template v-else-if="userRole === 'nhanvien'">
+          <!-- Nếu đăng nhập với vai trò Quan ly -->
+          <template v-else-if="userRole === 'quanly'">
             <li class="nav-item">
               <router-link class="nav-link" to="/quan-ly-sach">Quản Lý Sách</router-link>
             </li>
@@ -71,6 +52,16 @@ const handleLogout = () => {
               <router-link class="nav-link" to="/quan-ly-docgia">Quản Lý Độc Giả</router-link>
             </li>
             <li class="nav-item">
+              <router-link class="nav-link" to="/theo-doi-muon">Theo Dõi Mượn</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link" to="/tai-khoan">Tài Khoản</router-link>
+            </li>
+          </template>
+
+          <!-- Nếu đăng nhập với vai trò Nhân viên -->
+          <template v-else-if="userRole === 'nhanvien'">
+            <li class="nav-item">    
               <router-link class="nav-link" to="/theo-doi-muon">Theo Dõi Mượn</router-link>
             </li>
             <li class="nav-item">
