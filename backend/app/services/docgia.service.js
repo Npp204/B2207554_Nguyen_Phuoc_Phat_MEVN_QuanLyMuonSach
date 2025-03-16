@@ -42,7 +42,7 @@ const createDocGia = async (data) => {
     const newDocGia = new DocGia(data);
     await newDocGia.save();
 
-    return { ...newDocGia.toObject(), PASSWORD: undefined }; // Ẩn PASSWORD khi trả về
+    return { ...newDocGia.toObject(), PASSWORD: undefined }; 
   } catch (error) {
     throw new ApiError(500, "Lỗi server khi tạo độc giả");
   }

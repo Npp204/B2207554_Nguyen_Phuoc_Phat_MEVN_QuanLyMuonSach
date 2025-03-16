@@ -29,3 +29,13 @@ exports.registerDocGia = async (req, res, next) => {
         next(error);
     }
 };
+
+exports.registerNhanVien = async (req, res, next) => {
+    try {
+        const { sdt, password, confirmPassword } = req.body;
+        const result = await authService.registerNhanVien(sdt, password, confirmPassword);
+        return res.status(201).json(result);
+    } catch (error) {
+        next(error);
+    }
+}

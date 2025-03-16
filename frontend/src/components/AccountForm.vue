@@ -1,82 +1,81 @@
 <style scoped>
 form {
-  max-width: 400px;
-  margin: 20px auto;
-  padding: 20px;
-  background: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+    max-width: 450px;
+    margin: 20px auto;
+    padding: 25px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+}
+
+.form-group {
+    margin-bottom: 15px;
 }
 
 label {
-  font-size: 16px;
-  color: #333;
-  font-weight: 600;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 6px;
+    color: #333;
 }
 
 input {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 14px;
-  transition: border-color 0.3s ease;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+    transition: all 0.3s ease-in-out;
 }
 
 input:focus {
-  border-color: #007bff;
-  outline: none;
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
 }
 
-button {
-  padding: 10px;
-  border: none;
-  border-radius: 6px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background 0.3s ease;
+/* Nút bấm */
+.btn {
+    padding: 10px 15px;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-block;
+    text-align: center;
+    border: none;
 }
 
-button[type="submit"] {
-  background: #007bff;
-  color: white;
+.btn-success {
+    background-color: #28a745;
+    color: white;
 }
 
-button[type="submit"]:hover {
-  background: #0056b3;
+.btn-success:hover {
+    background-color: #218838;
 }
 
-button[type="button"] {
-  background: #ddd;
-  color: #333;
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
 }
 
-button[type="button"]:hover {
-  background: #bbb;
+.btn-secondary:hover {
+    background-color: #5a6268;
 }
 
-button:active {
-  opacity: 0.8;
+/* Hiệu ứng nút khi click */
+.btn:active {
+    transform: scale(0.95);
 }
 
-@media (max-width: 500px) {
-  form {
-    width: 90%;
-    padding: 15px;
-  }
-
-  input {
-    font-size: 14px;
-    padding: 8px;
-  }
-
-  button {
-    font-size: 14px;
-    padding: 8px;
-  }
+/* Canh chỉnh nút */
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
 }
 </style>
 
@@ -99,8 +98,10 @@ button:active {
       <input v-model="form.hoTen" type="text" required />
     </div>
 
-    <button type="submit">Lưu</button>
-    <button type="button" @click="$emit('cancel')">Hủy</button>
+    <div class="button-group">
+      <button type="submit" class="btn btn-success">Lưu</button>
+      <button type="button" class="btn btn-secondary" @click="$emit('cancel')">Hủy</button>
+    </div>
   </form>
 </template>
 
@@ -108,41 +109,57 @@ button:active {
 import { ref } from 'vue'
 import { updateUserInfo } from '@/services/accService'
 
-const props = defineProps({ user: Object, role: String })
+const props = defineProps({
+  user: Object,
+  role: String,
+  userId: String // Nhận ID từ cha
+})
 const emit = defineEmits(['cancel', 'update'])
 
 // Copy dữ liệu để chỉnh sửa
 const form = ref({
-  diaChi: props.user.diaChi || '',
-  hoLot: props.user.hoLot || '',
-  ten: props.user.ten || '',
-  hoTen: props.user.hoTen || '',
+  diaChi: props.user?.DIACHI || '',
+  hoLot: props.user?.HO_LOT || '',
+  ten: props.user?.TEN || '',
+  hoTen: props.user?.HOTENNV || '',
 })
 
 // Lưu thay đổi
 const saveChanges = async () => {
-  try {
-    let updateData
+  console.log("🔍 userId trong saveChanges:", props.userId);
+  
+  if (!props.userId) {
+    alert("Lỗi: Không tìm thấy userId!");
+    return;
+  }
 
-    if (props.role === 'docgia') {
+  try {
+    let updateData;
+
+    if (props.role === "docgia") {
       updateData = {
         HO_LOT: form.value.hoLot,
         TEN: form.value.ten,
         DIACHI: form.value.diaChi,
-      }
+      };
     } else {
       updateData = {
         HOTENNV: form.value.hoTen,
         DIACHI: form.value.diaChi,
-      }
+      };
     }
 
-    await updateUserInfo(props.role, updateData)
-    alert('Cập nhật thành công!')
-    emit('update') // Yêu cầu cập nhật lại dữ liệu từ API
-    emit('cancel') // Thoát chế độ chỉnh sửa
+    console.log("Gửi yêu cầu cập nhật:", updateData);
+    await updateUserInfo(props.role, props.userId, updateData);
+    
+    alert("Cập nhật thành công!");
+    emit("update");
+    emit("cancel");
   } catch (error) {
-    alert('Có lỗi xảy ra!')
+    alert("Có lỗi xảy ra!");
+    console.error(error);
   }
-}
+};
 </script>
+
+

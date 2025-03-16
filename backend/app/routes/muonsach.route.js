@@ -3,13 +3,10 @@ const router = express.Router();
 const muonSachController = require("../controllers/muonsach.controller");
 const { requireNhanVien } = require("../middlewares/auth.middleware");
 
-// Độc giả đăng ký mượn sách
-router.post("/muon", muonSachController.dangKyMuonSach);
+router.post("/dangky", muonSachController.dangKyMuonSach);
 
-// Nhân viên duyệt mượn sách
-router.put("/duyet/:id", requireNhanVien, muonSachController.duyetMuonSach);
+router.put("/duyet/:id", muonSachController.duyetMuonSach);
 
-// Nhân viên xác nhận trả sách
-router.put("/tra/:id", requireNhanVien, muonSachController.xacNhanTraSach);
+router.put("/tra/:id", muonSachController.xacNhanTraSach);
 
 module.exports = router;

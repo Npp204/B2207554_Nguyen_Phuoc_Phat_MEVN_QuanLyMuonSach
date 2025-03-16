@@ -82,7 +82,7 @@ button:focus {
         <button @click="toggleEdit">Chỉnh sửa</button>
       </div>
 
-      <AccountForm v-else :user="userInfo" :role="userRole" @cancel="toggleEdit" @update="fetchUser" />
+      <AccountForm v-if="isEditing" :user="userInfo" :role="userRole" :userId="userInfo._id" @update="fetchUser" @cancel="isEditing = false" />
     </div>
 
     <p v-else>Đang tải thông tin...</p>
@@ -116,16 +116,16 @@ const fetchUser = async () => {
     console.log("Dữ liệu trả về từ API:", userData);
 
     userInfo.value = {
-      sdt: userData.SODIENTHOAI || 'Không có số điện thoại',
-      diaChi: userData.DIACHI || 'Chưa cập nhật',
-      role: userRole,
-      hoTen:
-        userRole === 'docgia'
-          ? `${userData.HO_LOT || ''} ${userData.TEN || ''}`
-          : userData.HOTENNV || '',
-      hoLot: userData.HO_LOT || '',
-      ten: userData.TEN || '',
-    }
+      _id: userData._id,  // Thêm _id vào userInfo để truyền vào form
+      sdt: userData.SODIENTHOAI || "Không có số điện thoại",
+      diaChi: userData.DIACHI || "Chưa cập nhật",
+      role: userRole.value,
+      hoTen: userRole.value === "docgia"
+        ? `${userData.HO_LOT || ""} ${userData.TEN || ""}`
+        : userData.HOTENNV || "",
+      hoLot: userData.HO_LOT || "",
+      ten: userData.TEN || "",
+    };
   } catch (error) {
     console.error('Lỗi khi lấy thông tin tài khoản:', error)
   }

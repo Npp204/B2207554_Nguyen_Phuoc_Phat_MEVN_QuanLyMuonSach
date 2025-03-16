@@ -8,6 +8,7 @@ import RegisterView from '@/views/RegisterView.vue';
 import NotFound from '@/views/NotFound.vue';
 import SachManager from '@/views/SachManager.vue';
 import AccountView from '../views/AccountView.vue';
+import MuonSachView from '../views/MuonSachView.vue';
 
 const routes = [
   { path: '/', component: HomeView },
@@ -16,7 +17,8 @@ const routes = [
   { path: '/register', component: RegisterView },
   { path: '/:pathMatch(.*)*', component: NotFound }, 
   { path: '/quan-ly-sach', component: SachManager },
-  { path: '/tai-khoan', component: AccountView }
+  { path: '/tai-khoan', component: AccountView },
+  { path: '/muon-sach', component: MuonSachView }
 ];
 
 const router = createRouter({

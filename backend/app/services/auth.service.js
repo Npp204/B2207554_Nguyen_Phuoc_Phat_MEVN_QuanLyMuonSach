@@ -66,7 +66,7 @@ const registerDocGia = async (sdt, password, confirmPassword) => {
         throw new ApiError(400, "Số điện thoại đã được đăng ký");
     }
 
-    // Đếm số lượng độc giả hiện có
+    //Đếm số lượng độc giả hiện có
     const count = await DocGia.countDocuments();
     const maDocGia = `DG${String(count + 1).padStart(3, "0")}`; // DG001, DG002, ...
 
@@ -80,7 +80,41 @@ const registerDocGia = async (sdt, password, confirmPassword) => {
 
     await newDocGia.save();
 
+    // await DocGia.create({
+    //     TEN: "Chưa cập nhật",
+    //     SODIENTHOAI: sdt,
+    //     PASSWORD: password
+    // });
+
     return { message: "Đăng ký thành công", user: newDocGia };
 };
 
-module.exports = { loginNhanVien, loginDocGia, registerDocGia };
+const registerNhanVien = async (sdt, password, confirmPassword) => {
+    if (!sdt || !password || !confirmPassword) {
+        throw new ApiError(400, "Số điện thoại, mật khẩu và xác nhận mật khẩu là bắt buộc");
+    }
+
+    if (!isValidPhoneNumber(sdt)) {
+        throw new ApiError(400, "Số điện thoại không hợp lệ");
+    }
+
+    if (password !== confirmPassword) {
+        throw new ApiError(400, "Mật khẩu xác nhận không khớp");
+    }
+
+    const existingNhanVien = await NhanVien.findOne({ SODIENTHOAI: sdt });
+
+    if (existingNhanVien) {
+        throw new ApiError(400, "Số điện thoại đã được đăng ký");
+    }
+
+    await NhanVien.create({
+        TEN: "Chưa cập nhật",
+        SODIENTHOAI: sdt,
+        PASSWORD: password
+    });
+
+    return { message: "Đăng ký thành công", user: newNhanVien };
+}
+
+module.exports = { loginNhanVien, loginDocGia, registerDocGia, registerNhanVien };

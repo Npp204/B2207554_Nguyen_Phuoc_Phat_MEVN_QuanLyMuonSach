@@ -7,6 +7,7 @@ const nhanVienRouter = require('./app/routes/nhanvien.route');
 const nhaxuatbanRoutes = require("./app/routes/nhaxuatban.route");
 const theodoimuonsachRouter = require("./app/routes/theodoimuonsach.route");
 const authRoutes = require("./app/routes/auth.route");
+const muonSachRoutes = require("./app/routes/muonsach.route");
 const path = require("path");
 
 const { errorHandler, notFoundHandler } = require("./app/middlewares/error.middleware"); 
@@ -26,6 +27,7 @@ app.use('/api/nhanvien', nhanVienRouter);
 app.use("/api/nhaxuatban", nhaxuatbanRoutes);
 app.use("/api/theodoimuonsach", theodoimuonsachRouter);
 app.use("/api/auth", authRoutes);
+app.use("/api/muonsach", muonSachRoutes);
 
 // Cấu hình cho phép truy cập ảnh trong thư mục 'uploads'
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
