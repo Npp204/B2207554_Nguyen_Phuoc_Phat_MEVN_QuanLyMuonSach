@@ -78,6 +78,9 @@ button:focus {
       <div v-if="!isEditing">
         <p><strong>Số điện thoại:</strong> {{ userInfo.sdt }}</p>
         <p><strong>Họ và Tên:</strong> {{ userInfo.hoTen }}</p>
+        <p v-if="userRole === 'docgia'"><strong>Giới tính:</strong> {{ userInfo.gioiTinh }}</p>
+        <p v-if="userRole === 'docgia'"><strong>Ngày sinh:</strong> {{ userInfo.ngaySinh }}</p>
+        <p><strong>Quyền hạn:</strong> {{ userInfo.chucVu }}</p>
         <p><strong>Địa chỉ:</strong> {{ userInfo.diaChi }}</p>
         <button @click="toggleEdit">Chỉnh sửa</button>
       </div>
@@ -113,18 +116,19 @@ const fetchUser = async () => {
   try {
     const userData = await getUserInfo(userID.value, userRole.value);
 
-    console.log("Dữ liệu trả về từ API:", userData);
+    //console.log("Dữ liệu trả về từ API:", userData);
 
     userInfo.value = {
       _id: userData._id,  // Thêm _id vào userInfo để truyền vào form
       sdt: userData.SODIENTHOAI || "Không có số điện thoại",
       diaChi: userData.DIACHI || "Chưa cập nhật",
       role: userRole.value,
-      hoTen: userRole.value === "docgia"
-        ? `${userData.HO_LOT || ""} ${userData.TEN || ""}`
-        : userData.HOTENNV || "",
-      hoLot: userData.HO_LOT || "",
+      hoTen: userRole.value === "docgia" ? `${userData.HOLOT || ""} ${userData.TEN || ""}` : userData.HOTENNV || "",
+      hoLot: userData.HOLOT || "",
       ten: userData.TEN || "",
+      gioiTinh: userData.PHAI || "",
+      chucVu: userRole.value === "docgia" ? "Độc giả" : userData.CHUCVU === "QuanLyThuVien" ? "Quản lý thư viện" : "Nhân viên",
+      ngaySinh: userRole.value === "docgia" && userData?.NGAYSINH ? userData.NGAYSINH.split('T')[0] : "",
     };
   } catch (error) {
     console.error('Lỗi khi lấy thông tin tài khoản:', error)

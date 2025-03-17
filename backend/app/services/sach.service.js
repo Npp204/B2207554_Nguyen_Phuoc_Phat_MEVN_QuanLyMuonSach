@@ -7,6 +7,7 @@ const ApiError = require("../api-error");
 // Lấy tất cả sách
 const getAllSach = async () => {
   const sachs = await Sach.find().populate("MANXB");
+  //console.log("Dữ liệu sách từ MongoDB:", sachs);
   if (!sachs || sachs.length === 0) {
     throw new ApiError(404, "Không tìm thấy sách nào");
   }

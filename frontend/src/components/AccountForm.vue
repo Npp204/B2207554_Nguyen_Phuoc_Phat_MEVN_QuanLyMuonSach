@@ -77,8 +77,20 @@ input:focus {
     justify-content: space-between;
     margin-top: 15px;
 }
-</style>
 
+.radio-group {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
+.radio-group label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+</style>
 
 <template>
   <form @submit.prevent="saveChanges">
@@ -91,6 +103,15 @@ input:focus {
 
       <label>Tên:</label>
       <input v-model="form.ten" type="text" required />
+
+      <label>Ngày Sinh:</label>
+      <input v-model="form.ngaySinh" type="date" required />
+
+      <label>Giới tính:</label>
+      <div class="radio-group">
+        <label><input type="radio" value="Nam" v-model="form.gioiTinh" required /> Nam</label>
+        <label><input type="radio" value="Nữ" v-model="form.gioiTinh" required /> Nữ</label>
+      </div>
     </div>
 
     <div v-else>
@@ -106,28 +127,39 @@ input:focus {
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { updateUserInfo } from '@/services/accService'
 
 const props = defineProps({
   user: Object,
   role: String,
-  userId: String // Nhận ID từ cha
+  userId: String
 })
+
 const emit = defineEmits(['cancel', 'update'])
 
-// Copy dữ liệu để chỉnh sửa
+// Tạo form rỗng
 const form = ref({
-  diaChi: props.user?.DIACHI || '',
-  hoLot: props.user?.HO_LOT || '',
-  ten: props.user?.TEN || '',
-  hoTen: props.user?.HOTENNV || '',
-})
+  diaChi: props.user?.diaChi || '',
+  hoLot: props.user?.hoLot || '',
+  ten: props.user?.ten || '',
+  hoTen: props.user?.hoTen || '',
+  gioiTinh: props.user?.gioiTinh || 'Nam',
+  ngaySinh: props.user?.ngaySinh ? props.user.ngaySinh.split('T')[0] : '' 
+});
 
-// Lưu thay đổi
+watch(() => props.user, (newUser) => {
+  if (newUser) {
+    form.value.diaChi = newUser.diaChi || '';
+    form.value.hoLot = newUser.hoLot || '';
+    form.value.ten = newUser.ten || '';
+    form.value.hoTen = newUser.hoTen || '';
+    form.value.ngaySinh = newUser.ngaySinh ? newUser.ngaySinh.split('T')[0] : '';
+    form.value.gioiTinh = newUser.gioiTinh || 'Nam';
+  }
+}, { immediate: true })
+
 const saveChanges = async () => {
-  console.log("🔍 userId trong saveChanges:", props.userId);
-  
   if (!props.userId) {
     alert("Lỗi: Không tìm thấy userId!");
     return;
@@ -135,21 +167,21 @@ const saveChanges = async () => {
 
   try {
     let updateData;
-
     if (props.role === "docgia") {
       updateData = {
-        HO_LOT: form.value.hoLot,
+        HOLOT: form.value.hoLot,
         TEN: form.value.ten,
         DIACHI: form.value.diaChi,
+        NGAYSINH: form.value.ngaySinh,
+        PHAI: form.value.gioiTinh
       };
     } else {
       updateData = {
         HOTENNV: form.value.hoTen,
-        DIACHI: form.value.diaChi,
+        DIACHI: form.value.diaChi
       };
     }
 
-    console.log("Gửi yêu cầu cập nhật:", updateData);
     await updateUserInfo(props.role, props.userId, updateData);
     
     alert("Cập nhật thành công!");
@@ -161,5 +193,4 @@ const saveChanges = async () => {
   }
 };
 </script>
-
 

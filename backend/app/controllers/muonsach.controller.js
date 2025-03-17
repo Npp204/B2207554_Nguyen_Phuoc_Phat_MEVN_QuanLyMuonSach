@@ -5,8 +5,8 @@ const ApiError = require("../api-error");
 exports.dangKyMuonSach = async (req, res, next) => {
     try {
         const { docGiaId, sach , ngayMuon } = req.body;
-        console.log("Dữ liệu nhận được:", req.body);
-        console.log("Dữ liệu nhận được:", docGiaId, sach, ngayMuon);
+        //console.log("Dữ liệu nhận được:", req.body);
+        //console.log("Dữ liệu nhận được:", docGiaId, sach, ngayMuon);
         const result = await muonSachService.dangKyMuonSach(docGiaId, sach, ngayMuon);
         return res.status(201).json(result);
     } catch (error) {

@@ -40,6 +40,7 @@ export default {
         });
 
         // Lấy thông tin từ API
+        const token = response.data?.token || response.data?.user?.token;
         const chucVu = response.data?.CHUCVU || response.data?.user?.CHUCVU;
         const id = response.data?._id || response.data?.user?._id; 
 
@@ -52,12 +53,22 @@ export default {
         }
 
         // Lưu thông tin vào Vuex store
-        store.dispatch('login', { id, role });
+        store.dispatch('login', { id, role, token });
 
         alert('Đăng nhập nhân viên thành công');
         this.$router.push('/'); // Chuyển hướng về trang chủ
       } catch (error) {
-        alert(error.response?.data?.message || 'Đăng nhập thất bại');
+        if (error.response) {
+          if (error.response.status === 404 || error.response.status === 500) {
+            alert('Số điện thoại chưa được đăng ký!');
+          } else if (error.response.status === 401) {
+            alert('Mật khẩu không đúng!');
+          } else {
+            alert('Lỗi hệ thống, vui lòng thử lại!');
+          }
+        } else {
+          alert('Không thể kết nối đến máy chủ!');
+        }
       }
     }
   }

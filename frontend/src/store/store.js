@@ -2,11 +2,11 @@ import { createStore } from 'vuex';
 
 export default createStore({
   state: {
-    user: JSON.parse(localStorage.getItem('user')) || { _id: '', role: '' }, 
+    user: JSON.parse(localStorage.getItem('user')) || { _id: '', role: '', token: '' }, 
   },
   mutations: {
     setUser(state, user) {
-      console.log("Cập nhật Vuex user:", user);
+      //console.log("Cập nhật Vuex user:", user);
       state.user = { ...user };
       localStorage.setItem('user', JSON.stringify(user)); 
     },
@@ -16,7 +16,7 @@ export default createStore({
       commit('setUser', user); 
     },
     logout({ commit }) {
-      commit('setUser', { _id: '', role: '' });
+      commit('setUser', { _id: '', role: '', token: ''  });
       localStorage.removeItem('user');
     },
   },
@@ -24,6 +24,7 @@ export default createStore({
     getUser: (state) => state.user,
     getUserRole: (state) => state.user.role || '',
     getUserSdt: (state) => state.user._id || '',
+    getToken: (state) => state.user.token || '',
   },
 });
 

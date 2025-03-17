@@ -22,7 +22,7 @@ export const borrowBooks = async (docGiaId, borrowList, ngayMuon, ngayTra) => {
     ngayMuon,
     };
 
-  console.log("Dữ liệu gửi lên API:", requestData);
+  //console.log("Dữ liệu gửi lên API:", requestData);
   await axios.post("http://localhost:3000/api/muonsach/dangky", requestData);
 };
 
