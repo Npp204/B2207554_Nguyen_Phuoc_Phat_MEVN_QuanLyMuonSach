@@ -40,16 +40,17 @@ button {
 }
 </style>
 
-
 <template>
     <div>
+
         <h2>Quản Lý Sách</h2>
 
         <InputSearch v-model="search" />
-        
+
         <button @click="openBookForm(null)" class="btn btn-primary">Thêm Sách</button>
 
         <button @click="showNxbForm = true" class="btn btn-success ml-2">Thêm Nhà Xuất Bản</button>
+
 
         <SachForm
             v-if="showBookForm"
@@ -59,11 +60,10 @@ button {
             @cancel="closeBookForm"
         />
 
-        <!-- Form Thêm Nhà Xuất Bản -->
         <NxbForm v-if="showNxbForm" @submit="saveNxb" @cancel="showNxbForm = false" />
 
-        <!-- Danh sách sách -->
         <SachList :books="filteredBooks" :nxbs="nxbs" @edit="openBookForm" @delete="deleteBook" />
+
     </div>
 </template>
 
@@ -90,32 +90,22 @@ export default {
     computed: {
         filteredBooks() {
             return this.books.filter(book => {
-                //console.log("Book MANXB:", book.MANXB);  
-
                 const tenSach = book.TENSACH ? book.TENSACH.toLowerCase() : ""; 
                 const maSach = book.MASACH ? book.MASACH.toLowerCase() : "";
                 const keyword = this.search.toLowerCase().trim();
 
-                // Nếu MANXB là một object, trích xuất _id hoặc MANXB
                 const manxbValue = book.MANXB?._id || book.MANXB?.MANXB || "";
-
-                //console.log("Extracted MANXB:", manxbValue);
-
-                // Tìm NXB trong danh sách nxbs
                 const nxb = this.nxbs.find(n => String(n._id) === String(manxbValue));
                 const tenNXB = nxb ? nxb.TENNXB.toLowerCase() : "";
 
-                //console.log("Tìm thấy NXB:", tenNXB || "Không tìm thấy");
-
                 return tenSach.includes(keyword) || maSach.includes(keyword) || tenNXB.includes(keyword);
             });
-        }
+        },
     },
     methods: {
         async loadBooks() {
             try {
                 this.books = await fetchBooks();
-
             } catch (error) {
                 console.error("Lỗi khi tải sách:", error);
             }
@@ -123,25 +113,17 @@ export default {
         async loadNXBs() {
             try {
                 this.nxbs = await fetchNXB();
-                //console.log("Danh sách nhà xuất bản:", JSON.stringify(this.nxbs, null, 2));
             } catch (error) {
                 console.error("Lỗi khi tải nhà xuất bản:", error);
             }
         },
         getNXBName(manxb) {
-            //console.log("MANXB từ sách:", manxb);
-            //console.log("Danh sách NXB:", this.nxbs);
-
             if (!manxb) return "Chưa có NXB";
-
-            const nxb = this.nxbs.find(n => {
-                return n.MANXB === manxb || n._id === manxb || String(n._id) === String(manxb);
-            });
-
+            const nxb = this.nxbs.find(n => n.MANXB === manxb || n._id === manxb || String(n._id) === String(manxb));
             return nxb ? nxb.TENNXB : "Không tìm thấy";
         },
         async openBookForm(book) {
-            await this.loadNXBs();  
+            await this.loadNXBs();
             this.selectedBook = book ? { ...book } : null;
             this.showBookForm = true;
         },
@@ -151,17 +133,21 @@ export default {
         },
         async saveBook(book) {
             try {
+                if (this.saving) return; 
+                this.saving = true; 
+                //console.log("Gọi saveBook:", book);
                 if (book._id) {
-                    await updateBook(book);
+                    await updateBook(book); 
                     alert("Cập nhật sách thành công!");
                 } else {
-                    await createBook(book);
+                    await createBook(book); 
                     alert("Thêm sách mới thành công!");
                 }
                 this.closeBookForm();
                 this.loadBooks();
             } catch (error) {
-                console.error("Lỗi:", error);
+                console.error("Lỗi chi tiết:", error.response ? error.response.data : error.message);
+                alert("Có lỗi xảy ra khi lưu sách: " + (error.response?.data?.message || error.message));
             }
         },
         async saveNxb(nxb) {
@@ -179,15 +165,15 @@ export default {
                 await deleteBook(id);
                 this.books = this.books.filter(book => book.MASACH !== id);
                 alert("Xóa sách thành công!");
-                this.loadBooks(); 
+                this.loadBooks();
             } catch (error) {
                 console.error("Lỗi khi xóa sách:", error);
             }
-        }
+        },
     },
     created() {
         this.loadBooks();
         this.loadNXBs();
-    }
+    },
 };
 </script>

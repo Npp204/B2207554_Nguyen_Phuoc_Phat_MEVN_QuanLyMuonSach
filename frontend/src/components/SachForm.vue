@@ -65,7 +65,6 @@ input:focus, select:focus {
 }
 </style>
 
-
 <template>
     <form @submit.prevent="submitForm">
         <div class="form-group">
@@ -87,7 +86,7 @@ input:focus, select:focus {
         </div>
         <div class="form-group">
             <label for="soLuong">Số lượng quyển</label>
-            <input type="number" class="form-control" v-model.number="bookLocal.SOQUYEN" min="1" required/>
+            <input type="number" class="form-control" v-model.number="bookLocal.SOQUYEN" min="1" required />
         </div>
         <div class="form-group">
             <label for="DONGIA">Đơn giá</label>
@@ -101,7 +100,11 @@ input:focus, select:focus {
             <label for="NGUONGOC_TACGIA">Tác giả</label>
             <input type="text" v-model="bookLocal.NGUONGOC_TACGIA" class="form-control" id="NGUONGOC_TACGIA" required />
         </div>
-        <button type="submit" class="btn btn-success">Lưu</button>
+        <div class="form-group">
+            <label for="HINHANH">Ảnh sách:</label>
+            <input type="file" id="HINHANH" @change="onFileChange" />
+        </div>
+        <button class="btn btn-success">Lưu</button>
         <button type="button" class="btn btn-secondary ml-2" @click="$emit('cancel')">Hủy</button>
     </form>
 </template>
@@ -111,7 +114,16 @@ export default {
     props: {
         book: { 
             type: Object, 
-            default: () => ({ MASACH: "", TENSACH: "", MANXB: "", SOQUYEN: 1, DONGIA: 0, NAMXUATBAN: 2021, NGUONGOC_TACGIA: "" }) 
+            default: () => ({ 
+                MASACH: "", 
+                TENSACH: "", 
+                MANXB: "", 
+                SOQUYEN: 1, 
+                DONGIA: 0, 
+                NAMXUATBAN: 2010, 
+                NGUONGOC_TACGIA: "", 
+                HINHANH: null 
+            }) 
         },
         nxbList: { type: Array, required: true },
     },
@@ -124,20 +136,30 @@ export default {
         book: {
             deep: true,
             immediate: true,
-            handler(newVal) {
-                //console.log("Cập nhật bookLocal:", newVal);
-                this.bookLocal = { ...newVal };
+            handler(newVal, oldVal) {
+            if (!newVal || JSON.stringify(newVal) === JSON.stringify(oldVal)) {
+                return; 
             }
-        }
+            //console.log("Book đã thay đổi:", newVal);
+            this.bookLocal = { ...newVal };
+        },
+        },
     },
     methods: {
+        onFileChange(event) {
+            const file = event.target.files[0];
+            if (file) {
+                this.bookLocal.HINHANH = file; 
+            }
+        },
         submitForm() {
             if (!this.bookLocal.MANXB) {
                 alert("Vui lòng chọn Nhà Xuất Bản!");
                 return;
             }
-            //console.log("Dữ liệu gửi đi:", this.bookLocal);
-            this.$emit("submit", this.bookLocal);
+            const bookData = { ...this.bookLocal }; 
+            //console.log("Dữ liệu gửi đi:", bookData); 
+            this.$emit("submit", bookData);
         },
     },
 };

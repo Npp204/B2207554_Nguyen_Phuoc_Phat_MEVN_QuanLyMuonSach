@@ -25,7 +25,7 @@ const getSachById = async (id) => {
 
 // Tạo sách mới
 const createSach = async (data) => {
-  console.log("Dữ liệu nhận từ client:", data);
+  //console.log("Dữ liệu nhận từ client:", data);
 
   if (!data || !data.TENSACH) {
     throw new ApiError(400, "Dữ liệu không hợp lệ");
@@ -50,7 +50,6 @@ const createSach = async (data) => {
   } catch (error) {
     console.error("Lỗi khi tạo sách:", error);
 
-    // Nếu có file ảnh mà lỗi xảy ra, xóa ảnh để tránh rác
     if (data.HINHANH) {
       fs.unlink(data.HINHANH, (err) => {
         if (err) console.error("Lỗi khi xóa ảnh:", err);

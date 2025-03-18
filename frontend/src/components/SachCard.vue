@@ -45,7 +45,7 @@
 
 <template>
   <div class="sach-card">
-    <img :src= "`http://localhost:3000${sach.HINHANH}`" alt="Hình ảnh sách" class="img-fluid rounded">
+    <img :src= "`http://localhost:3000${sach.HINHANH}`" style="max-width: 200px; max-height: 250;" alt="Hình ảnh sách" class="img-fluid rounded">
 
     <div class="sach-info">
       <h2 class="sach-title">{{ sach.TENSACH }}</h2>

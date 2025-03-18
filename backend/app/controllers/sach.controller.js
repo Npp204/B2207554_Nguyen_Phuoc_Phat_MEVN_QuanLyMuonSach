@@ -22,11 +22,11 @@ exports.getSachById = async (req, res, next) => {
 exports.createSach = async (req, res, next) => {
   try {
     let sachData = req.body;
-    console.log("Dữ liệu nhận từ client:", sachData);
+  
     if (req.file) {
       sachData.HINHANH = `/uploads/sach/${req.file.filename}`;
     }
-
+    //console.log("Dữ liệu nhận từ client(controller):", sachData, "File:", req.file);
     const newSach = await sachService.createSach(sachData);
     res.status(201).json(newSach);
   } catch (error) {

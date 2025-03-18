@@ -14,28 +14,71 @@ export const fetchBooks = async () => {
 };
 
 export async function createBook(book) {
-    const response = await axios.post(API_URL, book);
-    return response.data;
+    const formData = new FormData();
+    
+    formData.append("MASACH", book.MASACH);
+    formData.append("TENSACH", book.TENSACH);
+    formData.append("MANXB", book.MANXB);
+    formData.append("SOQUYEN", book.SOQUYEN);
+    formData.append("DONGIA", book.DONGIA);
+    formData.append("NAMXUATBAN", book.NAMXUATBAN);
+    formData.append("NGUONGOC_TACGIA", book.NGUONGOC_TACGIA);
+    if (book.HINHANH) {
+        formData.append("HINHANH", book.HINHANH); 
+    }
+
+    try {
+        //console.log("Dữ liệu gửi lên server:", formData);
+        const response = await axios.post(API_URL, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        });
+        //console.log("Dữ liệu từ API", response.data);
+        return response.data;
+    } catch (error) {
+        console.error("Lỗi khi thêm sách:", error.response?.data || error.message);
+        throw error;
+    }
 }
 
 export async function updateBook(book) {
-    await axios.put(`${API_URL}/${book._id}`, book);
+    const formData = new FormData();
+    formData.append("MASACH", book.MASACH);
+    formData.append("TENSACH", book.TENSACH);
+    formData.append("MANXB", book.MANXB);
+    formData.append("SOQUYEN", book.SOQUYEN);
+    formData.append("DONGIA", book.DONGIA);
+    formData.append("NAMXUATBAN", book.NAMXUATBAN);
+    formData.append("NGUONGOC_TACGIA", book.NGUONGOC_TACGIA);
+    if (book.HINHANH) {
+        formData.append("HINHANH", book.HINHANH); 
+    }
+
+    try {
+        const response = await axios.put(`${API_URL}/${book._id}`, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Lỗi khi cập nhật sách:", error.response?.data || error.message);
+        throw error;
+    }
 }
 
 export async function deleteBook(bookId) {
     try {
-        // Kiểm tra ID có hợp lệ không
         if (!bookId || typeof bookId !== "string") {
             throw new Error("ID sách không hợp lệ");
         }
 
-        // Kiểm tra sách có tồn tại trước khi xóa
         const exists = await checkBookExists(bookId);
         if (!exists) {
             throw new Error("Sách không tồn tại hoặc đã bị xóa trước đó");
         }
 
-        // Nếu sách tồn tại, tiến hành xóa
         await axios.delete(`${API_URL}/${bookId}`);
         console.log("Xóa sách thành công!");
     } catch (error) {
@@ -44,12 +87,11 @@ export async function deleteBook(bookId) {
     }
 }
 
-
 async function checkBookExists(id) {
     try {
-        const response = await axios.get(`http://localhost:3000/api/sach/${id}`);
-        return response.data !== null; // Trả về true nếu sách tồn tại
+        const response = await axios.get(`${API_URL}/${id}`);
+        return response.data !== null;
     } catch (error) {
-        return false; // Nếu lỗi, có thể do sách không tồn tại
+        return false;
     }
 }
