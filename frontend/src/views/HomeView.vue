@@ -1,97 +1,150 @@
 <style scoped>
-.card {
-  max-width: 500px;
-  margin: auto;
-  border-radius: 15px;
-}
+  .card {
+    max-width: 500px;
+    margin: auto;
+    border-radius: 15px;
+  }
 
-.sach-list {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr); 
-  gap: 20px;
-  margin-top: 20px;
-  justify-content: center;
-}
+  .sach-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-top: 20px;
+    justify-content: center;
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+
+  .pagination button {
+    padding: 8px 12px;
+    margin: 5px;
+    border: none;
+    background: #2196f3;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+
+  .pagination button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+  }
+
+  .pagination span {
+    margin: 15px;
+  }
 </style>
 
 <template>
-    <div class="container text-center mt-5">
-        <InputSearch v-model="search" />
-        <h2 class="text-primary">Danh sách sách</h2>
-        <div class="sach-list" >
-            <SachCard v-for="sach in filteredBooks" :key="sach.MASACH" :sach="sach" :nxbs="nxbs"/>
-        </div>
+  <div class="container text-center mt-5">
+    <InputSearch v-model="search" />
+    <h2 class="text-primary">Xin Chào!</h2>
+
+    <div class="sach-list">
+      <SachCard
+        v-for="sach in paginatedBooks"
+        :key="sach.MASACH"
+        :sach="sach"
+        :nxbs="nxbs"
+      />
     </div>
+
+    <div class="pagination">
+      <button @click="prevPage" :disabled="currentPage === 1">
+        Trang trước
+      </button>
+      <span>Trang {{ currentPage }} / {{ totalPages }}</span>
+      <button @click="nextPage" :disabled="currentPage >= totalPages">
+        Trang sau
+      </button>
+    </div>
+  </div>
 </template>
 
 <script>
-import SachCard from "@/components/SachCard.vue";
-import InputSearch from "@/components/InputSearch.vue";
-import { fetchBooks } from "@/services/sachService";
-import { fetchNXB } from "@/services/nxbService";
+  import SachCard from '@/components/SachCard.vue'
+  import InputSearch from '@/components/InputSearch.vue'
+  import { fetchBooks } from '@/services/sachService'
+  import { fetchNXB } from '@/services/nxbService'
 
-export default {
+  export default {
     components: {
-        SachCard,
-        InputSearch,
+      SachCard,
+      InputSearch
     },
     data() {
-        return {
-            sachList: [],
-            search: "",
-            nxbs: [],
-        };
+      return {
+        sachList: [],
+        search: '',
+        nxbs: [],
+        currentPage: 1,
+        pageSize: 8
+      }
     },
     mounted() {
-       this.loadBooks();
-       this.loadNXBs();
+      this.loadBooks()
+      this.loadNXBs()
     },
     computed: {
-        filteredBooks() {
-            return this.sachList.filter(book => {
-                //console.log("Book MANXB:", book.MANXB);  
+      filteredBooks() {
+        return this.sachList.filter(book => {
+          const keyword = this.search.toLowerCase().trim()
+          const manxbValue = book.MANXB?._id || book.MANXB?.MANXB || ''
 
-                const tenSach = book.TENSACH ? book.TENSACH.toLowerCase() : ""; 
-                const maSach = book.MASACH ? book.MASACH.toLowerCase() : "";
-                const tacGia = book.NGUONGOC_TACGIA ? book.NGUONGOC_TACGIA.toLowerCase() : "";
-                const namNB = book.NAMXUATBAN ? String(book.NAMXUATBAN) : "";
-                const keyword = this.search.toLowerCase().trim();
+          // Tìm NXB trong danh sách nxbs
+          const nxb = this.nxbs.find(n => String(n._id) === String(manxbValue))
+          const tenNXB = nxb ? nxb.TENNXB.toLowerCase() : ''
+          return (
+            book.TENSACH?.toLowerCase().includes(keyword) ||
+            book.MASACH?.toLowerCase().includes(keyword) ||
+            book.NGUONGOC_TACGIA?.toLowerCase().includes(keyword) ||
+            (String(book.NAMXUATBAN) || '').toLowerCase().includes(keyword) ||
+            tenNXB.includes(keyword)
+          )
+        })
+      },
 
-                // Nếu MANXB là một object, trích xuất _id hoặc MANXB
-                const manxbValue = book.MANXB?._id || book.MANXB?.MANXB || "";
+      totalPages() {
+        return Math.ceil(this.filteredBooks.length / this.pageSize)
+      },
 
-                //console.log("Extracted MANXB:", manxbValue);
-
-                // Tìm NXB trong danh sách nxbs
-                const nxb = this.nxbs.find(n => String(n._id) === String(manxbValue));
-                const tenNXB = nxb ? nxb.TENNXB.toLowerCase() : "";
-
-                //console.log("Tìm thấy NXB:", tenNXB || "Không tìm thấy");
-
-                return tenSach.includes(keyword) 
-                      || maSach.includes(keyword) 
-                      || tenNXB.includes(keyword) 
-                      || tacGia.includes(keyword)
-                      || namNB.includes(keyword);
-            });
-        }
+      paginatedBooks() {
+        const start = (this.currentPage - 1) * this.pageSize
+        const end = start + this.pageSize
+        return this.filteredBooks.slice(start, end)
+      }
     },
     methods: {
-        async loadBooks() {
-            try {
-                this.sachList = await fetchBooks();
-            } catch (error) {
-                console.error("Lỗi khi tải sách:", error);
-            }
-        },
-        async loadNXBs() {
-            try {
-                this.nxbs = await fetchNXB();
-                //console.log("Danh sách nhà xuất bản:", JSON.stringify(this.nxbs, null, 2));
-            } catch (error) {
-                console.error("Lỗi khi tải nhà xuất bản:", error);
-            }
-        },
-    },
-};
+      async loadBooks() {
+        try {
+          this.sachList = await fetchBooks()
+        } catch (error) {
+          console.error('Lỗi khi tải sách:', error)
+        }
+      },
+      async loadNXBs() {
+        try {
+          this.nxbs = await fetchNXB()
+        } catch (error) {
+          console.error('Lỗi khi tải nhà xuất bản:', error)
+        }
+      },
+
+      prevPage() {
+        if (this.currentPage > 1) {
+          this.currentPage--
+        }
+      },
+
+      nextPage() {
+        if (this.currentPage < this.totalPages) {
+          this.currentPage++
+        }
+      }
+    }
+  }
 </script>

@@ -157,7 +157,7 @@ export default {
 
   computed: {
     docGiaId() {
-      return this.store.state.user.id; // Lấy id từ Vuex store
+      return this.store.state.user._id; // Lấy id từ Vuex store
     },
   },
 

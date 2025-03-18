@@ -16,7 +16,7 @@
 
 .sach-image {
   width: 100%;
-  height: 180px;
+  aspect-ratio: 4 / 5;
   object-fit: cover;
   border-radius: 8px;
 }
@@ -45,16 +45,16 @@
 
 <template>
   <div class="sach-card">
-    <img :src= "`http://localhost:3000${sach.HINHANH}`" style="max-width: 200px; max-height: 250;" alt="Hình ảnh sách" class="img-fluid rounded">
+    <img :src= "`http://localhost:3000${sach.HINHANH}`" alt="Hình ảnh sách" class="sach-image">
 
     <div class="sach-info">
       <h2 class="sach-title">{{ sach.TENSACH }}</h2>
-      <p class="sach-author">Tác giả: {{ sach.NGUONGOC_TACGIA || "Không rõ" }}</p>
-      <p class="sach-year">Năm Xuất Bản: {{ sach.NAMXUATBAN || "Không rõ" }}</p>
-      <p class="sach-publisher">{{ getNXBName(sach.MANXB) || "Không rõ" }}</p>
-      <p class="sach-price">Giá: {{ formatPrice(sach.DONGIA) }}</p>
+      <p class="sach-author"><strong>Tác giả:</strong> {{ sach.NGUONGOC_TACGIA || "Không rõ" }}</p>
+      <p class="sach-year"><strong>Năm Xuất Bản:</strong> {{ sach.NAMXUATBAN || "Không rõ" }}</p>
+      <p class="sach-publisher"><strong>{{ getNXBName(sach.MANXB) || "Không rõ" }}</strong></p>
+      <p class="sach-price"><strong>Giá:</strong> {{ formatPrice(sach.DONGIA) }}</p>
       <p class="sach-stock" :class="{ 'out-of-stock': sach.SOQUYEN === 0 }">
-        {{ sach.SOQUYEN > 0 ? `Số quyển: ${sach.SOQUYEN} quyển` : "Hết sách" }}
+        <strong v-if="sach.SOQUYEN > 0">Số quyển:</strong> {{ sach.SOQUYEN > 0 ? `${sach.SOQUYEN} quyển` : 'Hết sách' }}
       </p>
     </div>
   </div>

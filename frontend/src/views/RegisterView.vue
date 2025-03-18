@@ -1,7 +1,7 @@
 <template>
   <div class="container d-flex flex-column justify-content-center align-items-center vh-100">
     <div class="card p-4 shadow-sm w-100" style="max-width: 400px;">
-      <h2 class="text-center mb-3">Đăng ký</h2>
+      <h2 class="text-center mb-3 text-primary">Đăng ký</h2>
       <form @submit.prevent="handleRegister">
         <div class="mb-3">
           <input type="text" class="form-control" v-model="sdt" placeholder="Số điện thoại" required />

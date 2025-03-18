@@ -92,13 +92,17 @@ export default {
             return this.books.filter(book => {
                 const tenSach = book.TENSACH ? book.TENSACH.toLowerCase() : ""; 
                 const maSach = book.MASACH ? book.MASACH.toLowerCase() : "";
+                const tacGia = book.NGUONGOC_TACGIA ? book.NGUONGOC_TACGIA.trim().toLowerCase() : "";
                 const keyword = this.search.toLowerCase().trim();
 
                 const manxbValue = book.MANXB?._id || book.MANXB?.MANXB || "";
                 const nxb = this.nxbs.find(n => String(n._id) === String(manxbValue));
                 const tenNXB = nxb ? nxb.TENNXB.toLowerCase() : "";
 
-                return tenSach.includes(keyword) || maSach.includes(keyword) || tenNXB.includes(keyword);
+                return tenSach.includes(keyword) || 
+                        maSach.includes(keyword) || 
+                        tenNXB.includes(keyword) ||
+                        tacGia.includes(keyword);
             });
         },
     },

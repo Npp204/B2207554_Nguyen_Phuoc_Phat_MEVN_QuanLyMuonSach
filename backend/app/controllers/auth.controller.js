@@ -31,9 +31,11 @@ exports.registerDocGia = async (req, res, next) => {
 };
 
 exports.registerNhanVien = async (req, res, next) => {
-    try {
-        const { sdt, password, confirmPassword } = req.body;
-        const result = await authService.registerNhanVien(sdt, password, confirmPassword);
+    try {   
+        //console.log("Dữ liệu nhận được",req.body);
+        const { HOTENNV, SODIENTHOAI, PASSWORD, CHUCVU } = req.body;
+        //console.log(HOTENNV, SODIENTHOAI, PASSWORD, CHUCVU);
+        const result = await authService.registerNhanVien( HOTENNV, SODIENTHOAI, PASSWORD, CHUCVU);
         return res.status(201).json(result);
     } catch (error) {
         next(error);

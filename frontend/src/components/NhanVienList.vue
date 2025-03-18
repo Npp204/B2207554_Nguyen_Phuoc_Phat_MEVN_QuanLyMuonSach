@@ -1,37 +1,39 @@
 <style scoped>
-.borrow-list {
-  padding: 20px;
-}
+  .borrow-list {
+    padding: 20px;
+  }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
 
-th, td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
-}
+  th,
+  td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
 
-th {
-  background: #f4f4f4;
-}
+  th {
+    background: #f4f4f4;
+  }
 
-th:last-child, td:last-child {
-  width: 120px;
-  text-align: center;
-  padding: 5px;
-}
+  th:last-child,
+  td:last-child {
+    width: 120px;
+    text-align: center;
+    padding: 5px;
+  }
 
-.delete-btn {
+  .delete-btn {
     background: #f44336;
     color: white;
     border: none;
     padding: 5px 10px;
     cursor: pointer;
     border-radius: 5px;
-}
+  }
 </style>
 
 <template>
@@ -48,11 +50,18 @@ th:last-child, td:last-child {
       </thead>
       <tbody>
         <tr v-for="nhanvien in nhanViens" :key="nhanvien._id">
-          <td>{{ nhanvien.HOTENNV }} </td>
+          <td>{{ nhanvien.HOTENNV }}</td>
           <td>{{ nhanvien.SODIENTHOAI }}</td>
-          <td>{{ nhanvien.CHUCVU === "QuanLyThuVien" ? "Quản lý" : "Nhân viên" }}</td>
           <td>
-            <button class="delete-btn" @click="$emit('deleteNhanVien', nhanvien._id)">Xóa</button>
+            {{ nhanvien.CHUCVU === 'QuanLyThuVien' ? 'Quản lý' : 'Nhân viên' }}
+          </td>
+          <td>
+            <button
+              class="delete-btn"
+              @click="$emit('deleteNhanVien', nhanvien._id)"
+            >
+              Xóa
+            </button>
           </td>
         </tr>
       </tbody>
@@ -61,11 +70,9 @@ th:last-child, td:last-child {
 </template>
 
 <script>
-export default {
-  props: {
-    nhanViens: Array,
-  },
-};
+  export default {
+    props: {
+      nhanViens: Array
+    }
+  }
 </script>
-
-

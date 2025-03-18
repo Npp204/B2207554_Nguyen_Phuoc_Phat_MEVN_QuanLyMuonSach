@@ -38,10 +38,11 @@ export default {
           password: this.password 
         });
 
-        const token = response.data?.token || response.data?.user?.token;
+        const token = response.data?.token ?? response.data?.user?.token;
+        //console.log("Token:", token);
         const id = response.data?._id || response.data?.user?._id; 
 
-        this.$store.dispatch('login', { id, role: 'docgia', token });
+        this.$store.dispatch("login", { _id: id, role: "docgia", token: token });
 
         alert('Đăng nhập độc giả thành công');
         this.$router.push('/'); 

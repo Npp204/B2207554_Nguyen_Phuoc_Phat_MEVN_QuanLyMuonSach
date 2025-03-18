@@ -39,18 +39,17 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getUser"]), // Lấy MADOCGIA từ Vuex
+    ...mapGetters(["getUser"]), 
   },
   methods: {
     async getLichSuMuon() {
-      if (!this.getUser) return; // Kiểm tra nếu chưa có ID
-      console.log("Dữ liệu user trong Vuex:", this.$store.state.user);
-      console.log("Số điện thoại từ Vuex (MADOCGIA):", this.getUser);
+      if (!this.getUser) return; 
+      //console.log("Dữ liệu user trong Vuex:", this.$store.state.user);
+      //console.log("Số điện thoại từ Vuex (MADOCGIA):", this.getUser);
       try {
         const res = await axios.get("http://localhost:3000/api/theodoimuonsach"); 
-        console.log("Dữ liệu API trả về:", res.data);
-
-        this.lichSuMuon = res.data.filter(m => String(m.MADOCGIA?._id) === String(this.getUser.id)); // Lọc theo ID độc giả
+        //console.log("Dữ liệu API trả về:", res.data);
+        this.lichSuMuon = res.data.filter(m => String(m.MADOCGIA?._id) === String(this.getUser._id)); // Lọc theo ID độc giả
       } catch (error) {
         console.error("Lỗi khi lấy lịch sử mượn sách:", error);
       }

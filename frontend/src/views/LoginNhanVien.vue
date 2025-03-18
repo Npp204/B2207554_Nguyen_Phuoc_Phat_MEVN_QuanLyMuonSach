@@ -53,7 +53,7 @@ export default {
         }
 
         // Lưu thông tin vào Vuex store
-        store.dispatch('login', { id, role, token });
+        this.$store.dispatch("login", { _id: id, role: role, token: token });
 
         alert('Đăng nhập nhân viên thành công');
         this.$router.push('/'); // Chuyển hướng về trang chủ

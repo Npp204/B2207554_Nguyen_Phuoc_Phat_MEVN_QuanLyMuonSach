@@ -4,20 +4,37 @@ const NhanVien = require("../models/NhanVien");
 const config = require("../config");
 
 const verifyToken = (req, res, next) => {
-    const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-        return next(new ApiError(401, "Bạn chưa đăng nhập!"));
+  try {
+    const authHeader = req.headers.authorization
+
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return next(new ApiError(401, 'Bạn chưa đăng nhập!'))
     }
 
-    const token = authHeader.split(" ")[1];
-    try {
-        const decoded = jwt.verify(token, config.jwt.secret);
-        req.user = decoded;
-        next();
-    } catch (error) {
-        return next(new ApiError(403, "Token không hợp lệ!"));
+    const token = authHeader.split(' ')[1]
+
+    if (!token) {
+      return next(new ApiError(401, 'Token không hợp lệ!'))
     }
-};
+
+    // Giải mã token
+    jwt.verify(token, config.jwt.secret, (err, decoded) => {
+      if (err) {
+        if (err.name === 'TokenExpiredError') {
+          return next(new ApiError(401, 'Token đã hết hạn!'))
+        } else {
+          return next(new ApiError(403, 'Token không hợp lệ!'))
+        }
+      }
+
+      req.user = decoded // Lưu user vào request
+      next()
+    })
+  } catch (error) {
+    console.error('Lỗi xác thực token:', error)
+    return next(new ApiError(500, 'Lỗi xác thực token!'))
+  }
+}
 
 // Kiểm tra nếu user là "QuanLyThuVien"
 const isQuanLyThuVien = async (req, res, next) => {

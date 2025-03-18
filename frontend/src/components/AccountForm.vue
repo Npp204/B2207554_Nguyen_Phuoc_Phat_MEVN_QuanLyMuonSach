@@ -1,5 +1,5 @@
 <style scoped>
-form {
+  form {
     max-width: 450px;
     margin: 20px auto;
     padding: 25px;
@@ -7,36 +7,35 @@ form {
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     font-family: 'Arial', sans-serif;
-}
+  }
 
-.form-group {
+  .form-group {
     margin-bottom: 15px;
-}
+  }
 
-label {
+  label {
     font-weight: bold;
     display: block;
     margin-bottom: 6px;
     color: #333;
-}
+  }
 
-input {
+  input {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 6px;
     font-size: 15px;
     transition: all 0.3s ease-in-out;
-}
+  }
 
-input:focus {
+  input:focus {
     border-color: #007bff;
     outline: none;
     box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
-}
+  }
 
-/* Nút bấm */
-.btn {
+  .btn {
     padding: 10px 15px;
     border-radius: 6px;
     font-size: 15px;
@@ -46,50 +45,48 @@ input:focus {
     display: inline-block;
     text-align: center;
     border: none;
-}
+  }
 
-.btn-success {
+  .btn-success {
     background-color: #28a745;
     color: white;
-}
+  }
 
-.btn-success:hover {
+  .btn-success:hover {
     background-color: #218838;
-}
+  }
 
-.btn-secondary {
+  .btn-secondary {
     background-color: #6c757d;
     color: white;
-}
+  }
 
-.btn-secondary:hover {
+  .btn-secondary:hover {
     background-color: #5a6268;
-}
+  }
 
-/* Hiệu ứng nút khi click */
-.btn:active {
+  .btn:active {
     transform: scale(0.95);
-}
+  }
 
-/* Canh chỉnh nút */
-.button-group {
+  .button-group {
     display: flex;
     justify-content: space-between;
     margin-top: 15px;
-}
+  }
 
-.radio-group {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin-bottom: 10px;
-}
+  .radio-group {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 10px;
+  }
 
-.radio-group label {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
+  .radio-group label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
 </style>
 
 <template>
@@ -109,8 +106,14 @@ input:focus {
 
       <label>Giới tính:</label>
       <div class="radio-group">
-        <label><input type="radio" value="Nam" v-model="form.gioiTinh" required /> Nam</label>
-        <label><input type="radio" value="Nữ" v-model="form.gioiTinh" required /> Nữ</label>
+        <label>
+          <input type="radio" value="Nam" v-model="form.gioiTinh" required />
+          Nam
+        </label>
+        <label>
+          <input type="radio" value="Nữ" v-model="form.gioiTinh" required />
+          Nữ
+        </label>
       </div>
     </div>
 
@@ -121,76 +124,86 @@ input:focus {
 
     <div class="button-group">
       <button type="submit" class="btn btn-success">Lưu</button>
-      <button type="button" class="btn btn-secondary" @click="$emit('cancel')">Hủy</button>
+      <button type="button" class="btn btn-secondary" @click="$emit('cancel')">
+        Hủy
+      </button>
     </div>
   </form>
 </template>
 
-<script setup>
-import { ref, watch } from 'vue'
-import { updateUserInfo } from '@/services/accService'
+<script>
+  import { updateUserInfo } from '@/services/accService'
 
-const props = defineProps({
-  user: Object,
-  role: String,
-  userId: String
-})
+  export default {
+    props: {
+      user: Object,
+      role: String,
+      userId: String
+    },
+    emits: ['cancel', 'update'],
+    data() {
+      return {
+        form: {
+          diaChi: this.user?.diaChi || '',
+          hoLot: this.user?.hoLot || '',
+          ten: this.user?.ten || '',
+          hoTen: this.user?.hoTen || '',
+          gioiTinh: this.user?.gioiTinh || 'Nam',
+          ngaySinh: this.user?.ngaySinh ? this.user.ngaySinh.split('T')[0] : ''
+        }
+      }
+    },
+    watch: {
+      user: {
+        handler(newUser) {
+          if (newUser) {
+            this.form.diaChi = newUser.diaChi || ''
+            this.form.hoLot = newUser.hoLot || ''
+            this.form.ten = newUser.ten || ''
+            this.form.hoTen = newUser.hoTen || ''
+            this.form.ngaySinh = newUser.ngaySinh
+              ? newUser.ngaySinh.split('T')[0]
+              : ''
+            this.form.gioiTinh = newUser.gioiTinh || 'Nam'
+          }
+        },
+        immediate: true
+      }
+    },
+    methods: {
+      async saveChanges() {
+        if (!this.userId) {
+          alert('Lỗi: Không tìm thấy userId!')
+          return
+        }
 
-const emit = defineEmits(['cancel', 'update'])
+        try {
+          let updateData
+          if (this.role === 'docgia') {
+            updateData = {
+              HOLOT: this.form.hoLot,
+              TEN: this.form.ten,
+              DIACHI: this.form.diaChi,
+              NGAYSINH: this.form.ngaySinh,
+              PHAI: this.form.gioiTinh
+            }
+          } else {
+            updateData = {
+              HOTENNV: this.form.hoTen,
+              DIACHI: this.form.diaChi
+            }
+          }
 
-// Tạo form rỗng
-const form = ref({
-  diaChi: props.user?.diaChi || '',
-  hoLot: props.user?.hoLot || '',
-  ten: props.user?.ten || '',
-  hoTen: props.user?.hoTen || '',
-  gioiTinh: props.user?.gioiTinh || 'Nam',
-  ngaySinh: props.user?.ngaySinh ? props.user.ngaySinh.split('T')[0] : '' 
-});
+          await updateUserInfo(this.role, this.userId, updateData)
 
-watch(() => props.user, (newUser) => {
-  if (newUser) {
-    form.value.diaChi = newUser.diaChi || '';
-    form.value.hoLot = newUser.hoLot || '';
-    form.value.ten = newUser.ten || '';
-    form.value.hoTen = newUser.hoTen || '';
-    form.value.ngaySinh = newUser.ngaySinh ? newUser.ngaySinh.split('T')[0] : '';
-    form.value.gioiTinh = newUser.gioiTinh || 'Nam';
-  }
-}, { immediate: true })
-
-const saveChanges = async () => {
-  if (!props.userId) {
-    alert("Lỗi: Không tìm thấy userId!");
-    return;
-  }
-
-  try {
-    let updateData;
-    if (props.role === "docgia") {
-      updateData = {
-        HOLOT: form.value.hoLot,
-        TEN: form.value.ten,
-        DIACHI: form.value.diaChi,
-        NGAYSINH: form.value.ngaySinh,
-        PHAI: form.value.gioiTinh
-      };
-    } else {
-      updateData = {
-        HOTENNV: form.value.hoTen,
-        DIACHI: form.value.diaChi
-      };
+          alert('Cập nhật thành công!')
+          this.$emit('update')
+          this.$emit('cancel')
+        } catch (error) {
+          alert('Có lỗi xảy ra!')
+          console.error(error)
+        }
+      }
     }
-
-    await updateUserInfo(props.role, props.userId, updateData);
-    
-    alert("Cập nhật thành công!");
-    emit("update");
-    emit("cancel");
-  } catch (error) {
-    alert("Có lỗi xảy ra!");
-    console.error(error);
   }
-};
 </script>
-

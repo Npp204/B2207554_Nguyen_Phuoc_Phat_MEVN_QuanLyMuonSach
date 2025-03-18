@@ -1,19 +1,16 @@
-<script setup>
-import { computed } from 'vue';
-import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
-
-// Khởi tạo Vuex store và Router
-const store = useStore();
-const router = useRouter();
-
-// Lấy userRole từ Vuex store
-const userRole = computed(() => store.state.user.role);
-
-// Đăng xuất và xóa thông tin role trong Vuex và localStorage
-const handleLogout = () => {
-  store.dispatch('logout'); // Gọi action logout để xóa userRole trong Vuex
-  router.push('/login-docgia'); // Chuyển hướng về trang đăng nhập độc giả
+<script>
+export default {
+  computed: {
+    userRole() {
+      return this.$store.state.user.role;
+    }
+  },
+  methods: {
+    handleLogout() {
+      this.$store.dispatch('logout'); // Gọi action logout để xóa userRole trong Vuex
+      this.$router.push('/login-docgia'); // Chuyển hướng về trang đăng nhập độc giả
+    }
+  }
 };
 </script>
 
