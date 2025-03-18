@@ -34,10 +34,6 @@ export default {
     },
     methods: {
         getNXBName(book) {
-            //console.log("Dữ liệu sách:", book);
-            //console.log("MANXB từ sách:", book.MANXB);
-            //console.log("Danh sách NXB:", this.nxbs);
-
             if (!book || !book.MANXB) return "Chưa có NXB";
 
             const manxb = typeof book.MANXB === "object" ? book.MANXB.MANXB : book.MANXB; 
@@ -47,11 +43,6 @@ export default {
                 n._id === manxb || 
                 String(n._id) === String(manxb) 
             );
-
-            // if (!nxb) {
-            //     console.warn(`Không tìm thấy NXB cho MANXB: ${manxb}`);
-            // }
-
             return nxb ? nxb.TENNXB : "Không tìm thấy";
         },
         formatCurrency(value) {

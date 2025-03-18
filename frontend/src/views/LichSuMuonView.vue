@@ -1,6 +1,6 @@
 <template>
   <div class="container mt-4">
-    <h2 class="mb-3">Lịch sử mượn sách</h2>
+    <h2 class="mb-3 text-primary">Lịch sử mượn sách</h2>
     <table class="table table-bordered">
       <thead>
         <tr>

@@ -46,13 +46,11 @@ button {
         <h2>Quản Lý Sách</h2>
 
         <InputSearch v-model="search" />
-        <!-- Nút thêm sách -->
+        
         <button @click="openBookForm(null)" class="btn btn-primary">Thêm Sách</button>
 
-        <!-- Nút thêm nhà xuất bản -->
         <button @click="showNxbForm = true" class="btn btn-success ml-2">Thêm Nhà Xuất Bản</button>
 
-        <!-- Form Thêm/Sửa Sách -->
         <SachForm
             v-if="showBookForm"
             :book="selectedBook"

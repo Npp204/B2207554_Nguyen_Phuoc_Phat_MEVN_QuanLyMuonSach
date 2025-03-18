@@ -91,6 +91,8 @@ const xacNhanTraSach = async (id) => {
     }
 
     muonSach.TRANGTHAI = "Đã trả";
+    muonSach.NGAYTRA = new Date();  
+    await muonSach.save();
     await muonSach.save();
 
     return { message: "Xác nhận trả sách thành công", muonSach };

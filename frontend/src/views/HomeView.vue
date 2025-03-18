@@ -7,41 +7,91 @@
 
 .sach-list {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 4 cột */
+  grid-template-columns: repeat(4, 1fr); 
   gap: 20px;
   margin-top: 20px;
   justify-content: center;
 }
-
 </style>
 
 <template>
-  <div class="container text-center mt-5">
-    <div class="card shadow-lg p-4">
-      <h1 class="text-primary fw-bold">Trang Chủ</h1>
-      <p class="lead">Chào mừng bạn đến với hệ thống quản lý mượn sách!</p>
-      <button class="btn btn-success">Bắt đầu ngay</button>
+    <div class="container text-center mt-5">
+        <InputSearch v-model="search" />
+        <h2 class="text-primary">Danh sách sách</h2>
+        <div class="sach-list" >
+            <SachCard v-for="sach in filteredBooks" :key="sach.MASACH" :sach="sach" :nxbs="nxbs"/>
+        </div>
     </div>
-    <div class="sach-list">
-        <SachCard v-for="sach in sachList" :key="sach.MASACH" :sach="sach" />
-      </div>
-  </div>
 </template>
 
-<script setup>
-import { ref, onMounted } from "vue";
+<script>
 import SachCard from "@/components/SachCard.vue";
-import axios from "axios";
+import InputSearch from "@/components/InputSearch.vue";
+import { fetchBooks } from "@/services/sachService";
+import { fetchNXB } from "@/services/nxbService";
 
-const sachList = ref([]);
+export default {
+    components: {
+        SachCard,
+        InputSearch,
+    },
+    data() {
+        return {
+            sachList: [],
+            search: "",
+            nxbs: [],
+        };
+    },
+    mounted() {
+       this.loadBooks();
+       this.loadNXBs();
+    },
+    computed: {
+        filteredBooks() {
+            return this.sachList.filter(book => {
+                //console.log("Book MANXB:", book.MANXB);  
 
-onMounted(async () => {
-  try {
-    const response = await axios.get("http://localhost:3000/api/sach");
-    sachList.value = response.data;
-    //console.log("Dữ liệu sách:", JSON.parse(JSON.stringify(sachList.value)));
-  } catch (error) {
-    console.error("Lỗi khi lấy danh sách sách:", error);
-  }
-});
+                const tenSach = book.TENSACH ? book.TENSACH.toLowerCase() : ""; 
+                const maSach = book.MASACH ? book.MASACH.toLowerCase() : "";
+                const tacGia = book.NGUONGOC_TACGIA ? book.NGUONGOC_TACGIA.toLowerCase() : "";
+                const namNB = book.NAMXUATBAN ? String(book.NAMXUATBAN) : "";
+                const keyword = this.search.toLowerCase().trim();
+
+                // Nếu MANXB là một object, trích xuất _id hoặc MANXB
+                const manxbValue = book.MANXB?._id || book.MANXB?.MANXB || "";
+
+                //console.log("Extracted MANXB:", manxbValue);
+
+                // Tìm NXB trong danh sách nxbs
+                const nxb = this.nxbs.find(n => String(n._id) === String(manxbValue));
+                const tenNXB = nxb ? nxb.TENNXB.toLowerCase() : "";
+
+                //console.log("Tìm thấy NXB:", tenNXB || "Không tìm thấy");
+
+                return tenSach.includes(keyword) 
+                      || maSach.includes(keyword) 
+                      || tenNXB.includes(keyword) 
+                      || tacGia.includes(keyword)
+                      || namNB.includes(keyword);
+            });
+        }
+    },
+    methods: {
+        async loadBooks() {
+            try {
+                this.sachList = await fetchBooks();
+            } catch (error) {
+                console.error("Lỗi khi tải sách:", error);
+            }
+        },
+        async loadNXBs() {
+            try {
+                this.nxbs = await fetchNXB();
+                //console.log("Danh sách nhà xuất bản:", JSON.stringify(this.nxbs, null, 2));
+            } catch (error) {
+                console.error("Lỗi khi tải nhà xuất bản:", error);
+            }
+        },
+    },
+};
 </script>

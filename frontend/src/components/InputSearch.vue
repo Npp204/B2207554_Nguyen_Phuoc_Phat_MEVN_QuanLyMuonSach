@@ -15,7 +15,7 @@ const submit = () => {
 
 <template>
   <div class="input-group mb-3">
-    <input type="text" class="form-control" placeholder="Nhập tên hoặc mã sách" :value="modelValue"
+    <input type="text" class="form-control" placeholder="Tìm kiếm sách" :value="modelValue"
       @input="updateModelValue" @keyup.enter="submit" />
     <button class="btn btn-outline-secondary" @click="submit">Tìm</button>
   </div>

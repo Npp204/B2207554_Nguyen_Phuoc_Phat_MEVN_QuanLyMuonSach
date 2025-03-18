@@ -49,7 +49,7 @@ const handleLogout = () => {
               <router-link class="nav-link" to="/quan-ly-sach">Quản Lý Sách</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" to="/quan-ly-docgia">Quản Lý Độc Giả</router-link>
+              <router-link class="nav-link" to="/quan-ly-tai-khoan">Quản Lý Tài Khoản</router-link>
             </li>
             <li class="nav-item">
               <router-link class="nav-link" to="/theo-doi-muon">Theo Dõi Mượn</router-link>

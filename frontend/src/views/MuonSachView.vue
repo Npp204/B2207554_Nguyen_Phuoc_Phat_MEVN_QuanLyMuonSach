@@ -94,7 +94,7 @@ li button {
 
 <template>
   <div class="borrow-container">
-    <h2>Mượn Sách</h2>
+    <h2 class="text-primary"> Đăng Ký Mượn Sách</h2>
 
     <button class="btn btn-primary" @click="showBorrowForm = true">
       Thêm Phiếu Mượn
@@ -137,81 +137,93 @@ li button {
   </div>
 </template>
 
-<script setup>
-import { ref, onMounted, computed } from "vue";
+<script>
 import { getBooks, borrowBooks } from "@/services/muonsachService";
-import { useStore } from 'vuex'
+import { useStore } from 'vuex';
 
-const store = useStore()
+export default {
+  data() {
+    const store = useStore(); // Khởi tạo store trong data
+    return {
+      store, // Lưu store để sử dụng trong computed
+      showBorrowForm: false,
+      books: [],
+      selectedBook: null,
+      quantity: 1,
+      borrowList: [],
+      ngayMuon: "",
+    };
+  },
 
-const showBorrowForm = ref(false);
-const books = ref([]); 
-const selectedBook = ref(null);
-const quantity = ref(1); 
-const borrowList = ref([]); 
-const ngayMuon = ref("");
-const docGiaId = computed(() => store.state.user.id);
+  computed: {
+    docGiaId() {
+      return this.store.state.user.id; // Lấy id từ Vuex store
+    },
+  },
 
-onMounted(async () => {
-  books.value = await getBooks();
-});
+  methods: {
+    async loadBooks() {
+      this.books = await getBooks();
+    },
 
-const updateAvailableQuantity = () => {
-  quantity.value = 1;
-};
+    updateAvailableQuantity() {
+      this.quantity = 1;
+    },
 
-const openBorrowForm = () => {
-  const today = new Date();
+    openBorrowForm() {
+      const today = new Date();
+      this.ngayMuon = today.toISOString().split("T")[0];
+    },
 
-  ngayMuon.value = today.toISOString().split("T")[0];
-};
+    addToBorrowList() {
+      if (!this.selectedBook || !this.selectedBook.TENSACH || this.quantity < 1) {
+        alert("Vui lòng chọn sách hợp lệ và nhập số lượng!");
+        return;
+      }
 
+      const existing = this.borrowList.find(item => item.book._id === this.selectedBook._id);
+      if (existing) {
+        existing.quantity += this.quantity;
+      } else {
+        this.borrowList.push({ book: this.selectedBook, quantity: this.quantity });
+      }
+      console.log("borrowList:", JSON.stringify(this.borrowList, null, 2));
+    },
 
-const addToBorrowList = () => {
-  if (!selectedBook.value || !selectedBook.value.TENSACH || quantity.value < 1) {
-    alert("Vui lòng chọn sách hợp lệ và nhập số lượng!");
-    return;
-  }
+    removeFromBorrowList(index) {
+      this.borrowList.splice(index, 1);
+    },
 
-  const existing = borrowList.value.find(item => item.book._id === selectedBook.value._id);
-  if (existing) {
-    existing.quantity += quantity.value;
-  } else {
-    borrowList.value.push({ book: selectedBook.value, quantity: quantity.value });
-  }
-  console.log("borrowList.value:", JSON.stringify(borrowList.value, null, 2));
-};
+    async registerBorrow() {
+      this.openBorrowForm(); // Gọi để cập nhật ngày mượn
 
-const removeFromBorrowList = (index) => {
-  borrowList.value.splice(index, 1);
-};
+      if (this.borrowList.length === 0) {
+        alert("Danh sách mượn trống!");
+        return;
+      }
 
-const registerBorrow = async () => {
-  openBorrowForm();
+      try {
+        await borrowBooks(this.docGiaId, this.borrowList, this.ngayMuon);
+        alert("Đăng ký mượn thành công! Vui lòng chờ duyệt.");
+        this.borrowList = [];
+        this.selectedBook = null;
+        this.quantity = 1;
+        this.showBorrowForm = false;
+      } catch (error) {
+        alert(error.response?.data?.message || "Lỗi không xác định!");
+        console.error(error);
+      }
+    },
 
-  if (borrowList.value.length === 0) {
-    alert("Danh sách mượn trống!");
-    return;
-  }
+    cancelBorrow() {
+      this.borrowList = [];
+      this.selectedBook = null;
+      this.quantity = 1;
+    },
+  },
 
-  try {
-    await borrowBooks(docGiaId.value, borrowList.value, ngayMuon.value);
-    alert("Đăng ký mượn thành công! Vui lòng chờ duyệt.");
-    borrowList.value = [];
-    selectedBook.value = null;
-    quantity.value = 1;
-    showBorrowForm.value = false; 
-  } catch (error) {
-    alert("Có lỗi xảy ra!");
-    console.error(error);
-  }
-};
-
-const cancelBorrow = () => {
-  borrowList.value = []; 
-  selectedBook.value = null;
-  quantity.value = 1;
+  mounted() {
+    this.loadBooks(); // Tải danh sách sách khi component được mount
+  },
 };
 </script>
-
-

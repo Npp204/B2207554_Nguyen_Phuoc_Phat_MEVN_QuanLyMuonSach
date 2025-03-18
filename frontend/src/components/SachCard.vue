@@ -1,32 +1,3 @@
-<template>
-  <div class="sach-card">
-    <img :src="sach.HINHANH ? `http://localhost:3000${sach.HINHANH}` : 'https://via.placeholder.com/150'" alt="Hình ảnh sách" class="img-fluid rounded">
-
-
-    <div class="sach-info">
-      <h2 class="sach-title">{{ sach.TENSACH }}</h2>
-      <p class="sach-author">Tác giả: {{ sach.NGUONGOC_TACGIA || "Không rõ" }}</p>
-      <p class="sach-year">Năm XB: {{ sach.NAMXUATBAN || "Không rõ" }}</p>
-      <p class="sach-price">Giá: {{ formatPrice(sach.DONGIA) }}</p>
-      <p class="sach-stock" :class="{ 'out-of-stock': sach.SOQUYEN === 0 }">
-        {{ sach.SOQUYEN > 0 ? `Còn lại: ${sach.SOQUYEN} quyển` : "Hết sách" }}
-      </p>
-    </div>
-  </div>
-</template>
-
-<script setup>
-import { defineProps } from "vue";
-
-const props = defineProps({
-  sach: Object
-});
-
-const formatPrice = (price) => {
-  return new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(price);
-};
-</script>
-
 <style scoped>
 .sach-card {
   width: 250px;
@@ -60,7 +31,7 @@ const formatPrice = (price) => {
   color: #333;
 }
 
-.sach-author, .sach-year, .sach-price, .sach-stock {
+.sach-author, .sach-year, .sach-price, .sach-stock, .sach-publisher {
   font-size: 14px;
   color: #555;
   margin: 5px 0;
@@ -71,3 +42,51 @@ const formatPrice = (price) => {
   font-weight: bold;
 }
 </style>
+
+<template>
+  <div class="sach-card">
+    <img :src= "`http://localhost:3000${sach.HINHANH}`" alt="Hình ảnh sách" class="img-fluid rounded">
+
+    <div class="sach-info">
+      <h2 class="sach-title">{{ sach.TENSACH }}</h2>
+      <p class="sach-author">Tác giả: {{ sach.NGUONGOC_TACGIA || "Không rõ" }}</p>
+      <p class="sach-year">Năm Xuất Bản: {{ sach.NAMXUATBAN || "Không rõ" }}</p>
+      <p class="sach-publisher">{{ getNXBName(sach.MANXB) || "Không rõ" }}</p>
+      <p class="sach-price">Giá: {{ formatPrice(sach.DONGIA) }}</p>
+      <p class="sach-stock" :class="{ 'out-of-stock': sach.SOQUYEN === 0 }">
+        {{ sach.SOQUYEN > 0 ? `Số quyển: ${sach.SOQUYEN} quyển` : "Hết sách" }}
+      </p>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    sach: Object,
+    nxbs: Object
+  },
+  methods: {
+    getNXBName(book) {
+        if (!book || !book.MANXB) return "Chưa có NXB";
+
+        const manxb = typeof book.MANXB === "object" ? book.MANXB.MANXB : book.MANXB; 
+            
+        const nxb = this.nxbs.find(n => 
+            n.MANXB === manxb || 
+            n._id === manxb || 
+            String(n._id) === String(manxb) 
+        );
+        return nxb ? nxb.TENNXB : "Không tìm thấy";
+    },
+    formatPrice(price) {
+      return new Intl.NumberFormat("vi-VN", {
+        style: "currency",
+        currency: "VND"
+      }).format(price);
+    }
+  }
+};
+</script>
+
+

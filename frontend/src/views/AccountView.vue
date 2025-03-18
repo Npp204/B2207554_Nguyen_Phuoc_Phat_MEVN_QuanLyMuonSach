@@ -72,7 +72,7 @@ button:focus {
 
 <template>
   <div class="account-view">
-    <h1>Thông Tin Tài Khoản</h1>
+    <h1 class="text-primary">Thông Tin Tài Khoản</h1>
 
     <div v-if="userInfo">
       <div v-if="!isEditing">
@@ -127,7 +127,7 @@ const fetchUser = async () => {
       hoLot: userData.HOLOT || "",
       ten: userData.TEN || "",
       gioiTinh: userData.PHAI || "",
-      chucVu: userRole.value === "docgia" ? "Độc giả" : userData.CHUCVU === "QuanLyThuVien" ? "Quản lý thư viện" : "Nhân viên",
+      chucVu: userRole.value === "docgia" ? "Độc giả" : userData.CHUCVU === "QuanLyThuVien" ? "Quản lý" : "Nhân viên ",
       ngaySinh: userRole.value === "docgia" && userData?.NGAYSINH ? userData.NGAYSINH.split('T')[0] : "",
     };
   } catch (error) {

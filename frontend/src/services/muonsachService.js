@@ -7,7 +7,7 @@ export const getBooks = async () => {
   return response.data;
 };
 
-export const borrowBooks = async (docGiaId, borrowList, ngayMuon, ngayTra) => {
+export const borrowBooks = async (docGiaId, borrowList, ngayMuon) => {
   if (!ngayMuon ) {
     console.error("Lỗi: ngày mượn hoặc ngày trả không hợp lệ", { ngayMuon });
     return Promise.reject(new Error("Ngày mượn và ngày trả không được để trống"));
@@ -23,6 +23,11 @@ export const borrowBooks = async (docGiaId, borrowList, ngayMuon, ngayTra) => {
     };
 
   //console.log("Dữ liệu gửi lên API:", requestData);
-  await axios.post("http://localhost:3000/api/muonsach/dangky", requestData);
+  try {
+    await axios.post("http://localhost:3000/api/muonsach/dangky", requestData);
+  } catch (error) {
+    console.error("Lỗi khi gọi API mượn sách:", error.response?.data || error.message);
+    throw error; 
+  }
 };
 
