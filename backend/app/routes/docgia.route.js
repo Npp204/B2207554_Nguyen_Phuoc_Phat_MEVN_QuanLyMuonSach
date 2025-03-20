@@ -1,20 +1,20 @@
-const express = require("express");
-const router = express.Router();
-const docGiaController = require("../controllers/docgia.controller");
+const express = require('express')
+const router = express.Router()
+const docGiaController = require('../controllers/docgia.controller')
 
 // Lấy danh sách độc giả
-router.get("/", docGiaController.getAllDocGia);
+router.get('/', docGiaController.getAllDocGia)
 
 // Lấy độc giả theo ID
-router.get("/:id", docGiaController.getDocGiaById);
+router.get('/:id', docGiaController.getDocGiaById)
 
 // Tạo mới độc giả
-router.post("/", docGiaController.createDocGia);
+router.post('/', docGiaController.createDocGia)
 
 // Cập nhật thông tin độc giả
-router.put("/:id", docGiaController.updateDocGia);
+router.put('/:id', docGiaController.updateDocGia)
 
 // Xóa độc giả
-router.delete("/:id", docGiaController.deleteDocGia);
+router.delete('/:id', docGiaController.deleteDocGia)
 
-module.exports = router;
+module.exports = router

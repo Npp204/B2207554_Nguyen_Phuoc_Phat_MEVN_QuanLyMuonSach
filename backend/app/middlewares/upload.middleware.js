@@ -1,18 +1,18 @@
-const fs = require("fs"); // Import fs để kiểm tra và tạo thư mục
+const fs = require("fs"); 
 const multer = require("multer");
 const path = require("path");
 
 // Cấu hình nơi lưu ảnh
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadDir = "uploads/sach"; // Thư mục lưu ảnh
+    const uploadDir = "uploads/sach"; 
     if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir, { recursive: true }); // Tạo thư mục nếu chưa có
+      fs.mkdirSync(uploadDir, { recursive: true }); 
     }
     cb(null, uploadDir);
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname)); // Đổi tên file theo timestamp
+    cb(null, Date.now() + path.extname(file.originalname)); 
   },
 });
 

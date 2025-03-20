@@ -86,7 +86,7 @@ async function fetchBooks(nxbMap) {
         SOQUYEN,
         NAMXUATBAN,
         NGUONGOC_TACGIA,
-        MANXB, // Gán ObjectId thay vì chuỗi
+        MANXB, 
         HINHANH
       })
     }
