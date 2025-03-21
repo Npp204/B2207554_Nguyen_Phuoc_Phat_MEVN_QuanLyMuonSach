@@ -1,6 +1,22 @@
+<style scoped>
+h2 {
+  color: #5a4631;
+}
+
+.text-warning {
+  color: rgb(220, 11, 11);
+}
+.text-primary {
+  color: blue;
+}
+.text-success {
+  color: green;
+}
+</style>
+
 <template>
   <div class="container mt-4">
-    <h2 class="mb-3 text-primary">Lịch sử mượn sách</h2>
+    <h2 class="mb-3">Lịch sử mượn sách</h2>
     <table class="table table-bordered">
       <thead>
         <tr>
@@ -44,12 +60,10 @@ export default {
   methods: {
     async getLichSuMuon() {
       if (!this.getUser) return; 
-      //console.log("Dữ liệu user trong Vuex:", this.$store.state.user);
-      //console.log("Số điện thoại từ Vuex (MADOCGIA):", this.getUser);
+
       try {
         const res = await axios.get("http://localhost:3000/api/theodoimuonsach"); 
-        //console.log("Dữ liệu API trả về:", res.data);
-        this.lichSuMuon = res.data.filter(m => String(m.MADOCGIA?._id) === String(this.getUser._id)); // Lọc theo ID độc giả
+        this.lichSuMuon = res.data.filter(m => String(m.MADOCGIA?._id) === String(this.getUser._id)); 
       } catch (error) {
         console.error("Lỗi khi lấy lịch sử mượn sách:", error);
       }
@@ -66,8 +80,8 @@ export default {
       };
     },
     formatNgay(ngay) {
-      if (!ngay) return "Chưa trả"; // Xử lý null
-      return new Date(ngay).toLocaleDateString("vi-VN"); // Format ngày
+      if (!ngay) return "Chưa trả"; 
+      return new Date(ngay).toLocaleDateString("vi-VN"); 
     }
   },
   mounted() {
@@ -76,14 +90,3 @@ export default {
 };
 </script>
 
-<style>
-.text-warning {
-  color: orange;
-}
-.text-primary {
-  color: blue;
-}
-.text-success {
-  color: green;
-}
-</style>

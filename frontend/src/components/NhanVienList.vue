@@ -1,4 +1,10 @@
 <style scoped>
+  h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #b89e25;
+  }
+
   .borrow-list {
     padding: 20px;
   }

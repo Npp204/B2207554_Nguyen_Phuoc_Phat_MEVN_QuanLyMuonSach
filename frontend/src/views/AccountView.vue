@@ -1,51 +1,73 @@
 <style scoped>
   .account-view {
-    max-width: 500px;
+    max-width: 480px;
+    min-width: 320px;
     margin: 50px auto;
     padding: 20px;
-    background: #ffffff;
-    border-radius: 12px;
+    background: #f9f4f2; 
+    border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
+    border: 2px solid #d8bb2b; 
+    transition: all 0.3s ease-in-out;
   }
 
   h1 {
-    font-size: 24px;
-    color: #333;
-    margin-bottom: 20px;
+    font-size: 22pt;
+    color: #b89e25; 
+    margin-bottom: 15px;
+    font-weight: 600;
   }
 
   p {
-    font-size: 16px;
-    color: #555;
-    margin: 10px 0;
+    font-size: 13pt;
+    color: #333;
+    padding: 10px;
+    border-bottom: 1px solid #b89e25;
+    text-align: left;
+    margin: 0;
+  }
+
+  p:last-child {
+    border-bottom: none;
   }
 
   p strong {
-    color: #222;
+    color: #5a4631; 
   }
 
   button {
-    background: #007bff;
+    background: #d8bb2b; 
     color: white;
     border: none;
     padding: 10px 15px;
-    border-radius: 6px;
+    border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
-    transition: background 0.3s ease;
+    font-size: 15px;
+    font-weight: 500;
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    margin-top: 15px;
   }
 
   button:hover {
-    background: #0056b3;
+    background: #c7aa30; 
+    transform: scale(1.05);
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.15);
   }
 
   button:active {
-    background: #003d82;
+    background: #9d871e; 
+    transform: scale(0.98);
   }
 
-  button:focus {
-    outline: none;
+  button:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+  }
+
+  .account-view.editing {
+    border-color: #b89e25;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
   }
 
   @media (max-width: 600px) {
@@ -53,12 +75,16 @@
       width: 90%;
       padding: 15px;
     }
+
     h1 {
-      font-size: 20px;
+      font-size: 20pt;
     }
+
     p {
-      font-size: 14px;
+      font-size: 14pt;
+      padding: 8px;
     }
+
     button {
       font-size: 14px;
       padding: 8px 12px;
@@ -68,45 +94,43 @@
 
 <template>
   <div class="account-view">
-    <h1 class="text-primary">Thông Tin Tài Khoản</h1>
+    <h1>Thông Tin Tài Khoản</h1>
+
+    <AccountForm
+      v-if="isEditing"
+      :user="userInfo"
+      :role="userRole"
+      :userId="userInfo._id"
+      @update="fetchUser"
+      @cancel="isEditing = false"
+    />
 
     <div v-if="userInfo">
-      <div v-if="!isEditing">
-        <p>
-          <strong>Số điện thoại:</strong>
-          {{ userInfo.sdt }}
-        </p>
-        <p>
-          <strong>Họ và Tên:</strong>
-          {{ userInfo.hoTen }}
-        </p>
-        <p v-if="userRole === 'docgia'">
-          <strong>Giới tính:</strong>
-          {{ userInfo.gioiTinh }}
-        </p>
-        <p v-if="userRole === 'docgia'">
-          <strong>Ngày sinh:</strong>
-          {{ formatDate(userInfo.ngaySinh) }}
-        </p>
-        <p>
-          <strong>Quyền hạn:</strong>
-          {{ userInfo.chucVu }}
-        </p>
-        <p>
-          <strong>Địa chỉ:</strong>
-          {{ userInfo.diaChi }}
-        </p>
-        <button @click="toggleEdit">Chỉnh sửa</button>
-      </div>
-
-      <AccountForm
-        v-if="isEditing"
-        :user="userInfo"
-        :role="userRole"
-        :userId="userInfo._id"
-        @update="fetchUser"
-        @cancel="isEditing = false"
-      />
+      <p>
+        <strong>Số điện thoại:</strong>
+        {{ userInfo.sdt }}
+      </p>
+      <p>
+        <strong>Họ và Tên:</strong>
+        {{ userInfo.hoTen }}
+      </p>
+      <p v-if="userRole === 'docgia'">
+        <strong>Giới tính:</strong>
+        {{ userInfo.gioiTinh }}
+      </p>
+      <p v-if="userRole === 'docgia'">
+        <strong>Ngày sinh:</strong>
+        {{ formatDate(userInfo.ngaySinh) }}
+      </p>
+      <p>
+        <strong>Quyền hạn:</strong>
+        {{ userInfo.chucVu }}
+      </p>
+      <p>
+        <strong>Địa chỉ:</strong>
+        {{ userInfo.diaChi }}
+      </p>
+      <button @click="isEditing = true">Chỉnh sửa</button>
     </div>
 
     <p v-else>Đang tải thông tin...</p>
@@ -170,9 +194,6 @@
         } catch (error) {
           console.error('Lỗi khi lấy thông tin tài khoản:', error)
         }
-      },
-      toggleEdit() {
-        this.isEditing = !this.isEditing
       },
       formatDate(dateString) {
         if (!dateString) return 'Chưa cập nhật'

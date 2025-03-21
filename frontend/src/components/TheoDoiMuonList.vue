@@ -1,4 +1,10 @@
 <style scoped>
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #b89e25;
+}
+
 .borrow-list {
   padding: 20px;
 }
@@ -64,7 +70,7 @@ button:hover {
           <td>
             <button style="background: #4CAF50; color: white;" v-if="don.TRANGTHAI === 'Chờ duyệt'" @click="$emit('duyetMuon', don)">Duyệt</button>
             <button style="background: #f44336; color: white;" v-if="don.TRANGTHAI === 'Đang mượn'" @click="$emit('xacNhanTra', don)">Trả</button>
-            <button style="background: #ff9800; color: white;" @click="$emit('xoaDonMuon', don)">Xóa</button> <!-- Nút Xóa -->
+            <button style="background: #ff9800; color: white;" @click="$emit('xoaDonMuon', don)">Xóa</button> 
           </td>
         </tr>
       </tbody>

@@ -2,15 +2,15 @@
 h2 {
     text-align: center;
     margin-bottom: 20px;
-    color: #333;
+    color: #b89e25;
 }
 
 button {
     margin-bottom: 10px;
 }
 
-.btn-primary {
-    background-color: #007bff;
+.btn-add {
+    background-color: #b89e25;
     border: none;
     padding: 8px 12px;
     border-radius: 5px;
@@ -18,8 +18,8 @@ button {
     color: white;
 }
 
-.btn-primary:hover {
-    background-color: #0056b3;
+.btn-add:hover {
+    background-color: #e2bc13;
 }
 
 .btn-success {
@@ -47,7 +47,7 @@ button {
 
         <InputSearch v-model="search" />
 
-        <button @click="openBookForm(null)" class="btn btn-primary">Thêm Sách</button>
+        <button @click="openBookForm(null)" class="btn btn-add">Thêm Sách</button>
 
         <button @click="showNxbForm = true" class="btn btn-success ml-2">Thêm Nhà Xuất Bản</button>
 

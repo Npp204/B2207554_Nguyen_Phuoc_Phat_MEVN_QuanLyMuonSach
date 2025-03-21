@@ -1,15 +1,31 @@
 <script setup>
-import HeaderComponent from './components/HeaderView.vue' // Import Header
+import HeaderComponent from './components/HeaderView.vue'
+import FooterComponent from './components/FooterView.vue'
 </script>
 
 <template>
-  <HeaderComponent /> <!-- Header dùng chung -->
+  <div class="wrapper">
+    <HeaderComponent /> <!-- Header -->
 
-  <div class="container mt-4">
-    <router-view /> <!-- Đây là nơi hiển thị nội dung theo route -->
+    <main class="content">
+      <div class="container mt-4">
+        <router-view /> <!-- Nội dung theo route -->
+      </div>
+    </main>
+
+    <FooterComponent /> <!-- Footer luôn nằm dưới -->
   </div>
 </template>
 
 <style>
-/* Nếu muốn thêm CSS chung cho toàn bộ app, có thể thêm vào đây */
+/* Định dạng wrapper để đảm bảo footer luôn ở cuối */
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Đảm bảo chiều cao tối thiểu bằng màn hình */
+}
+
+.content {
+  flex: 1; /* Đẩy footer xuống cuối */
+}
 </style>

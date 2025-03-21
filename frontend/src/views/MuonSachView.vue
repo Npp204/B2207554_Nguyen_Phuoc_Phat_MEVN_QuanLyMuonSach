@@ -10,7 +10,7 @@
 }
 
 h2 {
-  color: #007bff;
+  color: #5a4631;
 }
 
 button {
@@ -23,13 +23,13 @@ button {
   transition: all 0.3s ease;
 }
 
-.btn-primary {
-  background-color: #007bff;
+.btn-add {
+  background-color: #b89e25;
   color: white;
 }
 
-.btn-primary:hover {
-  background-color: #0056b3;
+.btn-add:hover {
+  background-color: #e2bc13;
 }
 
 .btn-success {
@@ -94,9 +94,9 @@ li button {
 
 <template>
   <div class="borrow-container">
-    <h2 class="text-primary"> Đăng Ký Mượn Sách</h2>
+    <h2> Đăng Ký Mượn Sách</h2>
 
-    <button class="btn btn-primary" @click="showBorrowForm = true">
+    <button class="btn btn-add" @click="showBorrowForm = true">
       Thêm Phiếu Mượn
     </button>
 
@@ -130,7 +130,7 @@ li button {
           </li>
         </ul>
 
-        <button class="btn btn-primary" @click="registerBorrow">Đăng Ký Mượn</button>
+        <button class="btn btn-add" @click="registerBorrow">Đăng Ký Mượn</button>
         <button @click="cancelBorrow" class="btn-cancel">Hủy Phiếu Mượn</button>
       </div>
     </div>

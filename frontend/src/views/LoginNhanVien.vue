@@ -1,7 +1,23 @@
+<style scoped>
+  h2 {
+    color: #b89e25;
+  }
+
+  button {
+    background-color: #b89e25;
+    color: white;
+    border: none;
+  }
+
+  button:hover {
+    background-color: #e2bc13;
+  }
+</style>
+
 <template>
   <div class="container d-flex justify-content-center align-items-center vh-100">
     <div class="card p-4 shadow-lg" style="max-width: 400px; width: 100%;">
-      <h2 class="text-center text-primary">Đăng nhập Nhân viên</h2>
+      <h2 class="text-center">Đăng nhập nhân viên</h2>
       <form @submit.prevent="handleLogin">
         <div class="mb-3">
           <label for="sdt" class="form-label">Số điện thoại</label>

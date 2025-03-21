@@ -1,7 +1,27 @@
+<style scoped>
+  h2 {
+    color: #b89e25;
+  }
+
+  button {
+    background-color: #b89e25;
+    color: white;
+    border: none;
+  }
+
+  button:hover {
+    background-color: #e2bc13;
+  }
+
+  span {
+    color: #b89e25;
+  }
+</style>
+
 <template>
   <div class="container d-flex flex-column justify-content-center align-items-center vh-100">
     <div class="card p-4 shadow-sm w-100" style="max-width: 400px;">
-      <h2 class="text-center mb-3 text-primary">Đăng ký</h2>
+      <h2 class="text-center mb-3">Đăng ký</h2>
       <form @submit.prevent="handleRegister">
         <div class="mb-3">
           <input type="text" class="form-control" v-model="sdt" placeholder="Số điện thoại" required />
@@ -16,7 +36,7 @@
       </form>
       <div class="text-center mt-3">
         <p class="mb-0">Bạn đã có tài khoản? 
-          <router-link to="/login-docgia" class="text-decoration-none">Đăng nhập</router-link>
+          <router-link to="/login-docgia" class="text-decoration-none"><span>Đăng nhập</span></router-link>
         </p>
       </div>
     </div>

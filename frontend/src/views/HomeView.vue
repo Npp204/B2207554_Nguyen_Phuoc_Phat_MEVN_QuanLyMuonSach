@@ -1,4 +1,8 @@
 <style scoped>
+  h2 {
+    color: #5a4631;
+  }
+
   .card {
     max-width: 500px;
     margin: auto;
@@ -23,7 +27,7 @@
     padding: 8px 12px;
     margin: 5px;
     border: none;
-    background: #2196f3;
+    background: #b89e25;
     color: white;
     cursor: pointer;
     border-radius: 5px;
@@ -42,7 +46,7 @@
 <template>
   <div class="container text-center mt-5">
     <InputSearch v-model="search" />
-    <h2 class="text-primary">Xin Chào!</h2>
+    <h2>Chào mừng bạn, hãy chọn sách yêu thích của mình!</h2>
 
     <div class="sach-list">
       <SachCard

@@ -1,4 +1,10 @@
 <style scoped>
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #b89e25;
+  }
+
   .quanly-acc {
     padding: 20px;
   }
@@ -28,7 +34,7 @@
 
 <template>
   <div class="quanly-acc">
-    <h1>Quản lý tài khoản</h1>
+    <h2>Quản lý tài khoản</h2>
 
     <div class="buttons">
       <button @click="activeTab = 'docgia'">Danh sách Độc giả</button>

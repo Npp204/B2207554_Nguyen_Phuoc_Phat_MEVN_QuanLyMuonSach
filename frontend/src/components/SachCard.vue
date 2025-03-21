@@ -32,7 +32,7 @@
 }
 
 .sach-author, .sach-year, .sach-price, .sach-stock, .sach-publisher {
-  font-size: 14px;
+  font-size: 12pt;
   color: #555;
   margin: 5px 0;
 }
