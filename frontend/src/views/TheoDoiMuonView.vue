@@ -27,6 +27,7 @@ export default {
     async loadDanhSachMuon() {
       try {
         const res = await axios.get("http://localhost:3000/api/theodoimuonsach");
+        console.log(res.data)
         this.danhSachDonMuon = res.data;
       } catch (error) {
         console.error("Lỗi khi lấy danh sách đơn mượn:", error);

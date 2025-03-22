@@ -29,9 +29,17 @@ const createDocGia = async (data) => {
       throw new ApiError(400, "Số điện thoại đã tồn tại");
     }
 
-    if (!data.MADOCGIA) {
-      const count = await DocGia.countDocuments();
-      data.MADOCGIA = `DG${String(count + 1).padStart(3, "0")}`;
+    // if (!data.MADOCGIA) {
+    //   const count = await DocGia.countDocuments();
+    //   data.MADOCGIA = `DG${String(count + 1).padStart(3, "0")}`;
+    // }
+
+    const lastDocGia = await DocGia.findOne().sort({ MADOCGIA: -1 }) 
+
+    let newMADOCGIA = 'DG001' 
+    if (lastDocGia) {
+      let lastNumber = parseInt(lastDocGia.MADOCGIA.replace('DG', ''), 10)
+      newMADOCGIA = `DG${String(lastNumber + 1).padStart(3, '0')}`
     }
 
     // Mã hóa mật khẩu trước khi lưu

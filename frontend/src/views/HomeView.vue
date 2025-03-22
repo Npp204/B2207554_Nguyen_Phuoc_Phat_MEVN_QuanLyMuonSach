@@ -59,11 +59,11 @@
 
     <div class="pagination">
       <button @click="prevPage" :disabled="currentPage === 1">
-        Trang trước
+        <i class="bi bi-chevron-left"></i> Trang trước
       </button>
       <span>Trang {{ currentPage }} / {{ totalPages }}</span>
       <button @click="nextPage" :disabled="currentPage >= totalPages">
-        Trang sau
+        Trang sau <i class="bi bi-chevron-right"></i>
       </button>
     </div>
   </div>
@@ -86,7 +86,7 @@
         search: '',
         nxbs: [],
         currentPage: 1,
-        pageSize: 8
+        pageSize: 12
       }
     },
     mounted() {

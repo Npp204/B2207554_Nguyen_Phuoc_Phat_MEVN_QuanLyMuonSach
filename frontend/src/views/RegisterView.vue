@@ -19,8 +19,8 @@
 </style>
 
 <template>
-  <div class="container d-flex flex-column justify-content-center align-items-center vh-100">
-    <div class="card p-4 shadow-sm w-100" style="max-width: 400px;">
+  <div class="container d-flex flex-column justify-content-center align-items-center vh-50 mt-5">
+    <div class="card p-3 shadow-sm w-100" style="max-width: 400px;">
       <h2 class="text-center mb-3">Đăng ký</h2>
       <form @submit.prevent="handleRegister">
         <div class="mb-3">

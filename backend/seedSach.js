@@ -37,7 +37,9 @@ async function seedNhaXuatBan() {
   const nxbList = [
     { MANXB: 'NXB001', TENNXB: 'NXB Kim Đồng', DIACHI: 'Hà Nội' },
     { MANXB: 'NXB002', TENNXB: 'NXB Trẻ', DIACHI: 'TP. Hồ Chí Minh' },
-    { MANXB: 'NXB003', TENNXB: 'NXB Giáo Dục', DIACHI: 'Đà Nẵng' }
+    { MANXB: 'NXB003', TENNXB: 'NXB Giáo Dục', DIACHI: 'Đà Nẵng' },
+    { MANXB: 'NXB004', TENNXB: 'NXB Hà Nội', DIACHI: 'Hà Nội' },
+    { MANXB: 'NXB005', TENNXB: 'NXB Đại học Cần Thơ', DIACHI: 'Cần Thơ' }
   ]
 
   await NhaXuatBan.deleteMany({})
@@ -50,7 +52,7 @@ async function seedNhaXuatBan() {
 async function fetchBooks(nxbMap) {
   try {
     const response = await fetch(
-      'https://openlibrary.org/search.json?q=programming&limit=20'
+      'https://openlibrary.org/search.json?q=programming&limit=48'
     )
     const data = await response.json()
 
@@ -67,9 +69,9 @@ async function fetchBooks(nxbMap) {
         ? book.author_name[0]
         : 'Không rõ'
 
-      // Chọn ngẫu nhiên một NXB từ danh sách
+      
       const randomNXB = nxbMap[Math.floor(Math.random() * nxbMap.length)]
-      const MANXB = randomNXB._id // Dùng ObjectId chứ không phải chuỗi
+      const MANXB = randomNXB._id 
 
       let HINHANH = ''
       if (book.cover_i) {
@@ -86,14 +88,14 @@ async function fetchBooks(nxbMap) {
         SOQUYEN,
         NAMXUATBAN,
         NGUONGOC_TACGIA,
-        MANXB, 
+        MANXB,
         HINHANH
       })
     }
 
     // Lưu vào MongoDB
     await Sach.insertMany(books)
-    console.log('Đã tải ảnh và thêm 20 sách vào MongoDB!')
+    console.log('Đã tải ảnh và thêm 48 sách vào MongoDB!')
   } catch (error) {
     console.error('Lỗi lấy sách:', error)
   } finally {

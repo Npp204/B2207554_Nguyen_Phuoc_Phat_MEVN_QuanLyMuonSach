@@ -55,32 +55,17 @@ const loginDocGia = async (sdt, password) => {
 
   const docGia = await DocGia.findOne({ SODIENTHOAI: sdt })
 
-  // if (!docGia || String(docGia.PASSWORD) !== String(password)) {
-  //     throw new ApiError(401, "Số điện thoại hoặc mật khẩu không chính xác");
-  // }
-
   const isMatch = bcrypt.compareSync(password, docGia.PASSWORD)
   if (!isMatch) {
     throw new ApiError(401, 'Số điện thoại hoặc mật khẩu không chính xác')
   }
 
-  // console.log("Đăng nhập thành công:", docGia);
-  // console.log("JWT Secret:", config.jwt.secret);
-  // const token = jwt.sign(
-  //     { id: docGia._id, role: "docgia" },
-  //     config.jwt.secret,
-  //     { expiresIn: "3h" }
-  // );
-
-  // return { role: "docgia", user: docGia, token };
   try {
     const token = jwt.sign(
       { id: docGia._id, role: 'docgia' },
       config.jwt.secret,
       { expiresIn: '2h' }
     )
-
-    //console.log("Token tạo thành công:", token);
 
     return { role: 'docgia', user: docGia, token }
   } catch (error) {
@@ -112,33 +97,42 @@ const registerDocGia = async (sdt, password, confirmPassword) => {
     throw new ApiError(400, 'Số điện thoại đã được đăng ký')
   }
 
-  //Đếm số lượng độc giả hiện có
-  const count = await DocGia.countDocuments()
-  const maDocGia = `DG${String(count + 1).padStart(3, '0')}` // DG001, DG002, ...
+  const lastDocGia = await DocGia.findOne()
+    .sort({ MADOCGIA: -1 })
+    .collation({ locale: 'en', numericOrdering: true })
+
+
+  let newMADOCGIA = 'DG001'
+
+  if (lastDocGia && lastDocGia.MADOCGIA) {
+    let lastNumber = parseInt(lastDocGia.MADOCGIA.replace('DG', ''), 10)
+    newMADOCGIA = `DG${String(lastNumber + 1).padStart(3, '0')}` // DG001, DG002, ...
+  }
+
+  const maDocGia = newMADOCGIA
 
   const hashedPassword = bcrypt.hashSync(password, salt)
 
-  // Tạo độc giả mới
   const newDocGia = new DocGia({
     MADOCGIA: maDocGia,
-    TEN: 'Chưa cập nhật', // Độc giả có thể cập nhật sau
+    TEN: 'Chưa cập nhật',
     SODIENTHOAI: sdt,
     PASSWORD: hashedPassword
   })
 
   await newDocGia.save()
 
-  // await DocGia.create({
-  //     TEN: "Chưa cập nhật",
-  //     SODIENTHOAI: sdt,
-  //     PASSWORD: password
-  // });
-
-  return { message: 'Đăng ký thành công', user: newDocGia }
-}
+  return {
+    message: 'Đăng ký thành công',
+    user: {
+      MADOCGIA: newDocGia.MADOCGIA,
+      TEN: newDocGia.TEN,
+      SODIENTHOAI: newDocGia.SODIENTHOAI
+    },
+  };
+};
 
 const registerNhanVien = async (HOTENNV, SODIENTHOAI, PASSWORD, CHUCVU) => {
-  //console.log("Dữ liệu nhận được", HOTENNV, SODIENTHOAI, PASSWORD, CHUCVU);
   if (!SODIENTHOAI || !PASSWORD) {
     throw new ApiError(400, 'Số điện thoại và mật khẩu là bắt buộc')
   }
@@ -155,8 +149,19 @@ const registerNhanVien = async (HOTENNV, SODIENTHOAI, PASSWORD, CHUCVU) => {
 
   const hashedPassword = bcrypt.hashSync(PASSWORD, salt)
 
-  const count = await NhanVien.countDocuments()
-  const maNhanVien = `NV${String(count + 1).padStart(3, '0')}` // DG001, DG002, ...
+  const lastNhanVien = await NhanVien.findOne()
+    .sort({ MANV: -1 })
+    .collation({ locale: 'en', numericOrdering: true })
+
+
+  let newMaNhanVien = 'NV001'
+
+  if (lastNhanVien && lastNhanVien.MANV) {
+    let lastNumber = parseInt(lastNhanVien.MANV.replace('NV', ''), 10)
+    newMaNhanVien = `NV${String(lastNumber + 1).padStart(3, '0')}` // NV001, NV002, ...
+  }
+
+  const maNhanVien = newMaNhanVien
 
   const newNhanVien = new NhanVien({
     MANV: maNhanVien,
@@ -168,7 +173,15 @@ const registerNhanVien = async (HOTENNV, SODIENTHOAI, PASSWORD, CHUCVU) => {
 
   await newNhanVien.save()
 
-  return { message: 'Đăng ký thành công', user: newNhanVien }
+  return {
+    message: 'Đăng ký thành công',
+    user: {
+      MANV: newNhanVien.MANV,
+      HOTENNV: newNhanVien.HOTENNV,
+      SODIENTHOAI: newNhanVien.SODIENTHOAI,
+      CHUCVU: newNhanVien.CHUCVU
+    }
+  }
 }
 
 module.exports = {

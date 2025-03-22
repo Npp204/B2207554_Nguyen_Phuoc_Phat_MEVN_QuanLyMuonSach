@@ -83,7 +83,6 @@ const xacNhanTraSach = async (id) => {
         throw new ApiError(400, "Không thể xác nhận trả sách");
     }
 
-    // Cập nhật trạng thái và tăng số lượng sách
     const sach = await Sach.findById(muonSach.MASACH);
     if (sach) {
         sach.SOQUYEN += muonSach.SOQUYEN;  

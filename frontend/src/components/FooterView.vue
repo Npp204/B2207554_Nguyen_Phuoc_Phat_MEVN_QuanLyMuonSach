@@ -80,6 +80,72 @@
     color: #6c757d;
   }
 
+  /* Định dạng chung cho modal */
+  .modal {
+    z-index: 1050;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-dialog {
+    max-width: 600px; /* Giới hạn chiều rộng */
+    width: 90%;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+
+  .modal-content {
+    border-radius: 12px; /* Bo góc */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* Đổ bóng */
+  }
+
+  /* Header của modal */
+  .modal-header {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #ddd;
+    border-radius: 12px 12px 0 0;
+    padding: 15px;
+  }
+
+  /* Tiêu đề modal */
+  .modal-title {
+    font-size: 18pt;
+    font-weight: bold;
+    color: #343a40;
+  }
+
+  /* Nút đóng modal */
+  .btn-close {
+    font-size: 18px;
+    cursor: pointer;
+    transition: 0.3s ease;
+  }
+
+  .btn-close:hover {
+    transform: scale(1.2);
+  }
+
+  /* Nội dung modal */
+  .modal-body {
+    padding: 20px;
+    font-size: 14pt;
+    color: #555;
+  }
+
+  /* Footer modal */
+  .modal-footer {
+    border-top: 2px solid #ddd;
+    padding: 15px;
+    border-radius: 0 0 12px 12px;
+  }
+
+  /* Cải thiện hiệu ứng nền mờ */
+  .modal-backdrop {
+    z-index: 1040;
+    background-color: rgba(0, 0, 0, 0.5);
+    animation: fadeIn 0.3s ease-in-out;
+  }
+
   @media (max-width: 768px) {
     .footer {
       padding: 15px 0;
@@ -130,6 +196,24 @@
       font-size: 12pt;
     }
   }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .modal {
+    z-index: 1050;
+  }
+  .modal-backdrop {
+    z-index: 1040;
+  }
 </style>
 
 <template>
@@ -138,7 +222,8 @@
       <div class="footer-info ps-lg-5">
         <h2 class="fw-bold mb-0 text-muted">Hệ Thống Quản Lý Mượn Sách</h2>
         <p class="text-muted opacity-75">
-          Hỗ trợ độc giả trong việc đăng ký và quản lý mượn sách trực tuyến một cách thuận tiện.
+          Hỗ trợ độc giả trong việc đăng ký và quản lý mượn sách trực tuyến một
+          cách thuận tiện.
         </p>
       </div>
     </div>
@@ -146,18 +231,23 @@
     <div class="container max-w-1280 mx-auto px-0 px-lg-1">
       <div class="row">
         <div class="col-4 ps-lg-5 text-center text-lg-start">
-          <div class="fw-bold fs-4">Chi Tiết <span class="text-primary-custom">Liên Hệ</span></div>
-          <div class="text-muted my-3">
-            <i class="bi bi-geo-alt"></i> Đại học Cần Thơ
+          <div class="fw-bold fs-4">
+            Chi Tiết
+            <span class="text-primary-custom">Liên Hệ</span>
           </div>
           <div class="text-muted my-3">
-            <i class="bi bi-envelope"></i> phatb2207554@student.ctu.edu.vn
+            <i class="bi bi-geo-alt"></i>
+            Đại học Cần Thơ
+          </div>
+          <div class="text-muted my-3">
+            <i class="bi bi-envelope"></i>
+            phatb2207554@student.ctu.edu.vn
           </div>
           <div>
             <div class="support-box">
               <i class="bi bi-telephone fs-4 icon"></i>
               <div>
-                <span class="text-muted"> Hỗ trợ độc giả 24/7 </span>
+                <span class="text-muted">Hỗ trợ độc giả 24/7</span>
                 <div class="fw-semibold fs-5">0862 974 822</div>
               </div>
             </div>
@@ -167,40 +257,157 @@
         <div class="col-4 ps-lg-5 text-center text-lg-start">
           <b>Thông Tin</b>
           <div class="footer-links">
-            <router-link to="/" class="footer-link">Trang chủ</router-link> 
-            <router-link to="/" class="footer-link" @click.prevent="showDieuKhoan">Điều khoản mượn sách</router-link> 
-            <router-link to="/" class="footer-link" @click.prevent="showHuongDan">Hướng dẫn sử dụng</router-link> 
-          </div>  
+            <router-link to="/" class="footer-link">Trang chủ</router-link>
+            <a
+              href="#"
+              class="footer-link"
+              @click.prevent="showDieuKhoan = true"
+            >
+              Điều khoản mượn sách
+            </a>
+            <a
+              href="#"
+              class="footer-link"
+              @click.prevent="showHuongDan = true"
+            >
+              Hướng dẫn sử dụng
+            </a>
+          </div>
         </div>
 
         <div class="col-4 ps-lg-5 text-center text-lg-start">
           <b>Tài Khoản</b>
           <div class="footer-links">
-            <router-link to="/login-docgia" class="footer-link">Đăng nhập</router-link> 
-            <router-link to="/lich-su-muon" class="footer-link">Lịch sử mượn</router-link> 
-            <router-link to="/muon-sach" class="footer-link">Đăng ký mượn</router-link> 
-          </div>  
+            <!-- <router-link to="/login-docgia" class="footer-link">Đăng nhập</router-link>  -->
+            <router-link to="/lich-su-muon" class="footer-link">
+              Lịch sử mượn
+            </router-link>
+            <router-link to="/muon-sach" class="footer-link">
+              Đăng ký mượn
+            </router-link>
+          </div>
         </div>
       </div>
     </div>
 
     <div class="footer-bottom text-center">
-      <div class="text-muted">Bản quyền © 2025 - Hệ Thống Quản Lý Mượn Sách.</div>
+      <div class="text-muted">
+        Bản quyền © 2025 - Hệ Thống Quản Lý Mượn Sách.
+      </div>
     </div>
+
+    <div
+      class="modal fade show"
+      v-if="showDieuKhoan"
+      style="display: block"
+      aria-modal="true"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Điều khoản mượn sách</h5>
+            <button
+              type="button"
+              class="btn-close"
+              @click="showDieuKhoan = false"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <p>
+              <i class="bi bi-bookmark"></i>
+              Độc giả cần có tài khoản hợp lệ để mượn sách.
+            </p>
+            <p>
+              <i class="bi bi-bookmark"></i>
+              Thời gian mượn sách tối đa là 20 ngày.
+            </p>
+            <p>
+              <i class="bi bi-bookmark"></i>
+              Quá hạn sẽ bị phạt theo quy định.
+            </p>
+            <p>
+              <i class="bi bi-bookmark"></i>
+              Nếu mất hoặc làm hỏng sách, độc giả phải bồi thường.
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" @click="showDieuKhoan = false">
+              Đóng
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="modal fade show"
+      v-if="showHuongDan"
+      style="display: block"
+      aria-modal="true"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Hướng dẫn sử dụng</h5>
+            <button
+              type="button"
+              class="btn-close"
+              @click="showHuongDan = false"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <p>
+              <i class="bi bi-1-circle"></i>
+              <b> Đăng nhập/Đăng ký:</b>
+              Sử dụng số điện thoại để đăng nhập hoặc đăng ký tài khoản.
+            </p>
+            <p>
+              <i class="bi bi-2-circle"></i>
+              <b> Tìm kiếm sách:</b>
+              Vào trang chủ để xem danh mục sách hoặc tìm sách với thanh tìm
+              kiếm.
+            </p>
+            <p>
+              <i class="bi bi-3-circle"></i>
+              <b> Đăng ký mượn:</b>
+              Chọn sách, thêm vào danh sách mượn, sau đó xác nhận.
+            </p>
+            <p>
+              <i class="bi bi-4-circle"></i>
+              <b> Kiểm tra lịch sử:</b>
+              Xem trạng thái mượn sách trong mục
+              <b>"Lịch sử mượn"</b>
+              .
+            </p>
+            <p>
+              <i class="bi bi-5-circle"></i>
+              <b> Trả sách:</b>
+              Mang sách đến thư viện hoặc sử dụng dịch vụ giao nhận để gửi lại.
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" @click="showHuongDan = false">
+              Đóng
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="modal-backdrop fade show"
+      v-if="showDieuKhoan || showHuongDan"
+    ></div>
   </footer>
 </template>
 
 <script>
-export default {
-  methods: {
-    showHuongDan() {
-      alert("Bạn có thể trả lại sách bằng cách sử dụng bất kỳ dịch vụ vận chuyển, giao nhận hàng hóa mà bạn muốn để trả sách.");
-    },
-    showDieuKhoan() {
-      alert("Thời gian mượn tối đa 1 quyển sách là 20 ngày.")
+  export default {
+    data() {
+      return {
+        showDieuKhoan: false,
+        showHuongDan: false
+      }
     }
   }
-};
 </script>
-
-

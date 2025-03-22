@@ -15,8 +15,8 @@
 </style>
 
 <template>
-  <div class="container d-flex justify-content-center align-items-center vh-100">
-    <div class="card p-4 shadow-lg" style="max-width: 400px; width: 100%;">
+  <div class="container d-flex justify-content-center align-items-center vh-50 mt-5">
+    <div class="card p-3 shadow-lg" style="max-width: 400px; width: 100%;">
       <h2 class="text-center">Đăng nhập nhân viên</h2>
       <form @submit.prevent="handleLogin">
         <div class="mb-3">
