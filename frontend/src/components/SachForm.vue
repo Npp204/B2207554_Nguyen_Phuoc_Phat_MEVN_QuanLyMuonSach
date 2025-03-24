@@ -153,6 +153,7 @@
 
 <script>
   export default {
+    emits: ['submit', 'cancel'],
     props: {
       book: {
         type: Object,
@@ -178,7 +179,12 @@
     watch: {
       book: {
         handler(newVal) {
+          if (!newVal) return;
+          //console.log('Book data received:', JSON.stringify(newVal, null, 2));
           this.bookLocal = { ...newVal }
+          if (typeof newVal.MANXB === 'object' && newVal.MANXB !== null) {
+            this.bookLocal.MANXB = newVal.MANXB._id;
+          }
         },
         deep: true,
         immediate: true

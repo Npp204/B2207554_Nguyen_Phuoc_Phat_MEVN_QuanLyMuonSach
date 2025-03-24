@@ -96,7 +96,7 @@
   <div class="account-view">
     <h1>Thông Tin Tài Khoản</h1>
 
-    <AccountForm
+    <TaiKhoanForm
       v-if="isEditing"
       :user="userInfo"
       :role="userRole"
@@ -140,10 +140,10 @@
 <script>
   import { mapState } from 'vuex'
   import { getUserInfo } from '@/services/accService'
-  import AccountForm from '@/components/AccountForm.vue'
+  import TaiKhoanForm from '@/components/TaiKhoanForm.vue'
 
   export default {
-    components: { AccountForm },
+    components: { TaiKhoanForm },
     data() {
       return {
         userInfo: null,

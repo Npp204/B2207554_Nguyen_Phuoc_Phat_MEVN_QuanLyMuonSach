@@ -143,9 +143,9 @@ import { useStore } from 'vuex';
 
 export default {
   data() {
-    const store = useStore(); // Khởi tạo store trong data
+    const store = useStore(); 
     return {
-      store, // Lưu store để sử dụng trong computed
+      store, 
       showBorrowForm: false,
       books: [],
       selectedBook: null,

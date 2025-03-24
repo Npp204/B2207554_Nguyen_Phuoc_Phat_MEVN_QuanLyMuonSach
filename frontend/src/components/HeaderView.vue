@@ -68,22 +68,6 @@
   }
 </style>
 
-<script>
-  export default {
-    computed: {
-      userRole() {
-        return this.$store.state.user.role
-      }
-    },
-    methods: {
-      handleLogout() {
-        this.$store.dispatch('logout')
-        this.$router.push('/login-docgia')
-      }
-    }
-  }
-</script>
-
 <template>
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container">
@@ -177,3 +161,19 @@
     </div>
   </nav>
 </template>
+
+<script>
+  export default {
+    computed: {
+      userRole() {
+        return this.$store.state.user.role
+      }
+    },
+    methods: {
+      handleLogout() {
+        this.$store.dispatch('logout')
+        this.$router.push('/login-docgia')
+      }
+    }
+  }
+</script>

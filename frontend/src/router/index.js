@@ -8,14 +8,18 @@ import LoginDocGia from '@/views/LoginDocGia.vue';
 import RegisterView from '@/views/RegisterView.vue';
 import NotFound from '@/views/NotFound.vue';
 import QuanLySachView from '@/views/QuanLySachView.vue';
-import AccountView from '@/views/AccountView.vue';
+import TaiKhoanView from '@/views/TaiKhoanView.vue';
 import MuonSachView from '@/views/MuonSachView.vue';
 import LichSuMuonView from '@/views/LichSuMuonView.vue';
 import TheoDoiMuonView from '@/views/TheoDoiMuonView.vue';
-import QuanLyTaiKhoanView from '../views/QuanLyTaiKhoanView.vue';
+import QuanLyTaiKhoanView from '@/views/QuanLyTaiKhoanView.vue';
+import LienHeView from '@/views/LienHeView.vue'
+import GioiThieuView from '@/views/GioiThieuView.vue';
 
 const routes = [
   { path: '/', component: HomeView },
+  { path: '/lien-he', component: LienHeView },
+  { path: '/gioi-thieu', component: GioiThieuView },
   { path: '/login-nhanvien', component: LoginNhanVien },
   { path: '/login-docgia', component: LoginDocGia },
   { path: '/register', component: RegisterView },
@@ -25,7 +29,7 @@ const routes = [
     component: QuanLySachView,
     meta: { requiresAuth: true, role: 'quanly' }
   },
-  { path: '/tai-khoan', component: AccountView, meta: { requiresAuth: true } },
+  { path: '/tai-khoan', component: TaiKhoanView, meta: { requiresAuth: true } },
   {
     path: '/muon-sach',
     component: MuonSachView,

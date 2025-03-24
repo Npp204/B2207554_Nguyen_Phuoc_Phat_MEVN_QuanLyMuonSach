@@ -49,7 +49,6 @@ exports.createDocGia = async (req, res, next) => {
 exports.updateDocGia = async (req, res, next) => {
   try {
     if (req.body.PASSWORD) {
-      // Nếu có cập nhật mật khẩu, hash lại mật khẩu mới
       req.body.PASSWORD = await bcrypt.hash(req.body.PASSWORD, 10);
     }
 

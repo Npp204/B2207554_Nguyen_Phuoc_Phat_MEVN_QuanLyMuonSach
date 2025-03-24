@@ -1,9 +1,17 @@
 <style scoped>
+  b {
+    font-size: 16pt; 
+    font-weight: bold; 
+  }
+  i {
+    margin: 5px;
+  }
   .footer {
     background-color: #f8f9fa;
-    padding: 20px 0;
+    padding: 10px 0;
     border-top: 2px solid #ddd;
-    font-size: 13pt;
+    font-size: 10.5pt;
+    /* max-height: 00px; */
   }
 
   .footer .d-flex {
@@ -15,25 +23,25 @@
 
   .footer-info {
     flex: 1;
-    padding: 10px;
+    padding: 5px;
     max-width: 500px;
     margin: 0 auto;
   }
 
   .footer-info h2 {
-    font-size: 19pt;
+    font-size: 15pt;
     color: #343a40;
     font-weight: bold;
   }
 
   .footer-info p {
-    font-size: 13pt;
+    font-size: 11pt;
     color: #6c757d;
     margin-top: 5px;
   }
 
   .text-muted {
-    font-size: 13pt;
+    font-size: 11pt;
     color: #6c757d;
   }
 
@@ -76,11 +84,10 @@
     padding: 15px 0;
     border-top: 1px solid #ddd;
     margin-top: 20px;
-    font-size: 12pt;
+    font-size: 11pt;
     color: #6c757d;
   }
 
-  /* Định dạng chung cho modal */
   .modal {
     z-index: 1050;
     display: flex;
@@ -89,17 +96,16 @@
   }
 
   .modal-dialog {
-    max-width: 600px; /* Giới hạn chiều rộng */
+    max-width: 700px;
     width: 90%;
     animation: fadeIn 0.3s ease-in-out;
   }
 
   .modal-content {
-    border-radius: 12px; /* Bo góc */
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* Đổ bóng */
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   }
 
-  /* Header của modal */
   .modal-header {
     background-color: #f8f9fa;
     border-bottom: 2px solid #ddd;
@@ -107,14 +113,12 @@
     padding: 15px;
   }
 
-  /* Tiêu đề modal */
   .modal-title {
     font-size: 18pt;
     font-weight: bold;
     color: #343a40;
   }
 
-  /* Nút đóng modal */
   .btn-close {
     font-size: 18px;
     cursor: pointer;
@@ -125,21 +129,18 @@
     transform: scale(1.2);
   }
 
-  /* Nội dung modal */
   .modal-body {
     padding: 20px;
     font-size: 14pt;
     color: #555;
   }
 
-  /* Footer modal */
   .modal-footer {
     border-top: 2px solid #ddd;
     padding: 15px;
     border-radius: 0 0 12px 12px;
   }
 
-  /* Cải thiện hiệu ứng nền mờ */
   .modal-backdrop {
     z-index: 1040;
     background-color: rgba(0, 0, 0, 0.5);
@@ -257,7 +258,7 @@
         <div class="col-4 ps-lg-5 text-center text-lg-start">
           <b>Thông Tin</b>
           <div class="footer-links">
-            <router-link to="/" class="footer-link">Trang chủ</router-link>
+            <router-link to="/gioi-thieu" class="footer-link">Giới thiệu</router-link>
             <a
               href="#"
               class="footer-link"
@@ -272,6 +273,7 @@
             >
               Hướng dẫn sử dụng
             </a>
+            <router-link to="/lien-he" class="footer-link">Liên hệ</router-link>
           </div>
         </div>
 
@@ -292,7 +294,7 @@
 
     <div class="footer-bottom text-center">
       <div class="text-muted">
-        Bản quyền © 2025 - Hệ Thống Quản Lý Mượn Sách.
+        Bản quyền © 2025.
       </div>
     </div>
 
@@ -358,30 +360,30 @@
           <div class="modal-body">
             <p>
               <i class="bi bi-1-circle"></i>
-              <b> Đăng nhập/Đăng ký:</b>
+              <b>Đăng nhập/Đăng ký:</b>
               Sử dụng số điện thoại để đăng nhập hoặc đăng ký tài khoản.
             </p>
             <p>
               <i class="bi bi-2-circle"></i>
-              <b> Tìm kiếm sách:</b>
+              <b>Tìm kiếm sách:</b>
               Vào trang chủ để xem danh mục sách hoặc tìm sách với thanh tìm
               kiếm.
             </p>
             <p>
               <i class="bi bi-3-circle"></i>
-              <b> Đăng ký mượn:</b>
+              <b>Đăng ký mượn:</b>
               Chọn sách, thêm vào danh sách mượn, sau đó xác nhận.
             </p>
             <p>
               <i class="bi bi-4-circle"></i>
-              <b> Kiểm tra lịch sử:</b>
+              <b>Kiểm tra lịch sử:</b>
               Xem trạng thái mượn sách trong mục
               <b>"Lịch sử mượn"</b>
               .
             </p>
             <p>
               <i class="bi bi-5-circle"></i>
-              <b> Trả sách:</b>
+              <b>Trả sách:</b>
               Mang sách đến thư viện hoặc sử dụng dịch vụ giao nhận để gửi lại.
             </p>
           </div>

@@ -46,7 +46,9 @@
 <template>
   <div class="container text-center mt-5">
     <InputSearch v-model="search" />
-    <h2>Chào mừng bạn, hãy chọn sách yêu thích của mình!</h2>
+    <h2 v-if="userRole === 'quanly'">Xin chào! Hãy đảm bảo mọi quyển sách luôn sẵn sàng cho độc giả nhé!</h2>
+    <h2 v-else-if="userRole === 'nhanvien'">Xin chào! Hãy hỗ trợ độc giả và đừng quên kiểm tra, duyệt yêu cầu mượn sách nhé!</h2>
+    <h2 v-else>Xin chào! Đừng bỏ lỡ những tựa sách hay - hãy chọn ngay cuốn sách bạn yêu thích!</h2>
 
     <div class="sach-list">
       <SachCard
@@ -94,6 +96,9 @@
       this.loadNXBs()
     },
     computed: {
+      userRole() {
+        return this.$store.state.user.role
+      },
       filteredBooks() {
         return this.sachList.filter(book => {
           const keyword = this.search.toLowerCase().trim()

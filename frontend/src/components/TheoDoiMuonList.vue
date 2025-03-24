@@ -113,7 +113,7 @@
         <option value="10">10</option>
         <option value="20">20</option>
       </select>
-      <span> phiếu / trang</span>
+      <span>phiếu / trang</span>
     </div>
 
     <table>
@@ -200,9 +200,13 @@
             ? `${don.MADOCGIA.HOLOT} ${don.MADOCGIA.TEN}`.toLowerCase()
             : ''
           const trangThai = don.TRANGTHAI?.toLowerCase() || ''
+          const ngayMuon = this.formatDate(don.NGAYMUON).toLowerCase()
+          const ngayTra = this.formatNgay(don.NGAYTRA).toLowerCase()
 
           return (
             tenSach.includes(keyword) ||
+            ngayMuon.includes(keyword) ||
+            ngayTra.includes(keyword) ||
             hoTen.includes(keyword) ||
             trangThai.includes(keyword)
           )
