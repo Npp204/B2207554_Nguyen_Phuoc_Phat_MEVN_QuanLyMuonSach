@@ -77,7 +77,7 @@
     <h1 class="contact-title">Liên Hệ</h1>
 
     <div class="contact-content">
-      <!-- Thông tin liên hệ -->
+
       <div class="contact-info">
         <div class="contact-item">
           <i class="bi bi-telephone-fill icon phone"></i>
@@ -98,7 +98,6 @@
         </div>
       </div>
 
-      <!-- Google Maps (Không cần API Key) -->
       <div class="map-container">
         <iframe
           class="map-frame"

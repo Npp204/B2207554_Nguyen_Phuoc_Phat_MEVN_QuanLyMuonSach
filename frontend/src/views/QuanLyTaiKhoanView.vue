@@ -84,7 +84,6 @@
         try {
           const response = await axios.get('http://localhost:3000/api/docgia')
           this.docGias = response.data.map(docGia => docGia._doc || docGia)
-          //console.log("Dữ liệu nhận được",JSON.stringify(this.docGias, null, 2));
         } catch (error) {
           console.error('Lỗi khi tải danh sách độc giả:', error)
         }
@@ -123,12 +122,12 @@
       },
       async addNhanVien(nhanvien) {
         try {
-          //console.log("Dữ liệu gửi đi",JSON.stringify(nhanvien, null, 2));
+          
           const response = await axios.post(
             'http://localhost:3000/api/auth/register/nhanvien',
             nhanvien
           )
-          //console.log("Dữ liệu nhận được",JSON.stringify(response.data, null, 2));
+          
           await this.fetchNhanViens()
           alert('Thêm nhân viên thành công!')
           this.showNhanVienForm = false

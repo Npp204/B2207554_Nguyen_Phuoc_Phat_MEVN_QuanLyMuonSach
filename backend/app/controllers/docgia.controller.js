@@ -1,6 +1,6 @@
 const docGiaService = require("../services/docgia.service");
 const ApiError = require("../api-error");
-const bcrypt = require("bcryptjs"); // Thêm bcrypt để hash mật khẩu
+const bcrypt = require("bcryptjs"); 
 
 exports.getAllDocGia = async (req, res, next) => {
   try {
@@ -19,7 +19,6 @@ exports.getDocGiaById = async (req, res, next) => {
   try {
     const docGia = await docGiaService.getDocGiaById(req.params.id);
 
-    // Không trả về PASSWORD
     const { PASSWORD, ...docGiaWithoutPassword } = docGia.toObject();
     res.status(200).json(docGiaWithoutPassword);
   } catch (error) {
@@ -33,12 +32,10 @@ exports.createDocGia = async (req, res, next) => {
       throw new ApiError(400, "Mật khẩu không được để trống");
     }
 
-    // Hash mật khẩu trước khi lưu
     req.body.PASSWORD = await bcrypt.hash(req.body.PASSWORD, 10);
 
     const newDocGia = await docGiaService.createDocGia(req.body);
 
-    // Không trả về PASSWORD
     const { PASSWORD, ...docGiaWithoutPassword } = newDocGia.toObject();
     res.status(201).json(docGiaWithoutPassword);
   } catch (error) {
@@ -54,7 +51,6 @@ exports.updateDocGia = async (req, res, next) => {
 
     const updatedDocGia = await docGiaService.updateDocGia(req.params.id, req.body);
 
-    // Không trả về PASSWORD
     const { PASSWORD, ...docGiaWithoutPassword } = updatedDocGia.toObject();
     res.status(200).json(docGiaWithoutPassword);
   } catch (error) {

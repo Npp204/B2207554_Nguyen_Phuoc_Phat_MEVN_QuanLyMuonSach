@@ -5,9 +5,8 @@ const sachController = require('../controllers/sach.controller')
 const {
   upload,
   uploadErrorHandler
-} = require('../middlewares/upload.middleware') // Import Multer
+} = require('../middlewares/upload.middleware') 
 
-// Thêm sách (có upload hình ảnh)
 router.post(
   '/',
   upload.single('HINHANH'),
@@ -15,11 +14,9 @@ router.post(
   sachController.createSach
 )
 
-// Lấy sách
 router.get('/', sachController.getAllSach)
 router.get('/:id', sachController.getSachById)
 
-// Cập nhật sách (có upload hình ảnh)
 router.put(
   '/:id',
   upload.single('HINHANH'),
@@ -27,7 +24,6 @@ router.put(
   sachController.updateSach
 )
 
-// Xóa sách
 router.delete('/:id', sachController.deleteSach)
 
 module.exports = router

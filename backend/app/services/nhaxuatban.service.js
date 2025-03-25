@@ -18,7 +18,6 @@ const getNhaXuatBanById = async (id) => {
 
 const createNhaXuatBan = async (data) => {
   try {
-    //console.log("Dữ liệu nhận được:", data); // Debug log
 
     if (!data || !data.TENNXB) {
       throw new ApiError(400, "Dữ liệu không hợp lệ");
@@ -33,7 +32,6 @@ const createNhaXuatBan = async (data) => {
     return await newNhaXuatBan.save();
 
   } catch (error) {
-    //console.error("Lỗi khi tạo độc giả:", error); // Log lỗi để debug
     throw new ApiError(500, "Lỗi server khi tạo độc giả");
   } 
 };

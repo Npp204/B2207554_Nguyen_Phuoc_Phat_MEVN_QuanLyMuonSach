@@ -1,8 +1,7 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:3000/api/nhaxuatban"; // Đổi theo API backend
+const API_URL = "http://localhost:3000/api/nhaxuatban"; 
 
-// Lấy danh sách nhà xuất bản
 export const fetchNXB = async () => {
     try {
         const response = await axios.get(API_URL);

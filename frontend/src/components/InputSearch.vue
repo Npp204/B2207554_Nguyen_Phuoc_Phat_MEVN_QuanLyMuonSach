@@ -1,13 +1,13 @@
 <style scoped>
 .input-group {
-  max-width: 400px; /* Giới hạn chiều rộng */
-  margin: 0 auto; /* Căn giữa */
+  max-width: 400px; 
+  margin: 0 auto; 
 }
 
 .form-control {
   border: 2px solid #b89e25;
   border-right: none;
-  border-radius: 20px 0 0 20px; /* Bo tròn bên trái */
+  border-radius: 20px 0 0 20px; 
   padding: 10px;
   font-size: 16px;
 }
@@ -20,7 +20,7 @@
 .btn-outline-secondary {
   border: 2px solid #b89e25;
   border-left: none;
-  border-radius: 0 20px 20px 0; /* Bo tròn bên phải */
+  border-radius: 0 20px 20px 0; 
   background-color: #b89e25;
   color: white;
   font-weight: bold;

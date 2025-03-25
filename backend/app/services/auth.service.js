@@ -7,13 +7,11 @@ const config = require('../config')
 
 const salt = bcrypt.genSaltSync(10)
 
-// Hàm kiểm tra số điện thoại hợp lệ
 const isValidPhoneNumber = sdt => {
   const regex = /^(09|03|05|07|08)[0-9]{8}$/
   return regex.test(sdt)
 }
 
-// Đăng nhập nhân viên
 const loginNhanVien = async (sdt, password) => {
   if (!sdt || !password) {
     throw new ApiError(400, 'Số điện thoại và mật khẩu là bắt buộc')
@@ -24,10 +22,6 @@ const loginNhanVien = async (sdt, password) => {
   }
 
   const nhanVien = await NhanVien.findOne({ SODIENTHOAI: sdt })
-
-  // if (!nhanVien || String(nhanVien.PASSWORD) !== String(password)) {
-  //     throw new ApiError(401, "Số điện thoại hoặc mật khẩu không chính xác");
-  // }
 
   const isMatch = bcrypt.compareSync(password, nhanVien.PASSWORD)
   if (!isMatch) {
@@ -43,7 +37,6 @@ const loginNhanVien = async (sdt, password) => {
   return { role: 'nhanvien', user: nhanVien, token }
 }
 
-// Đăng nhập độc giả
 const loginDocGia = async (sdt, password) => {
   if (!sdt || !password) {
     throw new ApiError(400, 'Số điện thoại và mật khẩu là bắt buộc')
@@ -74,7 +67,6 @@ const loginDocGia = async (sdt, password) => {
   }
 }
 
-// Đăng ký độc giả
 const registerDocGia = async (sdt, password, confirmPassword) => {
   if (!sdt || !password || !confirmPassword) {
     throw new ApiError(

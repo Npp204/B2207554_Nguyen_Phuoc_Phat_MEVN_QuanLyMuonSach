@@ -142,7 +142,6 @@
       </tbody>
     </table>
 
-    <!-- Phân trang -->
     <div class="pagination">
       <button @click="prevPage" :disabled="currentPage === 1">
         <i class="bi bi-chevron-left"></i>

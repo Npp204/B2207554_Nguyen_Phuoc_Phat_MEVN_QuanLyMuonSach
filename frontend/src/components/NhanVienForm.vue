@@ -216,7 +216,6 @@
           alert('Chức vụ không được để trống!')
           return
         }
-        //console.log("Dữ liệu gửi đi:", this.nhanvienLocal);
         this.$emit('submit', this.nhanvienLocal)
         this.hasChanged = false
       }

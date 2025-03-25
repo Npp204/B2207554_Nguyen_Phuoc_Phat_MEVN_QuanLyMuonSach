@@ -38,7 +38,7 @@
 
 <script>
 import axios from 'axios';
-import store from '@/store/store';  // Import Vuex store
+import store from '@/store/store';  
 
 export default {
   data() {
@@ -55,12 +55,10 @@ export default {
           password: this.password 
         });
 
-        // Lấy thông tin từ API
         const token = response.data?.token || response.data?.user?.token;
         const chucVu = response.data?.CHUCVU || response.data?.user?.CHUCVU;
         const id = response.data?._id || response.data?.user?._id; 
 
-        // Kiểm tra vai trò
         let role = 'docgia';
         if (chucVu === 'QuanLyThuVien') {
           role = 'quanly';
@@ -68,11 +66,10 @@ export default {
           role = 'nhanvien';
         }
 
-        // Lưu thông tin vào Vuex store
         this.$store.dispatch("login", { _id: id, role: role, token: token });
 
         alert('Đăng nhập nhân viên thành công');
-        this.$router.push('/'); // Chuyển hướng về trang chủ
+        this.$router.push('/'); 
       } catch (error) {
         if (error.response) {
           if (error.response.status === 404 || error.response.status === 500) {

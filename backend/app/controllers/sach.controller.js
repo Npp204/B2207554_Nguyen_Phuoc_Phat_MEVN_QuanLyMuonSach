@@ -26,7 +26,6 @@ exports.createSach = async (req, res, next) => {
     if (req.file) {
       sachData.HINHANH = `/uploads/sach/${req.file.filename}`;
     }
-    //console.log("Dữ liệu nhận từ client(controller):", sachData, "File:", req.file);
     const newSach = await sachService.createSach(sachData);
     res.status(201).json(newSach);
   } catch (error) {
@@ -38,7 +37,6 @@ exports.updateSach = async (req, res, next) => {
   try {
     let sachData = req.body;
 
-    // Nếu có file tải lên, cập nhật đường dẫn HINHANH
     if (req.file) {
       sachData.HINHANH = `/uploads/sach/${req.file.filename}`;
     }

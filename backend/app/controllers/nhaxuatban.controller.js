@@ -1,7 +1,6 @@
 const nhaXuatBanService = require("../services/nhaxuatban.service");
 const ApiError = require("../api-error");
 
-// Lấy tất cả nhà xuất bản
 exports.getAllNhaXuatBan = async (req, res, next) => {
   try {
     const nhaxuatbans = await nhaXuatBanService.getAllNhaXuatBan();
@@ -11,7 +10,6 @@ exports.getAllNhaXuatBan = async (req, res, next) => {
   }
 };
 
-// Lấy thông tin nhà xuất bản theo ID
 exports.getNhaXuatBanById = async (req, res, next) => {
   try {
     const nhaxuatban = await nhaXuatBanService.getNhaXuatBanById(req.params.id);
@@ -34,7 +32,6 @@ exports.createNhaXuatBan = async (req, res, next) => {
   }
 };
 
-// Cập nhật nhà xuất bản
 exports.updateNhaXuatBan = async (req, res, next) => {
   try {
     const nhaxuatban = await nhaXuatBanService.updateNhaXuatBan(req.params.id, req.body);
@@ -47,7 +44,6 @@ exports.updateNhaXuatBan = async (req, res, next) => {
   }
 };
 
-// Xóa nhà xuất bản
 exports.deleteNhaXuatBan = async (req, res, next) => {
   try {
     const result = await nhaXuatBanService.deleteNhaXuatBan(req.params.id);

@@ -21,7 +21,6 @@ export async function getUserInfo(userId, role) {
     }
 }
 
-// Cập nhật thông tin tài khoản
 export async function updateUserInfo(role, userId, userData) {
     try {
         let apiUrl;

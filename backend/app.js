@@ -29,13 +29,10 @@ app.use("/api/theodoimuonsach", theodoimuonsachRouter);
 app.use("/api/auth", authRoutes);
 app.use("/api/muonsach", muonSachRoutes);
 
-// Cấu hình cho phép truy cập ảnh trong thư mục 'uploads'
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// Middleware xử lý lỗi 404
 app.use(notFoundHandler);
 
-// Middleware xử lý lỗi tập trung
 app.use(errorHandler);
 
 module.exports = app;

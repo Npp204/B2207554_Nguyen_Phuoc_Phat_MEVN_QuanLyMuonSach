@@ -5,27 +5,27 @@ import FooterComponent from './components/FooterView.vue'
 
 <template>
   <div class="wrapper">
-    <HeaderComponent /> <!-- Header -->
+    <HeaderComponent /> 
 
     <main class="content">
       <div class="container mt-4">
-        <router-view /> <!-- Nội dung theo route -->
+        <router-view /> 
       </div>
     </main>
 
-    <FooterComponent /> <!-- Footer luôn nằm dưới -->
+    <FooterComponent /> 
   </div>
 </template>
 
 <style>
-/* Định dạng wrapper để đảm bảo footer luôn ở cuối */
+
 .wrapper {
   display: flex;
   flex-direction: column;
-  min-height: 100vh; /* Đảm bảo chiều cao tối thiểu bằng màn hình */
+  min-height: 100vh; 
 }
 
 .content {
-  flex: 1; /* Đẩy footer xuống cuối */
+  flex: 1; 
 }
 </style>

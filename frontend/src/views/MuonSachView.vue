@@ -157,7 +157,7 @@ export default {
 
   computed: {
     docGiaId() {
-      return this.store.state.user._id; // Lấy id từ Vuex store
+      return this.store.state.user._id; 
     },
   },
 
@@ -195,7 +195,7 @@ export default {
     },
 
     async registerBorrow() {
-      this.openBorrowForm(); // Gọi để cập nhật ngày mượn
+      this.openBorrowForm(); 
 
       if (this.borrowList.length === 0) {
         alert("Danh sách mượn trống!");
@@ -223,7 +223,7 @@ export default {
   },
 
   mounted() {
-    this.loadBooks(); // Tải danh sách sách khi component được mount
+    this.loadBooks(); 
   },
 };
 </script>

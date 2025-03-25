@@ -104,7 +104,6 @@
           const keyword = this.search.toLowerCase().trim()
           const manxbValue = book.MANXB?._id || book.MANXB?.MANXB || ''
 
-          // Tìm NXB trong danh sách nxbs
           const nxb = this.nxbs.find(n => String(n._id) === String(manxbValue))
           const tenNXB = nxb ? nxb.TENNXB.toLowerCase() : ''
           return (

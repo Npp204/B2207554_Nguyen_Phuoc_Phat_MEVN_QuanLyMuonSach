@@ -11,7 +11,6 @@
     padding: 10px 0;
     border-top: 2px solid #ddd;
     font-size: 10.5pt;
-    /* max-height: 00px; */
   }
 
   .footer .d-flex {
@@ -280,7 +279,6 @@
         <div class="col-4 ps-lg-5 text-center text-lg-start">
           <b>Tài Khoản</b>
           <div class="footer-links">
-            <!-- <router-link to="/login-docgia" class="footer-link">Đăng nhập</router-link>  -->
             <router-link to="/lich-su-muon" class="footer-link">
               Lịch sử mượn
             </router-link>

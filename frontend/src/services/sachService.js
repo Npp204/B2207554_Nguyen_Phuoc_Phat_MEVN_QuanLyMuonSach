@@ -28,13 +28,13 @@ export async function createBook(book) {
     }
 
     try {
-        //console.log("Dữ liệu gửi lên server:", formData);
+
         const response = await axios.post(API_URL, formData, {
             headers: {
                 "Content-Type": "multipart/form-data",
             },
         });
-        //console.log("Dữ liệu từ API", response.data);
+
         return response.data;
     } catch (error) {
         console.error("Lỗi khi thêm sách:", error.response?.data || error.message);

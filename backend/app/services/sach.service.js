@@ -4,17 +4,14 @@ const Sach = require('../models/Sach')
 const NhaXuatBan = require('../models/NhaXuatBan')
 const ApiError = require('../api-error')
 
-// Lấy tất cả sách
 const getAllSach = async () => {
   const sachs = await Sach.find().populate('MANXB')
-  //console.log("Dữ liệu sách từ MongoDB:", sachs);
   if (!sachs || sachs.length === 0) {
     throw new ApiError(404, 'Không tìm thấy sách nào')
   }
   return sachs
 }
 
-// Lấy sách theo ID
 const getSachById = async id => {
   const sach = await Sach.findById(id).populate('MANXB')
   if (!sach) {
@@ -23,14 +20,13 @@ const getSachById = async id => {
   return sach
 }
 
-// Tạo sách mới
 const createSach = async data => {
   if (!data || !data.TENSACH) {
     throw new ApiError(400, 'Dữ liệu không hợp lệ')
   }
 
   if (!data.MASACH) {
-    // Lấy sách có mã số lớn nhất theo thứ tự số
+
     const lastSach = await Sach.findOne()
       .sort({ MASACH: -1 })
       .collation({ locale: 'en', numericOrdering: true })
@@ -44,7 +40,6 @@ const createSach = async data => {
     data.MASACH = newMASACH
   }
 
-  // Kiểm tra MANXB có tồn tại không
   if (data.MANXB) {
     const publisher = await NhaXuatBan.findById(data.MANXB)
     if (!publisher) {
@@ -74,14 +69,12 @@ const createSach = async data => {
   }
 }
 
-// Cập nhật sách
 const updateSach = async (id, data) => {
   const sach = await Sach.findById(id)
   if (!sach) {
     throw new ApiError(404, 'Không tìm thấy sách để cập nhật')
   }
 
-  // Nếu có ảnh mới tải lên, xóa ảnh cũ (nếu có)
   if (data.HINHANH && sach.HINHANH) {
     const oldImagePath = path.join(__dirname, '..', sach.HINHANH)
     if (fs.existsSync(oldImagePath)) {
@@ -97,14 +90,12 @@ const updateSach = async (id, data) => {
   return { message: 'Cập nhật sách thành công', updatedSach }
 }
 
-// Xóa sách
 const deleteSach = async id => {
   const sach = await Sach.findById(id)
   if (!sach) {
     throw new ApiError(404, 'Không tìm thấy sách để xóa')
   }
 
-  // Xóa ảnh khỏi thư mục uploads nếu có
   if (sach.HINHANH) {
     const imagePath = path.join(__dirname, '..', sach.HINHANH)
     if (fs.existsSync(imagePath)) {

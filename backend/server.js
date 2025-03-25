@@ -2,7 +2,6 @@ const app = require("./app");
 const config = require("./app/config");
 const MongoDB = require("./app/utils/mongodb.util");
 
-//Start server
 async function StartServer() {
     try {
         await MongoDB.connect(config.db.uri);

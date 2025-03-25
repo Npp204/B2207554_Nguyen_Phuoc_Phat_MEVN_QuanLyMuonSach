@@ -14,7 +14,6 @@ if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true })
 }
 
-// Hàm tải ảnh về thư mục uploads/sach
 async function downloadImage(url, filename) {
   try {
     const response = await fetch(url)
@@ -32,7 +31,6 @@ async function downloadImage(url, filename) {
   }
 }
 
-// Hàm seed NhaXuatBan trước
 async function seedNhaXuatBan() {
   const nxbList = [
     { MANXB: 'NXB001', TENNXB: 'NXB Kim Đồng', DIACHI: 'Hà Nội' },
@@ -48,7 +46,6 @@ async function seedNhaXuatBan() {
   return insertedNXB
 }
 
-// Hàm seed sách
 async function fetchBooks(nxbMap) {
   try {
     const response = await fetch(
@@ -93,7 +90,6 @@ async function fetchBooks(nxbMap) {
       })
     }
 
-    // Lưu vào MongoDB
     await Sach.insertMany(books)
     console.log('Đã tải ảnh và thêm 48 sách vào MongoDB!')
   } catch (error) {
@@ -103,7 +99,6 @@ async function fetchBooks(nxbMap) {
   }
 }
 
-// Chạy seed
 async function seedDatabase() {
   const insertedNXB = await seedNhaXuatBan()
   await fetchBooks(insertedNXB)
