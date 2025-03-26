@@ -1,16 +1,20 @@
 <style scoped>
   b {
-    font-size: 16pt; 
-    font-weight: bold; 
+    font-size: 16pt;
+    font-weight: bold;
   }
+
   i {
     margin: 5px;
   }
+
   .footer {
-    background-color: #f8f9fa;
-    padding: 10px 0;
-    border-top: 2px solid #ddd;
-    font-size: 10.5pt;
+    max-height: 400px;
+    background: rgba(255, 255, 255, 0.3);
+    padding: 5px 0;
+    border-top: 3px solid rgba(204, 204, 204, 0.5);
+    font-size: 11pt;
+    overflow: hidden;
   }
 
   .footer .d-flex {
@@ -22,25 +26,25 @@
 
   .footer-info {
     flex: 1;
-    padding: 5px;
+    padding: 10px;
     max-width: 500px;
     margin: 0 auto;
   }
 
   .footer-info h2 {
-    font-size: 15pt;
-    color: #343a40;
+    font-size: 16pt;
+    color: #222;
     font-weight: bold;
   }
 
   .footer-info p {
-    font-size: 11pt;
-    color: #6c757d;
+    font-size: 12pt;
+    color: #555;
     margin-top: 5px;
   }
 
   .text-muted {
-    font-size: 11pt;
+    font-size: 12pt;
     color: #6c757d;
   }
 
@@ -48,42 +52,68 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    border: 1px solid #ffc107;
-    padding: 10px 20px;
-    border-radius: 8px;
-    width: fit-content;
-    background: #fffaf0;
+    border: 2px solid #ffc107;
+    padding: 12px 20px;
+    border-radius: 10px;
+    background: #fffbe6;
+    box-shadow: 2px 2px 10px rgba(255, 193, 7, 0.3);
+    transition: all 0.3s ease;
+  }
+
+  .support-box:hover {
+    background: #ffecb3;
+    transform: scale(1.05);
   }
 
   .icon {
     color: #ffc107;
+    font-size: 18px;
   }
 
   .footer-links {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 8px;
   }
 
   .footer-link {
     padding: 5px 0;
-    color: #6c757d;
+    color: #555;
     cursor: pointer;
-    transition: color 0.3s ease;
+    transition: all 0.3s ease;
     text-decoration: none;
-    font-size: 13pt;
+    font-size: 14pt;
+    font-weight: 500;
+    position: relative;
   }
 
   .footer-link:hover {
-    color: #007bff;
+    color: #555;
+    text-decoration: underline;
+  }
+
+  .footer-link::after {
+    content: "";
+    width: 0%;
+    height: 2px;
+    background: #555;
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: width 0.3s ease;
+  }
+
+  .footer-link:hover::after {
+    width: 100%;
   }
 
   .footer-bottom {
     text-align: center;
-    padding: 15px 0;
+    padding: 10px 0;
     border-top: 1px solid #ddd;
     margin-top: 20px;
-    font-size: 11pt;
+    font-size: 12pt;
     color: #6c757d;
   }
 
@@ -96,20 +126,21 @@
 
   .modal-dialog {
     max-width: 700px;
-    width: 90%;
+    width: 100%;
     animation: fadeIn 0.3s ease-in-out;
   }
 
   .modal-content {
     border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+    background: white;
   }
 
   .modal-header {
     background-color: #f8f9fa;
-    border-bottom: 2px solid #ddd;
+    border-bottom: 3px solid #ccc;
     border-radius: 12px 12px 0 0;
-    padding: 15px;
+    padding: 18px;
   }
 
   .modal-title {
@@ -121,17 +152,17 @@
   .btn-close {
     font-size: 18px;
     cursor: pointer;
-    transition: 0.3s ease;
+    transition: all 0.3s ease;
   }
 
   .btn-close:hover {
-    transform: scale(1.2);
+    transform: rotate(90deg);
   }
 
   .modal-body {
     padding: 20px;
     font-size: 14pt;
-    color: #555;
+    color: #444;
   }
 
   .modal-footer {
@@ -154,17 +185,17 @@
     .footer .d-flex {
       text-align: center;
       flex-direction: column;
-      gap: 10px;
+      gap: 15px;
     }
 
     .footer-info h2 {
-      font-size: 18pt;
+      font-size: 17pt;
     }
 
     .support-box {
       justify-content: center;
       width: 100%;
-      max-width: 300px;
+      max-width: 350px;
       margin: 0 auto;
     }
 
@@ -173,13 +204,13 @@
     }
 
     .footer-link {
-      font-size: 13pt;
+      font-size: 14pt;
     }
   }
 
   @media (max-width: 480px) {
     .footer-info h2 {
-      font-size: 16pt;
+      font-size: 15pt;
     }
 
     .footer-info p {
@@ -189,7 +220,7 @@
     .support-box {
       flex-direction: column;
       text-align: center;
-      padding: 10px;
+      padding: 12px;
     }
 
     .footer-bottom {
@@ -197,6 +228,7 @@
     }
   }
 
+  /* ----- Hiệu ứng xuất hiện ----- */
   @keyframes fadeIn {
     from {
       opacity: 0;
@@ -209,10 +241,11 @@
   }
 
   .modal {
-    z-index: 1050;
+    z-index: 1050 !important;
   }
+
   .modal-backdrop {
-    z-index: 1040;
+    z-index: 1040 !important;
   }
 </style>
 

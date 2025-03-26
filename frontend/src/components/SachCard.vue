@@ -1,4 +1,4 @@
-<style scoped>
+<!-- <style scoped>
 .sach-card {
   width: 250px;
   background: #fff;
@@ -41,7 +41,83 @@
   color: red;
   font-weight: bold;
 }
+</style> -->
+
+<style scoped>
+.sach-card {
+  width: 275px;
+  background: linear-gradient(to bottom, #fff8e1, #fff);
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  text-align: center;
+  padding: 15px;
+  transition: all 0.3s ease-in-out;
+  border: 2px solid #f4c542;
+  position: relative;
+}
+
+.sach-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  border-color: #e8a200;
+}
+
+.sach-image {
+  width: 100%;
+  aspect-ratio: 4 / 6;
+  object-fit: cover;
+  border-radius: 10px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.sach-card:hover .sach-image {
+  transform: scale(1.05);
+}
+
+.sach-info {
+  padding: 12px 0;
+}
+
+.sach-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #3e2723;
+  margin-bottom: 5px;
+}
+
+.sach-author,
+.sach-year,
+.sach-price,
+.sach-stock,
+.sach-publisher {
+  font-size: 15px;
+  color: #5d4037;
+  margin: 6px 0;
+}
+
+.sach-stock.out-of-stock {
+  color: red;
+  font-weight: bold;
+}
+
+.badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: #ff6f00;
+  color: white;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+.sach-card:hover .badge {
+  background: #ff8f00;
+}
 </style>
+
 
 <template>
   <div class="sach-card">

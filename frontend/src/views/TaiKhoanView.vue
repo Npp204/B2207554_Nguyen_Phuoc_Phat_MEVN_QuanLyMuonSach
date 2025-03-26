@@ -3,29 +3,34 @@
     max-width: 480px;
     min-width: 320px;
     margin: 50px auto;
-    padding: 20px;
-    background: #f9f4f2; 
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    background: rgba(255, 255, 255, 0.15); /* Lớp kính mờ */
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
     text-align: center;
-    border: 2px solid #d8bb2b; 
+    border: 1px solid rgba(255, 255, 255, 0.2);
     transition: all 0.3s ease-in-out;
   }
 
   h1 {
     font-size: 22pt;
-    color: #b89e25; 
+    color: #5a4631;
     margin-bottom: 15px;
-    font-weight: 600;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 0px 2px 8px rgba(0, 0, 0, 0.3);
   }
 
   p {
     font-size: 13pt;
-    color: #333;
+    color: #b89e25;
     padding: 10px;
-    border-bottom: 1px solid #b89e25;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     text-align: left;
     margin: 0;
+    font-weight: 500;
   }
 
   p:last-child {
@@ -33,47 +38,38 @@
   }
 
   p strong {
-    color: #5a4631; 
+    color: #b85c5c;
+    font-weight: 600;
   }
 
   button {
-    background: #d8bb2b; 
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #b89e25;
+    border: 3px solid rgba(133, 126, 126, 0.503);
+    padding: 12px 18px;
+    border-radius: 8px;
     cursor: pointer;
     font-size: 15px;
-    font-weight: 500;
-    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-    margin-top: 15px;
+    font-weight: 600;
+    transition: all 0.3s ease-in-out;
+    backdrop-filter: blur(5px);
   }
 
   button:hover {
-    background: #c7aa30; 
+    background: rgba(255, 255, 255, 0.3);
+    border-color: white;
     transform: scale(1.05);
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.15);
   }
 
   button:active {
-    background: #9d871e; 
+    background: rgba(255, 255, 255, 0.4);
     transform: scale(0.98);
-  }
-
-  button:focus-visible {
-    outline: 2px solid #fff;
-    outline-offset: 2px;
-  }
-
-  .account-view.editing {
-    border-color: #b89e25;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
   }
 
   @media (max-width: 600px) {
     .account-view {
-      width: 90%;
-      padding: 15px;
+      width: 95%;
+      padding: 20px;
     }
 
     h1 {
@@ -81,16 +77,18 @@
     }
 
     p {
-      font-size: 14pt;
+      font-size: 13pt;
       padding: 8px;
     }
 
     button {
       font-size: 14px;
-      padding: 8px 12px;
+      padding: 10px 15px;
     }
   }
 </style>
+
+
 
 <template>
   <div class="account-view">
@@ -130,7 +128,7 @@
         <strong>Địa chỉ:</strong>
         {{ userInfo.diaChi }}
       </p>
-      <button @click="isEditing = true">Chỉnh sửa</button>
+      <button class="mt-3" @click="isEditing = true">Chỉnh sửa</button>
     </div>
 
     <p v-else>Đang tải thông tin...</p>

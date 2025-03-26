@@ -1,31 +1,33 @@
 <script setup>
-import HeaderComponent from './components/HeaderView.vue'
-import FooterComponent from './components/FooterView.vue'
+  import HeaderComponent from './components/HeaderView.vue'
+  import FooterComponent from './components/FooterView.vue'
 </script>
 
 <template>
   <div class="wrapper">
-    <HeaderComponent /> 
+    <HeaderComponent />
 
     <main class="content">
       <div class="container mt-4">
-        <router-view /> 
+        <router-view />
       </div>
     </main>
 
-    <FooterComponent /> 
+    <FooterComponent />
   </div>
 </template>
 
 <style>
+  body {
+    background: linear-gradient(135deg, #f9f5eb, #eae0d5);
+  }
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
 
-.wrapper {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh; 
-}
-
-.content {
-  flex: 1; 
-}
+  .content {
+    flex: 1;
+  }
 </style>
