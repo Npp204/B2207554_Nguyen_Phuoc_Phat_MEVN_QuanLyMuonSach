@@ -6,9 +6,9 @@ const ApiError = require('../api-error')
 
 const getAllSach = async () => {
   const sachs = await Sach.find().populate('MANXB')
-  if (!sachs || sachs.length === 0) {
-    throw new ApiError(404, 'Không tìm thấy sách nào')
-  }
+  // if (!sachs || sachs.length === 0) {
+  //   throw new ApiError(404, 'Không tìm thấy sách nào')
+  // }
   return sachs
 }
 
@@ -97,10 +97,28 @@ const deleteSach = async id => {
   }
 
   if (sach.HINHANH) {
-    const imagePath = path.join(__dirname, '..', sach.HINHANH)
-    if (fs.existsSync(imagePath)) {
-      fs.unlinkSync(imagePath)
+    
+    const imagePath = path.join(
+      __dirname,
+      '..',
+      '..',
+      sach.HINHANH.replace(/^\/+/, '')
+    )
+
+    try {
+      await fs.promises.access(imagePath, fs.constants.F_OK)
+      await fs.promises.unlink(imagePath)
+    } catch (err) {
+      if (err.code === 'ENOENT') {
+        console.warn(
+          `Ảnh không tồn tại (Có thể đã bị xóa từ trước hoặc đường dẫn sai)`
+        )
+      } else {
+        console.error(`Lỗi khi xóa ảnh:`, err)
+      }
     }
+  } else {
+    console.log('Sách không có ảnh')
   }
 
   await Sach.findByIdAndDelete(id)

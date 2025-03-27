@@ -35,9 +35,11 @@ async function seedNhaXuatBan() {
   const nxbList = [
     { MANXB: 'NXB001', TENNXB: 'NXB Kim Đồng', DIACHI: 'Hà Nội' },
     { MANXB: 'NXB002', TENNXB: 'NXB Trẻ', DIACHI: 'TP. Hồ Chí Minh' },
-    { MANXB: 'NXB003', TENNXB: 'NXB Giáo Dục', DIACHI: 'Đà Nẵng' },
+    { MANXB: 'NXB003', TENNXB: 'NXB Giáo Dục Việt Nam', DIACHI: 'Đà Nẵng' },
     { MANXB: 'NXB004', TENNXB: 'NXB Hà Nội', DIACHI: 'Hà Nội' },
-    { MANXB: 'NXB005', TENNXB: 'NXB Đại học Cần Thơ', DIACHI: 'Cần Thơ' }
+    { MANXB: 'NXB005', TENNXB: 'NXB Đại học Cần Thơ', DIACHI: 'Cần Thơ' },
+    { MANXB: 'NXB006', TENNXB: 'NXB Lao Động', DIACHI: 'Hà Nội' },
+    { MANXB: 'NXB007', TENNXB: 'NXB Hội Nhà văn', DIACHI: 'Hà Nội' }
   ]
 
   await NhaXuatBan.deleteMany({})
@@ -49,16 +51,23 @@ async function seedNhaXuatBan() {
 async function fetchBooks(nxbMap) {
   try {
     const response = await fetch(
-      'https://openlibrary.org/search.json?q=programming&limit=48'
+      'https://openlibrary.org/search.json?q=programming&limit=50'
     )
     const data = await response.json()
 
     const books = []
+    const count = await Sach.countDocuments()
+    let counter = count + 1
 
     for (let book of data.docs) {
-      const MASACH = faker.string.uuid().slice(0, 8).toUpperCase()
+      if (!book.cover_i) {
+        console.log(`Không có ảnh: ${book.title}`)
+        continue 
+      }
+      const MASACH = `MS${counter.toString().padStart(3, '0')}`
+      counter++
       const TENSACH = book.title
-      const DONGIA = faker.number.int({ min: 10000, max: 500000 })
+      const DONGIA = faker.number.int({ min: 10, max: 500 }) * 1000
       const SOQUYEN = faker.number.int({ min: 1, max: 10 })
       const NAMXUATBAN =
         book.first_publish_year || faker.number.int({ min: 1950, max: 2024 })
@@ -66,9 +75,8 @@ async function fetchBooks(nxbMap) {
         ? book.author_name[0]
         : 'Không rõ'
 
-      
       const randomNXB = nxbMap[Math.floor(Math.random() * nxbMap.length)]
-      const MANXB = randomNXB._id 
+      const MANXB = randomNXB._id
 
       let HINHANH = ''
       if (book.cover_i) {
@@ -101,6 +109,8 @@ async function fetchBooks(nxbMap) {
 
 async function seedDatabase() {
   const insertedNXB = await seedNhaXuatBan()
+  await Sach.deleteMany({})
+  console.log('Đã xóa toàn bộ sách cũ trong MongoDB!')
   await fetchBooks(insertedNXB)
 }
 

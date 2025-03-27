@@ -4,9 +4,9 @@ const bcrypt = require("bcryptjs");
 
 const getAllDocGia = async () => {
   const docGias = await DocGia.find().select("-PASSWORD"); 
-  if (!docGias || docGias.length === 0) {
-    throw new ApiError(404, "Không tìm thấy độc giả nào");
-  }
+  // if (!docGias || docGias.length === 0) {
+  //   throw new ApiError(404, "Không tìm thấy độc giả nào");
+  // }
   return docGias;
 };
 
