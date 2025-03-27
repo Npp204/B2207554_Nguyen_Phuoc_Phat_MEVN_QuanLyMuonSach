@@ -10,6 +10,7 @@
     padding: 8px 18px;
     border-radius: 0 0 12px 12px;
     transition: all 0.3s ease;
+    border-top: 1px solid rgba(21, 21, 21, 0.1);
   }
 
   .navbar-brand {
@@ -86,7 +87,7 @@
   }
 
   .welcome-text {
-    font-size: 18px;
+    font-size: 20pt;
     font-weight: bold;
     color: #5a4631;
     margin-bottom: 8px;
@@ -108,7 +109,7 @@
 <template>
   <div class="header-container">
     <p class="welcome-text">
-      Chào mừng bạn đến với Hệ thống Quản lý Mượn Sách!
+      <strong>Quản lý Mượn Sách</strong>
     </p>
     <nav class="navbar navbar-expand-lg navbar-dark">
       <div class="">
@@ -130,7 +131,7 @@
             <template v-if="userRole === 'docgia'">
               <li class="nav-item">
                 <router-link class="nav-link" to="/muon-sach">
-                  Mượn Sách
+                  Đăng Ký Mượn Sách
                 </router-link>
               </li>
               <li class="nav-item">
@@ -158,7 +159,7 @@
               </li>
               <li class="nav-item">
                 <router-link class="nav-link" to="/theo-doi-muon">
-                  Quản Lý Mượn
+                  Quản Lý Mượn Sách
                 </router-link>
               </li>
               <li class="nav-item">
@@ -171,7 +172,7 @@
             <template v-else-if="userRole === 'nhanvien'">
               <li class="nav-item">
                 <router-link class="nav-link" to="/theo-doi-muon">
-                  Quản Lý Mượn
+                  Quản Lý Mượn Sách
                 </router-link>
               </li>
               <li class="nav-item">

@@ -15,7 +15,9 @@
 </style>
 
 <template>
-  <div class="container d-flex justify-content-center align-items-center vh-50 mt-5">
+  <div
+    class="container d-flex justify-content-center align-items-center vh-50 mt-5"
+  >
     <div class="card p-3 shadow-lg" style="max-width: 400px; width: 100%">
       <h2 class="text-center">Đăng nhập độc giả</h2>
       <form @submit.prevent="handleLogin">
@@ -48,7 +50,7 @@
           to="/login-nhanvien"
           class="text-decoration-none text-muted"
         >
-          Là nhân viên?
+          Bạn là nhân viên?
         </router-link>
       </div>
     </div>

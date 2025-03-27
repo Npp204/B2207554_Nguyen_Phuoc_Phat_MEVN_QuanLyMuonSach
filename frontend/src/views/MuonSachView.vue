@@ -1,6 +1,6 @@
 <style scoped>
 .borrow-container {
-  max-width: 600px;
+  max-width: 800px;
   margin: auto;
   padding: 20px;
   text-align: center;

@@ -93,7 +93,7 @@
   }
 
   .footer-link::after {
-    content: "";
+    content: '';
     width: 0%;
     height: 2px;
     background: #555;
@@ -290,7 +290,9 @@
         <div class="col-4 ps-lg-5 text-center text-lg-start">
           <b>Thông Tin</b>
           <div class="footer-links">
-            <router-link to="/gioi-thieu" class="footer-link">Giới thiệu</router-link>
+            <router-link to="/gioi-thieu" class="footer-link">
+              Giới thiệu
+            </router-link>
             <a
               href="#"
               class="footer-link"
@@ -310,23 +312,51 @@
         </div>
 
         <div class="col-4 ps-lg-5 text-center text-lg-start">
-          <b>Tài Khoản</b>
+          <b>Social</b>
           <div class="footer-links">
-            <router-link to="/lich-su-muon" class="footer-link">
-              Lịch sử mượn
-            </router-link>
-            <router-link to="/muon-sach" class="footer-link">
-              Đăng ký mượn
-            </router-link>
+            <a
+              href="https://www.facebook.com/nguyen.phat.602822"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="footer-link"
+            >
+              <i class="bi bi-facebook"></i>
+              Facebook
+            </a>
+            <a
+              href="https://www.instagram.com/ngpat_207/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="footer-link"
+            >
+              <i class="bi bi-instagram"></i>
+              Instagram
+            </a>
+            <a
+              href="https://github.com/Npp204"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="footer-link"
+            >
+              <i class="bi bi-github"></i>
+              GitHub
+            </a>
+            <a
+              href="https://www.threads.net/@ngpat_207"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="footer-link"
+            >
+              <i class="bi bi-threads"></i>
+              Threads
+            </a>
           </div>
         </div>
       </div>
     </div>
 
     <div class="footer-bottom text-center">
-      <div class="text-muted">
-        Bản quyền © 2025.
-      </div>
+      <div class="text-muted">Bản quyền © 2025.</div>
     </div>
 
     <div

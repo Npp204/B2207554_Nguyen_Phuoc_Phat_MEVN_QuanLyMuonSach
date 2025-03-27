@@ -100,6 +100,10 @@
     font-size: 14px;
     color: #555;
   }
+
+  button:hover {
+    opacity: 0.8;
+  }
 </style>
 
 <template>

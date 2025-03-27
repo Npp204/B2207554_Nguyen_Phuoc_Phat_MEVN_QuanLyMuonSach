@@ -42,13 +42,6 @@
     margin: 15px;
   }
 
-  .overlay-slide {
-    height: 500px;
-    object-fit: cover;
-    filter: brightness(0.7);
-    border-radius: 10px;
-  }
-
   .carousel-caption {
     position: absolute;
     bottom: 20px;
@@ -62,64 +55,113 @@
   .carousel-caption h2 {
     color: white;
   }
+
+  .carousel-container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+  }
+
+  .carousel-wrapper {
+    width: 70%;
+  }
+
+  .overlay-slide {
+    height: 420px;
+    object-fit: cover;
+    filter: brightness(0.7);
+    border-radius: 0px;
+  }
+
+  .image-column {
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .side-image {
+    width: 100%;
+    height: calc(400px / 3);
+    object-fit: cover;
+    border-radius: 0px;
+  }
 </style>
 
 <template>
-  <div class="container-fluid text-center mt-5">
-    <div class="container-fluid mt-4">
-      <div
-        id="carouselExample"
-        class="carousel slide carousel-fade"
-        data-bs-ride="carousel"
-        data-bs-interval="5000"
-      >
-        <div class="carousel-inner">
-          <div class="carousel-item active" data-bs-interval="5000">
-            <img
-              src="../assets/photo-1531988042231-d39a9cc12a9a.avif"
-              class="d-block w-100 overlay-slide"
-              alt="Slide 1"
-            />
-            <div class="carousel-caption" data-bs-interval="5000">
-              <h2>Chào mừng đến với Thư Viện Online</h2>
-              <p>Khám phá hàng nghìn cuốn sách miễn phí!</p>
+  <div class="container text-center mt-5">
+    <div class="carousel-container">
+      <div class="carousel-wrapper">
+        <div
+          id="carouselExample"
+          class="carousel slide carousel-fade"
+          data-bs-ride="carousel"
+          data-bs-interval="5000"
+        >
+          <div class="carousel-inner">
+            <div class="carousel-item active" data-bs-interval="5000">
+              <img
+                src="../assets/photo-1531988042231-d39a9cc12a9a.avif"
+                class="d-block w-100 overlay-slide"
+                alt="Slide 1"
+              />
+              <div class="carousel-caption">
+                <h2>Chào mừng đến với Hệ thống quản lý mượn sách</h2>
+                <p>Khám phá hàng nghìn cuốn sách miễn phí!</p>
+              </div>
+            </div>
+            <div class="carousel-item" data-bs-interval="5000">
+              <img
+                src="../assets/pexels-photo-185764.webp"
+                class="d-block w-100 overlay-slide"
+                alt="Slide 2"
+              />
+              <div class="carousel-caption">
+                <h2>Đăng ký mượn sách dễ dàng</h2>
+                <p>Chỉ cần vài cú nhấp chuột, sách đã sẵn sàng cho bạn!</p>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <img
+                src="../assets/photo-1526243741027-444d633d7365.avif"
+                class="d-block w-100 overlay-slide"
+                alt="Slide 3"
+              />
             </div>
           </div>
-          <div class="carousel-item" data-bs-interval="5000">
-            <img
-              src="../assets/pexels-photo-185764.webp"
-              class="d-block w-100 overlay-slide"
-              alt="Slide 2"
-            />
-            <div class="carousel-caption">
-              <h2>Đăng ký mượn sách dễ dàng</h2>
-              <p>Chỉ cần vài cú nhấp chuột, sách đã sẵn sàng cho bạn!</p>
-            </div>
-          </div>
-          <div class="carousel-item">
-            <img
-              src="../assets/photo-1526243741027-444d633d7365.avif"
-              class="d-block w-100 overlay-slide"
-              alt="Slide 3"
-            />
-          </div>
+          <button
+            class="carousel-control-prev"
+            type="button"
+            data-bs-target="#carouselExample"
+            data-bs-slide="prev"
+          >
+            <span class="carousel-control-prev-icon"></span>
+          </button>
+          <button
+            class="carousel-control-next"
+            type="button"
+            data-bs-target="#carouselExample"
+            data-bs-slide="next"
+          >
+            <span class="carousel-control-next-icon"></span>
+          </button>
         </div>
-        <button
-          class="carousel-control-prev"
-          type="button"
-          data-bs-target="#carouselExample"
-          data-bs-slide="prev"
-        >
-          <span class="carousel-control-prev-icon"></span>
-        </button>
-        <button
-          class="carousel-control-next"
-          type="button"
-          data-bs-target="#carouselExample"
-          data-bs-slide="next"
-        >
-          <span class="carousel-control-next-icon"></span>
-        </button>
+      </div>
+
+      <div class="image-column">
+        <img src="../assets/old-books-436498_1280.jpg" class="side-image" alt="Book 1" />
+        <img
+          src="../assets/stacks-of-hardback-books.jpg"
+          class="side-image"
+          alt="Book 2"
+        />
+        <img
+          src="../assets/pexels-photo-1296000.jpeg"
+          class="side-image"
+          alt="Book 3"
+        />
       </div>
     </div>
 
@@ -163,7 +205,6 @@
   import InputSearch from '@/components/InputSearch.vue'
   import { fetchBooks } from '@/services/sachService'
   import { fetchNXB } from '@/services/nxbService'
-  import { onMounted } from 'vue'
   import * as bootstrap from 'bootstrap'
 
   export default {

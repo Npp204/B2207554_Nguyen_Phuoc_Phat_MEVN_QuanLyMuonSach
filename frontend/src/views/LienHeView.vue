@@ -1,4 +1,4 @@
-<style scoped>
+<!-- <style scoped>
 .contact-container {
   max-width: 900px;
   margin: 0 auto;
@@ -63,6 +63,102 @@
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.map-frame {
+  width: 100%;
+  height: 300px;
+  border: none;
+}
+</style> -->
+
+<style scoped>
+.contact-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px;
+  background: linear-gradient(135deg, #f9f9f9, #eaeaea);
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  text-align: center;
+}
+
+.contact-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #5a4631;
+  margin-bottom: 20px;
+}
+
+.contact-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.contact-info {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background: #fff;
+  padding: 24px;
+  border-radius: 10px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+}
+
+.contact-info:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  transition: background 0.3s;
+}
+
+.contact-item:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.icon {
+  font-size: 22px;
+  margin-right: 12px;
+}
+
+.phone {
+  color: #007bff;
+}
+
+.email {
+  color: #dc3545;
+}
+
+.address {
+  color: #28a745;
+}
+
+.label {
+  font-weight: bold;
+  color: #333;
+  margin-right: 10px;
+}
+
+.value {
+  color: #555;
+}
+
+.map-container {
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
 }
 
 .map-frame {

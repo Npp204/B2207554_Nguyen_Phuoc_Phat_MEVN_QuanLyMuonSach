@@ -19,6 +19,7 @@
     border: none;
     cursor: pointer;
     border-radius: 5px;
+    background-color: rgb(200, 210, 207);
   }
 
   button:first-child {
@@ -29,6 +30,11 @@
   button:last-child {
     background: #2196f3;
     color: white;
+  }
+
+  button:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.4);
   }
 </style>
 
@@ -122,12 +128,11 @@
       },
       async addNhanVien(nhanvien) {
         try {
-          
           const response = await axios.post(
             'http://localhost:3000/api/auth/register/nhanvien',
             nhanvien
           )
-          
+
           await this.fetchNhanViens()
           alert('Thêm nhân viên thành công!')
           this.showNhanVienForm = false

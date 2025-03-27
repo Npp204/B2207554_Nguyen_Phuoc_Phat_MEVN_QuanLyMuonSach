@@ -66,6 +66,29 @@
     transform: scale(0.98);
   }
 
+  .avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    text-transform: uppercase;
+    margin: 0 auto 15px;
+    background-color: #5a4631;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    user-select: none;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  }
+
+  .avatar:hover {
+    transform: scale(1.1);
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.4);
+  }
+
   @media (max-width: 600px) {
     .account-view {
       width: 95%;
@@ -88,8 +111,6 @@
   }
 </style>
 
-
-
 <template>
   <div class="account-view">
     <h1>Thông Tin Tài Khoản</h1>
@@ -102,7 +123,9 @@
       @update="fetchUser"
       @cancel="isEditing = false"
     />
-
+    <div class="avatar">
+      {{ initials }}
+    </div>
     <div v-if="userInfo">
       <p>
         <strong>Số điện thoại:</strong>
@@ -156,7 +179,16 @@
         userID() {
           return this.$store.state.user._id
         }
-      })
+      }),
+      initials() {
+        if (!this.userInfo || !this.userInfo.hoTen) return '?'
+        const words = this.userInfo.hoTen.trim().split(' ')
+        const lastLetter =
+          words.length > 1
+            ? words[words.length - 1].charAt(0).toUpperCase()
+            : ''
+        return lastLetter
+      }
     },
     methods: {
       async fetchUser() {

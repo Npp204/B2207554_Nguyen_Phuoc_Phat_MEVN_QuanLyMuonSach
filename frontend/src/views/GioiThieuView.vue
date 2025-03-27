@@ -1,30 +1,53 @@
 <style scoped>
   h1 {
-    color: #5a4631;
+    color: #4A3F35;
+    font-size: 2rem;
+    font-weight: bold;
   }
 
   .card {
-    border-radius: 10px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
   }
+
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+  }
+
   .card-title {
-    font-size: 1.5rem;
-    color: #5a4631;
+    font-size: 1.6rem;
+    color: #4A3F35;
+    font-weight: bold;
   }
+
   .list-group-item {
     border: none;
     font-size: 1.1rem;
+    background: transparent;
+    display: flex;
+    align-items: center;
   }
+
   .list-group-item i {
-    margin-right: 8px;
-    color: #5a4631;
+    margin-right: 10px;
+    font-size: 1.3rem;
+    color: #b89e25;
   }
+
   .btn-primary {
-    background: #b89e25;
+    background: linear-gradient(135deg, #b89e25, #d9a800);
     font-size: 1.2rem;
-    padding: 10px 20px;
-    border-radius: 5px;
+    padding: 12px 24px;
+    border-radius: 8px;
     border: none;
+    font-weight: bold;
+    transition: background 0.3s ease-in-out;
+  }
+
+  .btn-primary:hover {
+    background: linear-gradient(135deg, #d9a800, #f0c000);
   }
 </style>
 
