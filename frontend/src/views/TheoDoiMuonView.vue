@@ -38,6 +38,7 @@ export default {
         await axios.put(`http://localhost:3000/api/muonsach/duyet/${don._id}`);
         this.loadDanhSachMuon();
       } catch (error) {
+        alert(`${error.response.data.message || "Có lỗi xảy ra!"}`);
         console.error("Lỗi khi duyệt mượn:", error);
       }
     },
