@@ -152,6 +152,7 @@
               Trả
             </button>
             <button
+              v-if="don.TRANGTHAI === 'Đã trả'"
               style="background: #ff9800; color: white"
               @click="$emit('xoaDonMuon', don)"
             >

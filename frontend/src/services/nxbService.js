@@ -3,9 +3,12 @@ import axios from "axios";
 const API_URL = "http://localhost:3000/api/nhaxuatban"; 
 
 export const fetchNXB = async () => {
+    
     try {
         const response = await axios.get(API_URL);
+        // console.log('Danh sách nhà xuất bản:', response.data)
         return response.data;
+        
     } catch (error) {
         console.error("Lỗi khi tải danh sách nhà xuất bản:", error);
         throw error;

@@ -182,6 +182,7 @@ export default {
       }
 
       const existing = this.borrowList.find(item => item.book._id === this.selectedBook._id);
+      
       if (existing) {
         existing.quantity += this.quantity;
       } else {

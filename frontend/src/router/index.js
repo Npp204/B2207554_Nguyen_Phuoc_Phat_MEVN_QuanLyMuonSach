@@ -15,6 +15,7 @@ import TheoDoiMuonView from '@/views/TheoDoiMuonView.vue';
 import QuanLyTaiKhoanView from '@/views/QuanLyTaiKhoanView.vue';
 import LienHeView from '@/views/LienHeView.vue'
 import GioiThieuView from '@/views/GioiThieuView.vue';
+import ChiTietSachView from '@/views/ChiTietSachView.vue';
 
 const routes = [
   { path: '/', component: HomeView },
@@ -24,6 +25,8 @@ const routes = [
   { path: '/login-docgia', component: LoginDocGia },
   { path: '/register', component: RegisterView },
   { path: '/:pathMatch(.*)*', component: NotFound },
+  // { path: '/sach/:id', component: () => import('@/views/ChiTietSachView.vue')},
+  { path: '/sach/:id', component: ChiTietSachView, props: true },
   {
     path: '/quan-ly-sach',
     component: QuanLySachView,

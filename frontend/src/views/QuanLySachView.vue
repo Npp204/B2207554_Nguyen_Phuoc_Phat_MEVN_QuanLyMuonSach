@@ -179,7 +179,7 @@
               (error.response?.data?.message || error.message)
           )
         } finally {
-            this.saving = false;
+          this.saving = false
         }
       },
       async saveNxb(nxb) {

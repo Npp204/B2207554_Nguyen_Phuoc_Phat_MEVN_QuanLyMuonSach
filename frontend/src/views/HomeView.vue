@@ -123,7 +123,7 @@
                 <p>Chỉ cần vài cú nhấp chuột, sách đã sẵn sàng cho bạn!</p>
               </div>
             </div>
-            <div class="carousel-item">
+            <div class="carousel-item" data-bs-interval="5000">
               <img
                 src="../assets/photo-1526243741027-444d633d7365.avif"
                 class="d-block w-100 overlay-slide"
@@ -228,7 +228,6 @@
         const carouselElement = document.querySelector('#carouselExample')
         if (carouselElement) {
           new bootstrap.Carousel(carouselElement, {
-            interval: 5000,
             ride: 'carousel'
           })
         }

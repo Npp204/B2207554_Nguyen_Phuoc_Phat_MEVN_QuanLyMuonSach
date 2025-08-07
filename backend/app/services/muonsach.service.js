@@ -3,6 +3,8 @@ const Sach = require('../models/Sach')
 const ApiError = require('../api-error')
 
 const dangKyMuonSach = async (docGiaId, sachList, ngayMuon) => {
+  // console.log('borrowList:', JSON.stringify(sachList, null, 2))
+
   if (!Array.isArray(sachList) || sachList.length === 0) {
     throw new ApiError(400, 'Danh sách sách mượn không hợp lệ')
   }
@@ -40,9 +42,11 @@ const dangKyMuonSach = async (docGiaId, sachList, ngayMuon) => {
 
 const duyetMuonSach = async id => {
   const muonSach = await TheoDoiMuonSach.findById(id)
+  
   if (!muonSach) {
     throw new ApiError(404, 'Không tìm thấy yêu cầu mượn sách')
   }
+
   if (muonSach.TRANGTHAI !== 'Chờ duyệt') {
     throw new ApiError(400, 'Yêu cầu này không thể duyệt')
   }

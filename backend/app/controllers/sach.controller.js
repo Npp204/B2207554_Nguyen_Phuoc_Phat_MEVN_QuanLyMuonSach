@@ -42,7 +42,7 @@ exports.updateSach = async (req, res, next) => {
     }
 
     const updatedSach = await sachService.updateSach(req.params.id, sachData);
-    res.status(200).json(updatedSach);  // Fix lỗi 'updatedBook' -> 'updatedSach'
+    res.status(200).json(updatedSach);  
   } catch (error) {
     next(error);
   }

@@ -93,7 +93,6 @@ const registerDocGia = async (sdt, password, confirmPassword) => {
     .sort({ MADOCGIA: -1 })
     .collation({ locale: 'en', numericOrdering: true })
 
-
   let newMADOCGIA = 'DG001'
 
   if (lastDocGia && lastDocGia.MADOCGIA) {
