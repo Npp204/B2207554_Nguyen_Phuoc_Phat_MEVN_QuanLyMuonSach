@@ -69,7 +69,7 @@ cd backend
 npm install
 ```
 
-# Tạo file .env trong thư mục backend với nội dung mẫu:
+### Tạo file .env trong thư mục backend với nội dung mẫu:
 
 ```
 PORT=5000
@@ -77,7 +77,7 @@ MONGODB_URI=mongodb://localhost:27017/libraryDB
 JWT_SECRET=your_jwt_secret_key
 ```
 
-# Khởi chạy backend:
+### Khởi chạy backend:
 
 ```
 npm start
@@ -91,15 +91,15 @@ npm install
 npm run serve
 ```
 
-# Truy cập frontend tại: http://localhost:8080
+### Truy cập frontend tại: http://localhost:8080
 
-### 🛠️ Yêu Cầu Hệ Thống
+## 🛠️ Yêu Cầu Hệ Thống
 
     - Node.js >= 16.x
     - MongoDB >= 5.x
     - npm hoặc yarn
 
-### 🔐 Phân Quyền Người Dùng
+## 🔐 Phân Quyền Người Dùng
 
 ### 👑 Admin
 
@@ -112,9 +112,9 @@ npm run serve
     - Gửi yêu cầu mượn/trả sách
     - Theo dõi lịch sử mượn
 
-### 📈 Công Nghệ Sử Dụng
+## 📈 Công Nghệ Sử Dụng
 
-# Backend:
+### Backend:
 
     - Node.js + Express.js
     - MongoDB + Mongoose
@@ -123,7 +123,7 @@ npm run serve
     - Multer cho upload file (nếu có)
     - dotenv, cors, morgan,...
 
-# Frontend:
+### Frontend:
 
     - Vue.js 3 + Composition API
     - Vue Router
