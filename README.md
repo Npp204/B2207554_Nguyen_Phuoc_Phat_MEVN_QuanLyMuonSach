@@ -23,7 +23,7 @@ Một ứng dụng web hỗ trợ thư viện hoặc tổ chức quản lý vi�
 ---
 
 ## 🏗️ Cấu Trúc Dự Án
-
+```
 project/
 ├── backend/ # API Express + MongoDB
 │ ├── app/
@@ -49,7 +49,7 @@ project/
 │ └── public/ # Static files
 │
 └── README.md # Tài liệu hướng dẫn
-
+```
 ---
 
 ## ⚙️ Cài Đặt & Khởi Chạy Ứng Dụng
